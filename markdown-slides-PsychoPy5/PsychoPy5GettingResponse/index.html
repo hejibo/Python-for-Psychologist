@@ -32,7 +32,7 @@
 <body class="deck-container">
 
 <!-- Begin slides -->
-<section class="slide "><div class="content"><h3>PsychoPy : Getting Responses</h3>
+<section class="slide "><div class="content"><h1>PsychoPy : Getting Responses</h1>
 <div class="codehilite"><pre>Created by Jibo He, <span class="nt">&lt;a&gt;</span>hejibo@usee.tech<span class="nt">&lt;/a&gt;</span>
 </pre></div></div></section>
 <section class="slide "><div class="content"><h3>Table of Content</h3>
@@ -40,8 +40,85 @@
 <li>Mouse Clicks</li>
 <li>Keyboard Inputs</li>
 </ul></div></section>
-<section class="slide left"><div class="content"><h1>Mouse Clicks</h1></div></section>
-<section class="slide left"><div class="content"><h1>Keyboard Inputs</h1></div></section>
+<section class="slide left"><div class="content"><h1>Mouse Clicks</h1></div></section>
+<section class="slide left"><div class="content"><h1>Keyboard Inputs</h1>
+<ul>
+<li>show text</li>
+<li>capture keyboard inputs</li>
+</ul></div></section>
+<section class="slide left"><div class="content"><h1>Capture Keyboard Inputs</h1>
+<ul>
+<li>show text</li>
+</ul>
+<div class="codehilite"><pre><span class="n">CapturedResponseString</span> <span class="o">=</span> <span class="n">visual</span><span class="o">.</span><span class="n">TextStim</span><span class="p">(</span><span class="n">myWin</span><span class="p">,</span> 
+                        <span class="n">units</span><span class="o">=</span><span class="s">&#39;norm&#39;</span><span class="p">,</span><span class="n">height</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
+                        <span class="n">pos</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.40</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+                        <span class="n">alignHoriz</span> <span class="o">=</span> <span class="s">&#39;center&#39;</span><span class="p">,</span><span class="n">alignVert</span><span class="o">=</span><span class="s">&#39;center&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">captured_string</span> <span class="o">=</span> <span class="s">&#39;&#39;</span> <span class="c">#key presses will be captured in this string</span>
+</pre></div></div></section>
+<section class="slide left"><div class="content"><h1>Capture Keyboard Inputs</h1>
+<div class="codehilite"><pre><span class="n">CapturedResponseString</span> <span class="o">=</span> <span class="n">visual</span><span class="o">.</span><span class="n">TextStim</span><span class="p">(</span><span class="n">myWin</span><span class="p">,</span> 
+                        <span class="n">units</span><span class="o">=</span><span class="s">&#39;norm&#39;</span><span class="p">,</span><span class="n">height</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
+                        <span class="n">pos</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.40</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+                        <span class="n">alignHoriz</span> <span class="o">=</span> <span class="s">&#39;center&#39;</span><span class="p">,</span><span class="n">alignVert</span><span class="o">=</span><span class="s">&#39;center&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c">#key presses will be captured in this string</span>
+<span class="n">CapturedResponseString</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">waitKeys</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div></div></section>
+<section class="slide left"><div class="content"><h1>Capture Mouse Clicks</h1>
+<ul>
+<li>event.Mouse() </li>
+</ul>
+<div class="codehilite"><pre><span class="n">myMouse</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">Mouse</span><span class="p">()</span>  <span class="c">#  will use myWin by default</span>
+
+<span class="k">if</span> <span class="n">myMouse</span><span class="o">.</span><span class="n">getPressed</span><span class="p">()[</span><span class="mi">0</span><span class="p">]:</span>
+    <span class="n">myMouse</span><span class="o">.</span><span class="n">clickReset</span><span class="p">()</span>
+    <span class="k">print</span> <span class="n">myMouse</span><span class="o">.</span><span class="n">getPos</span><span class="p">()</span>
+</pre></div></div></section>
+<section class="slide left"><div class="content"><h1>Capture Mouse Clicks</h1>
+<ul>
+<li>see testMouseClicks.py</li>
+</ul>
+<div class="codehilite"><pre><span class="c">#!/usr/bin/env python2</span>
+<span class="kn">from</span> <span class="nn">psychopy</span> <span class="kn">import</span> <span class="n">visual</span><span class="p">,</span> <span class="n">core</span><span class="p">,</span> <span class="n">event</span>
+<span class="kn">from</span> <span class="nn">pyglet.gl</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">width</span> <span class="o">=</span> <span class="mi">600</span>
+<span class="n">height</span> <span class="o">=</span> <span class="mi">600</span>
+<span class="n">myWin</span> <span class="o">=</span> <span class="n">visual</span><span class="o">.</span><span class="n">Window</span><span class="p">([</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;white&#39;</span><span class="p">,</span><span class="n">units</span><span class="o">=</span><span class="s">&#39;pix&#39;</span><span class="p">,</span><span class="n">monitor</span><span class="o">=</span><span class="s">&#39;testMonitor&#39;</span><span class="p">)</span>
+
+<span class="c">#This will set the windows units (pixels) to GL units</span>
+<span class="n">glMatrixMode</span><span class="p">(</span><span class="n">GL_PROJECTION</span><span class="p">)</span>
+<span class="n">glLoadIdentity</span><span class="p">()</span>
+<span class="n">glOrtho</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">glMatrixMode</span><span class="p">(</span><span class="n">GL_MODELVIEW</span><span class="p">)</span>
+<span class="n">glLoadIdentity</span><span class="p">()</span>
+
+<span class="n">glEnable</span><span class="p">(</span><span class="n">GL_BLEND</span><span class="p">)</span>
+<span class="n">glBlendFunc</span><span class="p">(</span><span class="n">GL_ZERO</span><span class="p">,</span> <span class="n">GL_SRC_COLOR</span><span class="p">)</span>
+
+<span class="n">myMouse</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">Mouse</span><span class="p">()</span>  <span class="c">#  will use myWin by default</span>
+
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="c">#Triangle left</span>
+    <span class="n">glColor3f</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">glBegin</span><span class="p">(</span><span class="n">GL_TRIANGLES</span><span class="p">)</span>
+    <span class="n">glVertex3f</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">550</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">glVertex3f</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">glVertex3f</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">glEnd</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">myMouse</span><span class="o">.</span><span class="n">getPressed</span><span class="p">()[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">myMouse</span><span class="o">.</span><span class="n">clickReset</span><span class="p">()</span>
+        <span class="k">print</span> <span class="n">myMouse</span><span class="o">.</span><span class="n">getPos</span><span class="p">()</span>
+
+    <span class="n">myWin</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+
+<span class="n">core</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+</pre></div></div></section>
 
 
 <!-- deck.status snippet -->
