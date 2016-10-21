@@ -1,0 +1,19 @@
+.. _facilities:
+
+9:00 - 9:20am: Workshop facilities
+==================================
+
+These machines each has an SMI iView-RED eyetracker. Machines 9, 17, 23 don't work!
+
+They are designed only to communicate with this teacher computer. You do not have internet access, and please don't plug a USB stick into these machines.
+
+Things to check before we carry on:
+    - The keyboards are set to Swedish, which you might find confusing so go to the bottom-right of the Windows screen and change the SV to EN
+    - We need to check that the Eyetracker software is initiated. Open up iView-RED-M on the desktop and go to Advanced so we can check the camera is operating
+    
+If you go to the shared folder on your C drive (see favourites) you should see a `PsychoPyWorkshop` folder in which you'll find:
+    - Py4ET/index.html *these teaching materials*
+    - Py4ET.pdf *a pdf replica of these materials*
+    - demos - PsychoPy files that we'll be using
+
+One other thing - if you want to leave the room you have to press the green key button. If you set the alarm off, then step back, shut the door and press the green key button!

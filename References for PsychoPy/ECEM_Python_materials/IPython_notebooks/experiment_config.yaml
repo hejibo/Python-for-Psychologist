@@ -1,0 +1,15 @@
+title: Py4ET ECEM 2013 Workshop Example
+code: py4et1
+version: '1.0'
+description: Run a psychopy+iohub exp, display kb events, exit on SPACE key press.
+session_defaults:
+    name: Session Name
+    code: E1S01
+    comments: None
+    user_variables:
+        Age: ["Select","<20","20-40","> 40"]
+        Sex: ["Select","Unknown","M","F"]
+        Glasses: ["Select","Yes","No"]
+        Contacts: ["Select","Yes","No"]
+session_variable_order: [code, Age, Sex, Glasses, Contacts, comments]
+  

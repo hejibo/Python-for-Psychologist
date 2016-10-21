@@ -1,0 +1,311 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Py4ET - Python Open Source Tools in Eye Movement Research 2013 &mdash; 9:50 - 11:20am Introducing PsychoPy</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2013.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="Py4ET - Python Open Source Tools in Eye Movement Research 2013" href="../index.html" />
+    <link rel="next" title="11.20 - 12.00 Introducing the ioHub" href="iohub.html" />
+    <link rel="prev" title="9:00 - 9:20am: Workshop facilities" href="facilities.html" /> 
+  </head>
+  <body>
+
+
+<div id="header"  style="background-color: white">
+<table width="100%" cellpadding="10">
+<tr>
+    <td style="text-align:right;vertical-align:middle">
+<a href='http://www.nottingham.ac.uk'><img src="../_static/nott_logo.gif" alt="University of Nottingham" /></a>
+</td>
+</table>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="iohub.html" title="11.20 - 12.00 Introducing the ioHub"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="facilities.html" title="9:00 - 9:20am: Workshop facilities"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Py4ET 2013</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference internal" href="#">9:50 - 11:20am Introducing PsychoPy</a><ul>
+<li><a class="reference internal" href="#coder-experiments">Coder experiments</a></li>
+<li><a class="reference internal" href="#builder-experiments">Builder Experiments</a><ul>
+<li><a class="reference internal" href="#stroop">Stroop</a></li>
+<li><a class="reference internal" href="#common-errors">Common errors</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#half-way-houses">Half-way houses</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="facilities.html"
+                                  title="previous chapter">9:00 - 9:20am: Workshop facilities</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="iohub.html"
+                                  title="next chapter">11.20 - 12.00 Introducing the ioHub</a></p>
+
+          <div id="searchbox" style="display: none">
+            <h3>Searches</h3>
+            <form action="http://www.google.com/cse" id="cse-search-box">
+                <input type="hidden" name="cx" value="partner-pub-0861691574026297:eyw5n7-ugep" />
+                <input type="hidden" name="ie" value="ISO-8859-1" />
+                <input type="text" name="q" size="20" />
+                <input type="submit" name="sa" value="Go" />
+            </form>
+              <p class="searchtip" style="font-size: 90%">
+              General
+              </p>
+            <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Docs only
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="am-introducing-psychopy">
+<span id="psychopyoverview"></span><h1>9:50 - 11:20am Introducing PsychoPy<a class="headerlink" href="#am-introducing-psychopy" title="Permalink to this headline">¶</a></h1>
+<p>General issues:</p>
+<blockquote>
+<div><ul class="simple">
+<li>PsychoPy handles a variety of colour spaces and stimulus units but these are a common source of confusion and PsychoPy doesn&#8217;t check if you&#8217;ve done something sensible!</li>
+<li>PsychoPy expects to control on each frame (each refresh of the screen) what gets drawn. So, especially when writing code, you need to think about controlling things at that level.</li>
+<li>PsychoPy expects a decent graphics card (seriously, avoid intel integrated graphics) and aims to synchronise to the screen. If it can&#8217;t then stimulus timing cannot be controlled.</li>
+<li>Even when it&#8217;s a good graphics card you should know the limits of what your computer can manage and be careful, especially when loading images from disk.</li>
+</ul>
+</div></blockquote>
+<div class="section" id="coder-experiments">
+<h2>Coder experiments<a class="headerlink" href="#coder-experiments" title="Permalink to this headline">¶</a></h2>
+<p>PsychoPy has very many stimulus types:</p>
+<blockquote>
+<div><ul class="simple">
+<li><em>ImageStim</em> for bitmaps (pretty much any format). These can be used either as the image or as an alpha mask</li>
+<li><em>GratingStim</em> is similar to ImageStim but it will use the image as a cyclic texture and you can specify the spatial frequency of that texture</li>
+<li><em>RadialStim</em> for radial patterns (e.g. retinotopy patches)</li>
+<li><em>TextStim</em>, including choice of fonts and Unicode characters (but no real &#8216;formatting&#8217;)</li>
+<li><em>DotStim</em> for random dot kinematograms with a variety of signal/noise methods</li>
+<li><em>ElementArray</em> allows dynamic (hardware-optimised) presentation of similar-textured elements. e.g. create an array of gabors or a point-light walker</li>
+<li><em>Shapes</em> (basic or custom vertices, filled or unfilled)</li>
+<li><em>RatingScale</em> OK this isn&#8217;t a stimulus exactly but it&#8217;s pretty handy</li>
+<li><em>Sounds</em> (either generated or stored in wav files)</li>
+</ul>
+</div></blockquote>
+<p>Many inputs options:</p>
+<blockquote>
+<div><ul class="simple">
+<li>mouse, keyboard, joystick</li>
+<li>eyetrackers</li>
+<li>serial/parallel ports</li>
+<li>...anything that can communicate with your computer!</li>
+<li>microphone, including speech recognition by google!!</li>
+</ul>
+</div></blockquote>
+<p>Many data output formats:</p>
+<blockquote>
+<div><ul class="simple">
+<li>&#8216;long-wide&#8217; trial-by-trial data in a csv file</li>
+<li>&#8216;summarised&#8217; data (one row per condition) in csv or Excel</li>
+<li>Python binary files for scripting analyses</li>
+<li>log files to check timing and for when you forget to store the right stuff!</li>
+</ul>
+</div></blockquote>
+<p>Now, the best place to work out what&#8217;s possible is to look through some of the demo code</p>
+</div>
+<div class="section" id="builder-experiments">
+<h2>Builder Experiments<a class="headerlink" href="#builder-experiments" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="stroop">
+<h3>Stroop<a class="headerlink" href="#stroop" title="Permalink to this headline">¶</a></h3>
+<p>The key concepts you&#8217;ll need for the Builder is the idea that you have <cite>Components</cite> that are put together in <cite>Routines</cite> and these <cite>Routines</cite> are combined in a <cite>Flow</cite> diagram.</p>
+<p>Let&#8217;s just take a look in the Builder view to see how those work together...</p>
+<p>Now the next issue is how to create repetition of the trials in such a way that the condition changes on each repeat. To do that we need to:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Change the settings of the experiment</li>
+</ol>
+<blockquote>
+<div><img alt="../_images/expSettings.png" class="align-right" src="../_images/expSettings.png" />
+<ul class="simple">
+<li>click on the Experiment Settings icon (see right)</li>
+<li>we want to use <cite>pixels</cite> as the units in this experiment, whereas the default is <cite>normalised</cite> (in the user preferences)</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li>Set up the basic trial components:</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>create a text Component called <cite>stimulus</cite> in our trial:<ul>
+<li>text height = 100   (we&#8217;re using pixels)</li>
+<li>start = 0.5 secs</li>
+<li>end =        &lt;leave blank&gt; (meaning infinite)</li>
+<li>text = red        (for now!)</li>
+<li>color = blue      (for now!)</li>
+</ul>
+</li>
+<li>create a Grating Component called <cite>fixation</cite>:<ul>
+<li>start = 0</li>
+<li>end =</li>
+<li>texture = None</li>
+<li>mask = circle</li>
+<li>opacity = 0.7</li>
+<li>size = 16    (pixels)</li>
+</ul>
+</li>
+<li>create a Keyboard Component called <cite>resp</cite>:<ul>
+<li>start = 0.5 sec</li>
+<li>end =</li>
+<li><em>force end routine = True</em></li>
+</ul>
+</li>
+<li>save your experiment and run it. Did your one trial look right?</li>
+</ul>
+<img alt="../_images/trial.png" src="../_images/trial.png" style="width: 120%;" />
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li>Create a conditions file in excel (an xlsx or csv file)</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>columns with headings <cite>stimText</cite>, <cite>stimColor</cite>, <cite>cong</cite>, <cite>corrAns</cite>. These parameters must have no spaces or punctuation. Case matters! They will become variable names in a script.</li>
+<li>stimText = red, green and blue</li>
+<li>stimColor = red, green and blue</li>
+<li>cong = 1 or 0</li>
+<li>corrAns = left, down, right (for red, green, blue ink colors)</li>
+</ul>
+<img alt="../_images/conditions.png" src="../_images/conditions.png" />
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li>Create a loop in the <cite>Flow</cite> and assign conditions file</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>click on <cite>Insert Loop</cite> (once)</li>
+<li>click (once) where you want the loop to start. On this occasion the other end of the loop is already determined because there&#8217;s only one other possible place.</li>
+<li>the loop dialog will now appear, in which you can set how the trials (that&#8217;s a good name for hits loop!) will run</li>
+<li>for the conditions file fetch the file you just created. This should then tell you how many trial types and parameters there are</li>
+<li>set nReps to 1 for now (can add further reps later, when you aren&#8217;t debugging!)</li>
+<li>now, on every pass around that loop a new random trial (row in the excel file) will be fetched and populate the parameter names as variables</li>
+</ul>
+<img alt="../_images/flow.png" src="../_images/flow.png" />
+</div></blockquote>
+<ol class="arabic simple" start="5">
+<li>Go back and insert those variable names into your <cite>word</cite> stimulus:</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>set the color to be <cite>$stimColor</cite></li>
+<li>set the text to be <cite>$stimText</cite></li>
+<li>notice when you inserted <cite>$</cite> the font changed. The <cite>$</cite> indicates to PsychoPy that this should not be treated literally - it&#8217;s a variable or even pure python code.</li>
+<li>for both these properties <strong>set the value to &#8216;update every repeat&#8217;</strong> !!</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="6">
+<li>If you like you could create additional Routines for giving instructions and saying thanks at the end</li>
+</ol>
+<blockquote>
+<div><img alt="../_images/flow2.png" src="../_images/flow2.png" />
+</div></blockquote>
+</div></blockquote>
+<p>There&#8217;s a 15min youtube video <cite>building the Stroop &lt;http://www.youtube.com/watch?v=VV6qhuQgsiI&gt;</cite> task from scratch, that will take you through all these steps again if you forget something. The slight difference is that we&#8217;re going to use pixels as the units in the version we created today.</p>
+<p>The finished product is available in the demos folder of the workshop materials.</p>
+<p>At the top of the Builder view there is a demos menu. If you unpack them and go back to this menu you can take a look at other example experiments.</p>
+</div>
+<div class="section" id="common-errors">
+<h3>Common errors<a class="headerlink" href="#common-errors" title="Permalink to this headline">¶</a></h3>
+<p>My stimulus didn&#8217;t appear:</p>
+<blockquote>
+<div><ul class="simple">
+<li>possibly it was smaller than a pixel (0.5 is a sensible size in normalised units but not in pixels)</li>
+<li>possibly it was off the screen; [10, 10] is sensible in pixels but not in normalised units</li>
+</ul>
+</div></blockquote>
+<p>I got an error that &#8216;xxxxxxxx is not defined&#8217;:</p>
+<blockquote>
+<div><ul class="simple">
+<li>did you remember to set that variable to &#8216;set every repeat&#8217;. PsychoPy is confused by things that look like variables but it&#8217;s told are constant?</li>
+<li>did you spell it correctly in the conditions file (case sensitive)?</li>
+<li>have you referred to it in a Routine before the Loop where the variable gets defined?</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="half-way-houses">
+<h2>Half-way houses<a class="headerlink" href="#half-way-houses" title="Permalink to this headline">¶</a></h2>
+<p>You can compile your experiment (.psyexp) file into a script (.py) and see what it looks like. But note that this is a one-way street. If you change that file you cannot then go back and make changes in the Builder and expect them to be updated. Once you switch and experiment to being in a script that is how it must stay.</p>
+<p>BUT you can also insert code into your Builder Experiment using a Code Component (under the <cite>custom</cite> section of the Components panel. Using this in your Routine you can set chunks of code that will executed at various chosen points in your experiment. (In fact that&#8217;s all that the other components are - little chunks of code being executed in the same 5 places).</p>
+<p>We&#8217;ll use this concept later with the eye trackers.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="iohub.html" title="11.20 - 12.00 Introducing the ioHub"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="facilities.html" title="9:00 - 9:20am: Workshop facilities"
+             >previous</a> |</li>
+        <li><a href="../index.html">Py4ET 2013</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Jonathan Peirce and Sol Simpson.
+      Last updated on Aug 06, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+  </body>
+</html>

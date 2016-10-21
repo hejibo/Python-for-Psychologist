@@ -1,0 +1,272 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Py4ET - Python Open Source Tools in Eye Movement Research 2013 &mdash; Animated Gaze Overlay</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2013.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="Py4ET - Python Open Source Tools in Eye Movement Research 2013" href="../index.html" /> 
+  </head>
+  <body>
+
+
+<div id="header"  style="background-color: white">
+<table width="100%" cellpadding="10">
+<tr>
+    <td style="text-align:right;vertical-align:middle">
+<a href='http://www.nottingham.ac.uk'><img src="../_static/nott_logo.gif" alt="University of Nottingham" /></a>
+</td>
+</table>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">Py4ET 2013</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+          <div id="searchbox" style="display: none">
+            <h3>Searches</h3>
+            <form action="http://www.google.com/cse" id="cse-search-box">
+                <input type="hidden" name="cx" value="partner-pub-0861691574026297:eyw5n7-ugep" />
+                <input type="hidden" name="ie" value="ISO-8859-1" />
+                <input type="text" name="q" size="20" />
+                <input type="submit" name="sa" value="Go" />
+            </form>
+              <p class="searchtip" style="font-size: 90%">
+              General
+              </p>
+            <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Docs only
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="animated-gaze-overlay">
+<span id="gazeoverlay"></span><h1>Animated Gaze Overlay<a class="headerlink" href="#animated-gaze-overlay" title="Permalink to this headline">¶</a></h1>
+<p>Here we illustrate a cute, but perhaps not so scientifically useful,
+animated gaze position overlay cursor.</p>
+<p>The basic steps involved in creating an Animated Gaze Overlay
+using eye data from the ioDataStore:</p>
+<ol class="upperalpha simple">
+<li>Load the eye sample data from the ioDataStore.</li>
+<li>Clean position and pupil data for samples tagged as having missing eye data.</li>
+<li>Load the background image used for the trial selected for the gaze overlay playback.</li>
+<li>Create the matplotlib animated figure, including the gaze overlay graphic.</li>
+<li>Start the animation.</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># This Python Source File Available in python_source/data_visualization/gaze_overlay_animation.py</span>
+
+<span class="c"># This is a slightly more advanced demo to show you fancy things like animations</span>
+<span class="c">#</span>
+<span class="c"># It&#39;s based on a how-to about python plotting animations at</span>
+<span class="c"># http://nickcharlton.net/posts/drawing-animating-shapes-matplotlib.html</span>
+<span class="c"># It is also possible to save the animation as a video file</span>
+
+<span class="kn">from</span> <span class="nn">psychopy.iohub.datastore.util</span> <span class="kn">import</span> <span class="n">ExperimentDataAccessUtility</span>
+<span class="kn">from</span> <span class="nn">psychopy.iohub</span> <span class="kn">import</span> <span class="n">EventConstants</span>
+
+<span class="c">#import some maths/plotting libs</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.image</span> <span class="kn">as</span> <span class="nn">mpimg</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">animation</span>
+
+<span class="c">#import our own helper funcs (from the python_source folder)</span>
+<span class="kn">from</span> <span class="nn">common_workshop_functions</span> <span class="kn">import</span> <span class="n">processSampleEventGaps</span>
+
+<span class="c">##### STEP A. #####</span>
+<span class="c"># Load an ioDataStore file containing 1000 Hz sample data from a </span>
+<span class="c"># head supported eye tracker that was recording the right eye. </span>
+<span class="n">dataAccessUtil</span><span class="o">=</span><span class="n">ExperimentDataAccessUtility</span><span class="p">(</span><span class="s">&#39;../hdf5_files&#39;</span><span class="p">,</span>
+                                           <span class="s">&#39;head_supported_data.hdf5&#39;</span><span class="p">,</span> 
+                                           <span class="n">experimentCode</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                                           <span class="n">sessionCodes</span><span class="o">=</span><span class="p">[])</span>
+
+<span class="n">TRIAL_ID</span><span class="o">=</span><span class="mi">1</span> <span class="c">#we&#39;ll just play back a single trial here</span>
+<span class="n">et_sampling_rate</span><span class="o">=</span><span class="mf">1000.0</span> <span class="c">#eye tracker sampling rate</span>
+<span class="n">desired_playback_rate</span><span class="o">=</span><span class="mi">20</span> <span class="c">#what rate (in Hz) will we update our figure (not every eye frame!)</span>
+
+<span class="c"># Retrieve a subset of the MONOCULAR_EYE_SAMPLE event attributes, for events that occurred</span>
+<span class="c"># between each time period defined by the TRIAL_START and TRIAL_END trial variables of each entry</span>
+<span class="c"># in the trial_conditions data table.</span>
+<span class="n">event_type</span><span class="o">=</span><span class="n">EventConstants</span><span class="o">.</span><span class="n">MONOCULAR_EYE_SAMPLE</span>
+<span class="n">retrieve_attributes</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;time&#39;</span><span class="p">,</span><span class="s">&#39;gaze_x&#39;</span><span class="p">,</span><span class="s">&#39;gaze_y&#39;</span><span class="p">,</span><span class="s">&#39;pupil_measure1&#39;</span><span class="p">,</span><span class="s">&#39;status&#39;</span><span class="p">)</span>
+<span class="n">trial_event_data</span><span class="o">=</span><span class="n">dataAccessUtil</span><span class="o">.</span><span class="n">getEventAttributeValues</span><span class="p">(</span><span class="n">event_type</span><span class="p">,</span>
+                            <span class="n">retrieve_attributes</span><span class="p">,</span>
+                            <span class="n">conditionVariablesFilter</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+                            <span class="n">startConditions</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;time&#39;</span><span class="p">:(</span><span class="s">&#39;&gt;=&#39;</span><span class="p">,</span><span class="s">&#39;@TRIAL_START@&#39;</span><span class="p">)},</span>
+                            <span class="n">endConditions</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;time&#39;</span><span class="p">:(</span><span class="s">&#39;&lt;=&#39;</span><span class="p">,</span><span class="s">&#39;@TRIAL_END@&#39;</span><span class="p">)})</span>
+
+<span class="c"># No need to keep the hdf5 file open anymore...</span>
+<span class="n">dataAccessUtil</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c"># Get the data for the one trial we will playback</span>
+<span class="n">trial_data</span><span class="o">=</span><span class="n">trial_event_data</span><span class="p">[</span><span class="n">TRIAL_ID</span><span class="p">]</span>
+
+<span class="c">##### STEP B. #####</span>
+<span class="c"># Get the needed left eye sample arrays </span>
+<span class="n">gaze_x</span><span class="o">=</span><span class="n">trial_data</span><span class="o">.</span><span class="n">gaze_x</span>
+<span class="n">gaze_y</span><span class="o">=</span><span class="n">trial_data</span><span class="o">.</span><span class="n">gaze_y</span>
+<span class="n">pupil_size</span><span class="o">=</span><span class="n">trial_data</span><span class="o">.</span><span class="n">pupil_measure1</span>
+<span class="c"># get the array of sample times for the current trial</span>
+<span class="n">time</span><span class="o">=</span><span class="n">trial_data</span><span class="o">.</span><span class="n">time</span>
+<span class="c">#clear absent data</span>
+<span class="n">invalid_data_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">trial_data</span><span class="o">.</span><span class="n">pupil_measure1</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="c">#vendor specific codes</span>
+<span class="n">valid_data_periods</span><span class="o">=</span><span class="n">processSampleEventGaps</span><span class="p">(</span><span class="n">gaze_x</span><span class="p">,</span><span class="n">gaze_y</span><span class="p">,</span>
+                                               <span class="n">pupil_size</span><span class="p">,</span>
+                                               <span class="n">invalid_data_mask</span><span class="p">,</span>
+                                               <span class="s">&#39;clear&#39;</span><span class="p">)</span>
+
+<span class="c">##### STEP C. #####       </span>
+<span class="c"># Load the image used in the current trial.                                        </span>
+<span class="c"># get the trial condition values used for each trial in example experiment.</span>
+<span class="n">condition_set</span><span class="o">=</span><span class="n">trial_data</span><span class="o">.</span><span class="n">condition_set</span> 
+<span class="c"># Get the image name used for display during the trial</span>
+<span class="n">image_name</span><span class="o">=</span><span class="n">condition_set</span><span class="o">.</span><span class="n">IMAGE_NAME</span>
+<span class="n">trial_id</span><span class="o">=</span><span class="n">condition_set</span><span class="o">.</span><span class="n">trial_id</span>
+
+<span class="c"># load the image as a numpy array</span>
+<span class="n">trial_image_array</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">mpimg</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s">&quot;./images/&quot;</span><span class="o">+</span><span class="n">image_name</span><span class="p">))</span>
+
+<span class="c"># Reduce size for easier viewing</span>
+<span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">trial_image_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">trial_image_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span>
+
+<span class="c">##### STEP D. #####</span>
+<span class="c"># Create the Animated Figure</span>
+<span class="n">dpi</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">margin</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="c"># (add 5% of the width/height of the figure...)</span>
+
+<span class="c"># Make a figure big enough to accomodate an axis of xpixels by ypixels</span>
+<span class="c"># as well as the ticklabels, etc...</span>
+<span class="n">figsize</span> <span class="o">=</span>  <span class="n">w</span> <span class="o">/</span> <span class="n">dpi</span><span class="p">,</span>  <span class="n">h</span> <span class="o">/</span> <span class="n">dpi</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="n">dpi</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Trial </span><span class="si">%i</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span><span class="n">image_name</span><span class="p">))</span>
+<span class="c"># get the current axes</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+
+<span class="c"># Draw the background image array</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">trial_image_array</span><span class="p">,</span><span class="n">origin</span><span class="o">=</span><span class="s">&#39;lower&#39;</span><span class="p">,</span><span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">w</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">w</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="n">h</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">h</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="c"># Create a circle graphic to use as the gaze overlay cursor.</span>
+<span class="n">circle</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s">&#39;r&#39;</span><span class="p">,</span><span class="n">edgecolor</span><span class="o">=</span><span class="s">&#39;y&#39;</span><span class="p">,</span> 
+                    <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+                    
+<span class="c"># Create a semi-transparent text box to display the current trial time.</span>
+<span class="n">time_text</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> 
+                    <span class="n">bbox</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;facecolor&#39;</span><span class="p">:</span><span class="s">&#39;red&#39;</span><span class="p">,</span> <span class="s">&#39;alpha&#39;</span><span class="p">:</span><span class="mf">0.5</span><span class="p">,</span> <span class="s">&#39;pad&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">},</span>
+                    <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">)</span>
+
+<span class="c"># Calculate the eye trackers sampling rate in msec.</span>
+<span class="n">ifi</span><span class="o">=</span><span class="mf">1000.0</span><span class="o">/</span><span class="n">et_sampling_rate</span>
+<span class="c"># Calculate how many samples occur within the requested playback rate.</span>
+<span class="n">sample_frame_interval</span><span class="o">=</span><span class="n">desired_playback_rate</span><span class="o">//</span><span class="n">ifi</span><span class="o">+</span><span class="mi">1</span> <span class="c">#note that // means integer divide</span>
+<span class="n">actual_playback_rate</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">sample_frame_interval</span><span class="o">*</span><span class="n">ifi</span><span class="p">)</span> <span class="c">#true rate after rounding</span>
+<span class="n">sample_frame_count</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">)</span><span class="o">/</span><span class="n">sample_frame_interval</span><span class="p">)</span> <span class="c">#true n frames after rounding</span>
+
+<span class="c"># Create the matplotlib Animation object</span>
+<span class="k">def</span> <span class="nf">init</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This gets called each time the animation first starts.</span>
+<span class="sd">    You must return any of the plot graphics that change</span>
+<span class="sd">    Each frame of the animation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">circle</span><span class="p">)</span>
+    <span class="n">time_text</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s">&#39;time = </span><span class="si">%.1f</span><span class="s"> sec&#39;</span> <span class="o">%</span> <span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">circle</span><span class="p">,</span><span class="n">time_text</span>
+
+<span class="k">def</span> <span class="nf">animate</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This gets called each frame of the animation.</span>
+<span class="sd">    This is where the animated graphics can be updated for the next frame.</span>
+<span class="sd">    You must return any of the plot graphics that change</span>
+<span class="sd">    Each frame of the animateion.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">s</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">sample_frame_interval</span><span class="p">)</span>
+    <span class="n">circle</span><span class="o">.</span><span class="n">center</span> <span class="o">=</span> <span class="p">(</span><span class="n">gaze_x</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="o">/</span><span class="mf">2.</span><span class="p">,</span> <span class="n">gaze_y</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+    <span class="n">time_text</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s">&#39;time = </span><span class="si">%.1f</span><span class="s"> sec&#39;</span> <span class="o">%</span> <span class="n">time</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">circle</span><span class="p">,</span><span class="n">time_text</span>
+
+<span class="c"># Start the animation, but only play it for 1 frame</span>
+<span class="c"># (This gets around a current bug in the matplotlib animation code when</span>
+<span class="c"># you want to use blit=True during the real playback; which you do as it is</span>
+<span class="c"># 10x faster than when blit=False)</span>
+<span class="n">anim</span> <span class="o">=</span> <span class="n">animation</span><span class="o">.</span><span class="n">FuncAnimation</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">animate</span><span class="p">,</span> 
+                               <span class="n">init_func</span><span class="o">=</span><span class="n">init</span><span class="p">,</span> 
+                               <span class="n">frames</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
+                               <span class="n">interval</span><span class="o">=</span><span class="n">actual_playback_rate</span><span class="p">,</span>
+                               <span class="n">blit</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c"># Start the animation for real this time. Based on the args provided,</span>
+<span class="c"># the animation will play from start to finish and then loop to the</span>
+<span class="c"># start and play over again. This repeats until you close the matplotlib window.</span>
+<span class="n">anim</span> <span class="o">=</span> <span class="n">animation</span><span class="o">.</span><span class="n">FuncAnimation</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">animate</span><span class="p">,</span> 
+                               <span class="n">init_func</span><span class="o">=</span><span class="n">init</span><span class="p">,</span> 
+                               <span class="n">frames</span><span class="o">=</span><span class="n">sample_frame_count</span><span class="p">,</span> 
+                               <span class="n">interval</span><span class="o">=</span><span class="n">actual_playback_rate</span><span class="p">,</span>
+                               <span class="n">blit</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">Py4ET 2013</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Jonathan Peirce and Sol Simpson.
+      Last updated on Aug 06, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+  </body>
+</html>

@@ -1,0 +1,4 @@
+nDistractors,trials.thisRepN,trials.thisTrialN,trials.thisN,trials.thisIndex,targetX,targetY,mouse.x,mouse.y,mouse.leftButton,mouse.midButton,mouse.rightButton,mouse.time,date,frameRate,expName,session,participant,
+8,0,0,0,2,-0.458242386211,0.380559011848,-0.453125,0.3625,1,0,0,2.51207184792,2013_Aug_05_1559,59.8684246211,visualSearch1,001,,
+4,0,1,1,1,0.300392402169,0.499775652548,0.2921875,0.491666666667,1,0,0,2.2488219738,2013_Aug_05_1559,59.8684246211,visualSearch1,001,,
+16,0,2,2,4,0.40491389827,-0.101953746465,0.4140625,-0.109722222222,1,0,0,3.40460681915,2013_Aug_05_1559,59.8684246211,visualSearch1,001,,
