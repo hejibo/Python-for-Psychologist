@@ -27,27 +27,52 @@
 - show text
 
 ~~~~{python}
-CapturedResponseString = visual.TextStim(myWin, 
-                        units='norm',height = 0.2,
-                        pos=(0,-0.40), text='',
-                        alignHoriz = 'center',alignVert='center', color=[-1,-1,-1])
+textString = "Press any key to continue\n"
+message = visual.TextStim(win, text=textString)
 
-captured_string = '' #key presses will be captured in this string
 ~~~~
 
+!SLIDE left
+
+# Capture Keyboard Inputs
+- event.waitKeys()
+
+~~~~{python}
+event.waitKeys()
+
+~~~~
 
 !SLIDE left
 
 # Capture Keyboard Inputs
 
 ~~~~{python}
-CapturedResponseString = visual.TextStim(myWin, 
-                        units='norm',height = 0.2,
-                        pos=(0,-0.40), text='',
-                        alignHoriz = 'center',alignVert='center', color=[-1,-1,-1])
 
-#key presses will be captured in this string
-CapturedResponseString.text = event.waitKeys()[0]
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# There is little experiment if the experimentee cannot give any input.
+# Here we changed our assignmet 1 a bit so that it waits for a keys, rather
+# than waiting 5 s. Note that we need to import the event library from
+# PsychoPy to make this work.
+from psychopy import core, visual, event
+  
+## Setup Section
+win = visual.Window([400,300], monitor="testMonitor")
+textString = "Press any key to continue\n"
+message = visual.TextStim(win, text=textString)
+ 
+## Experiment Section
+message.draw()
+win.flip()
+c = event.waitKeys() # read a character
+message = visual.TextStim(win, text=textString + c[0])
+message.draw()
+win.flip()
+event.waitKeys()
+ 
+## Closing Section
+win.close()
+core.quit()
 ~~~~
 
 
