@@ -1,0 +1,14 @@
+9.8644 	EXP 	Set Window color=[ 0.  0.  0.] (rgb)
+11.5931 	EXP 	Created expInstruction = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color=u'white', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font=UNKNOWN, fontFiles=UNKNOWN, height=360, italic=False, name='expInstruction', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 255.,  255.,  255.]), text=unicode(...), units=u'norm', win=Window(...), wrapWidth=UNKNOWN)
+11.6126 	EXP 	Created text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color=u'white', colorSpace='named', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font=UNKNOWN, fontFiles=UNKNOWN, height=180, italic=False, name='text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 255.,  255.,  255.]), text=u'Any text\n\nincluding line breaks', units=u'norm', win=Window(...), wrapWidth=UNKNOWN)
+11.6591 	EXP 	TextStim: autoLog = None
+11.6591 	EXP 	TextStim: autoLog = None
+11.6591 	EXP 	TextStim: autoDraw = None
+14.6268 	EXP 	TextStim: autoDraw = None
+19.3796 	DATA 	Mouse: Left button down, pos=(1126,406)
+19.5265 	DATA 	Mouse: Left button up, pos=(1126,406)
+20.8590 	DATA 	Keypress: space
+20.8799 	EXP 	TextStim: autoDraw = None
+20.8799 	EXP 	TextStim: autoDraw = None
+21.8801 	EXP 	TextStim: autoDraw = None
+25.3692 	DATA 	Keypress: space

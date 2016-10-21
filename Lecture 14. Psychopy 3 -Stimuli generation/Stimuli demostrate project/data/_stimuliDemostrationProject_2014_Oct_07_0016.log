@@ -1,0 +1,54 @@
+5.6605 	EXP 	Set Window color=[ 0.  0.  0.] (rgb)
+7.9253 	EXP 	Created expInstruction = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color=u'white', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font=UNKNOWN, fontFiles=UNKNOWN, height=360, italic=False, name='expInstruction', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 255.,  255.,  255.]), text=unicode(...), units=u'norm', win=Window(...), wrapWidth=UNKNOWN)
+7.9471 	EXP 	Created text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color=u'white', colorSpace='named', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font=UNKNOWN, fontFiles=UNKNOWN, height=180, italic=False, name='text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 255.,  255.,  255.]), text=u'Any text\n\nincluding line breaks', units=u'norm', win=Window(...), wrapWidth=UNKNOWN)
+7.9779 	EXP 	Created image = ImageStim(autoLog=True, color=array([ 1.,  1.,  1.]), colorSpace=u'rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, image=UNKNOWN, interpolate=False, mask=None, maskParams=None, name='image', opacity=1.0, ori=0.0, pos=array([ 0.,  0.]), size=array([ 0.5,  0.5]), texRes=128, units=u'norm', win=Window(...))
+8.1950 	EXP 	Set  sound=A
+8.1950 	EXP 	Set Sound  volume=1.000
+4.5410 	EXP 	Set Window color=[ 0.  0.  0.] (rgb)
+5.7595 	WARNING 	t of last frame was 42.03ms (=1/23)
+6.2885 	EXP 	Created expInstruction = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color=u'white', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font=UNKNOWN, fontFiles=UNKNOWN, height=360, italic=False, name='expInstruction', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 255.,  255.,  255.]), text=unicode(...), units=u'norm', win=Window(...), wrapWidth=UNKNOWN)
+6.3089 	EXP 	Created text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color=u'white', colorSpace='named', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font=UNKNOWN, fontFiles=UNKNOWN, height=180, italic=False, name='text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 255.,  255.,  255.]), text=u'Any text\n\nincluding line breaks', units=u'norm', win=Window(...), wrapWidth=UNKNOWN)
+6.3418 	EXP 	Created image = ImageStim(autoLog=True, color=array([ 1.,  1.,  1.]), colorSpace=u'rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, image=UNKNOWN, interpolate=False, mask=None, maskParams=None, name='image', opacity=1.0, ori=0.0, pos=array([ 0.,  0.]), size=array([ 0.5,  0.5]), texRes=128, units=u'norm', win=Window(...))
+6.5808 	EXP 	Set  sound=A
+6.5808 	EXP 	Set Sound  volume=1.000
+6.7021 	EXP 	Set  sound=I_Believe_I_Can_Fly_sample.ogg
+6.7021 	EXP 	Set Sound  volume=1.000
+6.7254 	EXP 	TextStim: autoLog = None
+6.7254 	EXP 	TextStim: autoLog = None
+6.7254 	EXP 	ImageStim: autoLog = None
+6.7254 	EXP 	TextStim: autoDraw = None
+7.6419 	DATA 	Mouse: Left button down, pos=(561,660)
+7.7777 	DATA 	Mouse: Left button up, pos=(561,660)
+8.6080 	DATA 	Keypress: space
+8.6172 	EXP 	TextStim: autoDraw = None
+8.6172 	EXP 	TextStim: autoDraw = None
+9.0605 	DATA 	Keypress: space
+9.1343 	EXP 	TextStim: autoDraw = None
+9.1343 	EXP 	ImageStim: autoDraw = None
+9.9376 	DATA 	Keypress: space
+12.0706 	DATA 	Keypress: space
+12.0997 	EXP 	Sound  started
+12.1160 	EXP 	ImageStim: autoDraw = None
+12.1160 	EXP 	ImageStim: autoDraw = None
+13.0863 	EXP 	Sound  stopped
+13.1029 	EXP 	Sound  started
+23.2538 	DATA 	Mouse: Left button down, pos=(967,631)
+23.3727 	DATA 	Mouse: Left button up, pos=(967,630)
+23.5782 	DATA 	Keypress: lwindows
+24.5807 	DATA 	Mouse: Left button down, pos=(933,616)
+24.7331 	DATA 	Mouse: Left button up, pos=(933,616)
+25.0370 	DATA 	Keypress: lwindows
+26.3367 	DATA 	Mouse: Left button down, pos=(886,599)
+26.4709 	DATA 	Mouse: Left button up, pos=(886,599)
+29.2390 	DATA 	Keypress: lshift
+29.9858 	DATA 	Mouse: Left button down, pos=(875,546)
+30.1360 	DATA 	Mouse: Left button up, pos=(875,546)
+30.4370 	DATA 	Mouse: Right button down, pos=(875,546)
+30.6283 	DATA 	Mouse: Right button up, pos=(875,546)
+30.8780 	DATA 	Mouse: Right button down, pos=(875,546)
+31.0280 	DATA 	Mouse: Right button up, pos=(874,546)
+31.1961 	DATA 	Mouse: Left button down, pos=(874,546)
+31.3660 	DATA 	Mouse: Left button up, pos=(873,546)
+32.0338 	DATA 	Keypress: o
+32.3345 	DATA 	Keypress: i
+33.0773 	EXP 	Sound  stopped

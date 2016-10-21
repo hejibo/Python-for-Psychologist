@@ -1,0 +1,37 @@
+5.9536 	EXP 	Set Window color=[ 0.  0.  0.] (rgb)
+7.7408 	EXP 	Created expInstruction = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color=u'white', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font=UNKNOWN, fontFiles=UNKNOWN, height=360, italic=False, name='expInstruction', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 255.,  255.,  255.]), text=unicode(...), units=u'norm', win=Window(...), wrapWidth=UNKNOWN)
+7.7620 	EXP 	Created text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color=u'white', colorSpace='named', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font=UNKNOWN, fontFiles=UNKNOWN, height=180, italic=False, name='text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 255.,  255.,  255.]), text=u'Any text\n\nincluding line breaks', units=u'norm', win=Window(...), wrapWidth=UNKNOWN)
+7.7943 	EXP 	Created image = ImageStim(autoLog=True, color=array([ 1.,  1.,  1.]), colorSpace=u'rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, image=UNKNOWN, interpolate=False, mask=None, maskParams=None, name='image', opacity=1.0, ori=0.0, pos=array([ 0.,  0.]), size=array([ 0.5,  0.5]), texRes=128, units=u'norm', win=Window(...))
+8.0565 	EXP 	Set  sound=A
+8.0566 	EXP 	Set Sound  volume=1.000
+8.1518 	EXP 	Set  sound=I_Believe_I_Can_Fly_sample.ogg
+8.1519 	EXP 	Set Sound  volume=1.000
+8.1609 	EXP 	Created movie = MovieStim(autoLog=True, color=UNKNOWN, colorSpace=UNKNOWN, depth=0.0, filename=unicode(...), flipHoriz=False, flipVert=False, loop=False, name='movie', opacity=1.0, ori=0, pos=array([ 0.,  0.]), size=array([ 480.,  360.]), units='pix', volume=UNKNOWN, win=Window(...))
+8.2559 	EXP 	Created text_2 = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color=u'white', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font=UNKNOWN, fontFiles=UNKNOWN, height=300, italic=False, name='text_2', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 255.,  255.,  255.]), text=unicode(...), units=u'norm', win=Window(...), wrapWidth=UNKNOWN)
+8.2732 	EXP 	TextStim: autoLog = None
+8.2732 	EXP 	TextStim: autoLog = None
+8.2732 	EXP 	ImageStim: autoLog = None
+8.2732 	EXP 	Set movie movie=Dont Cry For Me Argentina  Madonna  Lyrics.mp4
+8.2732 	EXP 	MovieStim: autoLog = None
+8.2732 	EXP 	TextStim: autoLog = None
+8.2732 	EXP 	TextStim: autoDraw = None
+9.9248 	DATA 	Mouse: Left button down, pos=(500,627)
+10.0590 	DATA 	Mouse: Left button up, pos=(500,627)
+10.9461 	DATA 	Keypress: space
+10.9698 	EXP 	TextStim: autoDraw = None
+10.9698 	EXP 	TextStim: autoDraw = None
+11.3443 	DATA 	Keypress: space
+11.4699 	EXP 	TextStim: autoDraw = None
+11.4699 	EXP 	ImageStim: autoDraw = None
+11.8906 	DATA 	Keypress: space
+14.1733 	DATA 	Keypress: space
+14.4388 	EXP 	Sound  started
+14.4550 	EXP 	ImageStim: autoDraw = None
+14.4550 	EXP 	ImageStim: autoDraw = None
+15.4238 	EXP 	Sound  stopped
+15.4405 	EXP 	Sound  started
+20.4171 	EXP 	Sound  stopped
+20.4337 	EXP 	MovieStim: autoDraw = None
+50.4165 	EXP 	MovieStim: autoDraw = None
+50.4165 	EXP 	MovieStim: autoDraw = None
+50.4165 	EXP 	TextStim: autoDraw = None

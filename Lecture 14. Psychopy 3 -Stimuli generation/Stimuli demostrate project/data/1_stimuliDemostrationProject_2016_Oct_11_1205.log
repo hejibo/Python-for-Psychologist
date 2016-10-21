@@ -1,0 +1,62 @@
+14.1510 	EXP 	Created window1 = Window(allowGUI=False, allowStencil=False, autoLog=True, bitsMode=UNKNOWN, blendMode='avg', color=array([ 0.,  0.,  0.]), colorSpace='rgb', fullscr=UNKNOWN, gamma=None, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x10ec69290>, name='window1', pos=[0, 0], screen=0, size=array([800, 600]), stereo=False, units=u'norm', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+14.1511 	EXP 	window1: recordFrameIntervals = False
+14.3165 	EXP 	window1: recordFrameIntervals = True
+14.5008 	EXP 	window1: recordFrameIntervals = False
+14.7019 	EXP 	Created expInstruction = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='white', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, name='expInstruction', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 255.,  255.,  255.]), text=unicode(...), units=u'norm', win=Window(...), wrapWidth=1)
+14.7153 	EXP 	Created text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='white', colorSpace='named', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, name='text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 255.,  255.,  255.]), text=u'Any text\n\nincluding line breaks', units=u'norm', win=Window(...), wrapWidth=1)
+14.8285 	EXP 	Created image = ImageStim(autoLog=True, color=array([ 1.,  1.,  1.]), colorSpace='rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, image='jiborobot.jpg', interpolate=False, mask=None, maskParams=None, name='image', opacity=1.0, ori=0.0, pos=array([ 0.,  0.]), size=array([ 0.5,  0.5]), texRes=128, units=u'norm', win=Window(...))
+14.9213 	EXP 	Set  sound=A
+14.9213 	EXP 	Set Sound  volume=1.000
+15.0251 	EXP 	Set  sound=I_Believe_I_Can_Fly_sample.ogg
+15.0252 	EXP 	Set Sound  volume=1.000
+20.1193 	EXP 	Set  sound=[[ 0.  0.]
+ [ 0.  0.]
+ [ 0.  0.]
+ ..., 
+ [ 0.  0.]
+ [ 0.  0.]
+ [ 0.  0.]]
+20.1523 	EXP 	Created movie = MovieStim3(autoLog=True, color=UNKNOWN, colorSpace=UNKNOWN, depth=0.0, filename='Dont Cry For Me Argentina  Madonna  Lyrics.mp4', flipHoriz=False, flipVert=False, fps=UNKNOWN, interpolate=True, loop=False, name='movie', noAudio=False, opacity=1.0, ori=0, pos=array([ 0.,  0.]), size=array([ 480.,  360.]), units='pix', vframe_callback=UNKNOWN, volume=UNKNOWN, win=Window(...))
+20.2325 	EXP 	Set  sound=I_Believe_I_Can_Fly_sample.ogg
+20.2326 	EXP 	Set Sound  volume=1.000
+20.3996 	EXP 	Created text_2 = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color=u'white', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font=u'Arial', fontFiles=[], height=0.1, italic=False, name='text_2', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 255.,  255.,  255.]), text=unicode(...), units=u'norm', win=Window(...), wrapWidth=1)
+20.4441 	DATA 	Keypress: space
+20.4526 	DATA 	Keypress: space
+20.4664 	EXP 	movie: movie = 'Dont Cry For Me Argentina  Madonna  Lyrics.mp4'
+20.4664 	EXP 	movie: autoLog = True
+20.4664 	EXP 	expInstruction: autoDraw = True
+20.4705 	DATA 	Mouse: Left button down, pos=(376,488)
+20.6356 	DATA 	Mouse:  Left button up, pos=(376,488)
+23.4078 	EXP 	expInstruction: autoDraw = False
+24.7366 	DATA 	Keypress: space
+24.7387 	EXP 	window1: recordFrameIntervals = False
+24.7615 	EXP 	expInstruction: autoDraw = False
+24.7615 	EXP 	text: autoDraw = True
+24.7623 	EXP 	window1: recordFrameIntervals = False
+25.7475 	EXP 	text: autoDraw = False
+28.1794 	DATA 	Keypress: space
+28.2043 	EXP 	text: autoDraw = False
+28.2043 	EXP 	image: autoDraw = True
+30.1843 	DATA 	Keypress: space
+31.1794 	EXP 	Sound  started
+31.1955 	EXP 	image: autoDraw = False
+31.1955 	EXP 	image: autoDraw = False
+32.1818 	EXP 	Sound  stopped
+32.1819 	EXP 	Sound  started
+37.1785 	EXP 	Sound  stopped
+37.1791 	EXP 	Sound  stopped
+37.1791 	EXP 	Sound  stopped
+37.1791 	EXP 	Sound  started
+37.1792 	EXP 	Sound  started
+37.1951 	EXP 	movie: autoDraw = True
+37.3687 	DATA 	Keypress: space
+39.7737 	DATA 	Keypress: space
+58.2238 	DATA 	Keypress: space
+62.1798 	EXP 	Sound  stopped
+65.3640 	DATA 	Keypress: space
+67.1770 	EXP 	Sound  stopped
+67.1776 	EXP 	Sound  stopped
+67.1936 	EXP 	movie: autoDraw = False
+67.1936 	EXP 	movie: autoDraw = False
+67.1936 	EXP 	text_2: autoDraw = True
+71.1831 	EXP 	window1: mouseVisible = True

@@ -1,0 +1,17 @@
+5.6999 	EXP 	Set Window color=[ 0.  0.  0.] (rgb)
+7.0853 	EXP 	Created expInstruction = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color=u'white', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font=UNKNOWN, fontFiles=UNKNOWN, height=360, italic=False, name='expInstruction', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 255.,  255.,  255.]), text=unicode(...), units=u'norm', win=Window(...), wrapWidth=UNKNOWN)
+7.1077 	EXP 	Created text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color=u'white', colorSpace='named', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font=UNKNOWN, fontFiles=UNKNOWN, height=180, italic=False, name='text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 255.,  255.,  255.]), text=u'Any text\n\nincluding line breaks', units=u'norm', win=Window(...), wrapWidth=UNKNOWN)
+7.1921 	EXP 	Created image = ImageStim(autoLog=True, color=array([ 1.,  1.,  1.]), colorSpace=u'rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, image=UNKNOWN, interpolate=False, mask=None, maskParams=None, name='image', opacity=1.0, ori=0.0, pos=array([ 0.,  0.]), size=array([ 0.5,  0.5]), texRes=128, units=u'norm', win=Window(...))
+7.2108 	EXP 	TextStim: autoLog = None
+7.2108 	EXP 	TextStim: autoLog = None
+7.2108 	EXP 	ImageStim: autoLog = None
+7.2108 	EXP 	TextStim: autoDraw = None
+8.4317 	DATA 	Mouse: Left button down, pos=(646,621)
+8.5567 	DATA 	Mouse: Left button up, pos=(646,621)
+9.3614 	DATA 	Keypress: space
+9.3918 	EXP 	TextStim: autoDraw = None
+9.3918 	EXP 	TextStim: autoDraw = None
+10.3847 	EXP 	TextStim: autoDraw = None
+12.9337 	DATA 	Keypress: space
+12.9794 	EXP 	TextStim: autoDraw = None
+12.9794 	EXP 	ImageStim: autoDraw = None

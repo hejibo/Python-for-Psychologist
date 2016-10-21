@@ -1,0 +1,32 @@
+5.4354 	EXP 	Set Window color=[ 0.  0.  0.] (rgb)
+6.8357 	EXP 	Created expInstruction = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color=u'white', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font=UNKNOWN, fontFiles=UNKNOWN, height=360, italic=False, name='expInstruction', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 255.,  255.,  255.]), text=unicode(...), units=u'norm', win=Window(...), wrapWidth=UNKNOWN)
+6.8560 	EXP 	Created text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color=u'white', colorSpace='named', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font=UNKNOWN, fontFiles=UNKNOWN, height=180, italic=False, name='text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 255.,  255.,  255.]), text=u'Any text\n\nincluding line breaks', units=u'norm', win=Window(...), wrapWidth=UNKNOWN)
+6.8873 	EXP 	Created image = ImageStim(autoLog=True, color=array([ 1.,  1.,  1.]), colorSpace=u'rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, image=UNKNOWN, interpolate=False, mask=None, maskParams=None, name='image', opacity=1.0, ori=0.0, pos=array([ 0.,  0.]), size=array([ 0.5,  0.5]), texRes=128, units=u'norm', win=Window(...))
+7.0988 	EXP 	Set  sound=A
+7.0988 	EXP 	Set Sound  volume=1.000
+7.1852 	EXP 	Set  sound=I_Believe_I_Can_Fly_sample.ogg
+7.1853 	EXP 	Set Sound  volume=1.000
+7.4049 	EXP 	Created text_2 = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color=u'white', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font=UNKNOWN, fontFiles=UNKNOWN, height=240, italic=False, name='text_2', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 255.,  255.,  255.]), text=unicode(...), units=u'norm', win=Window(...), wrapWidth=UNKNOWN)
+7.4253 	EXP 	TextStim: autoLog = None
+7.4253 	EXP 	TextStim: autoLog = None
+7.4253 	EXP 	ImageStim: autoLog = None
+7.4253 	EXP 	TextStim: autoLog = None
+7.4253 	EXP 	TextStim: autoDraw = None
+9.2229 	DATA 	Mouse: Left button down, pos=(575,345)
+9.3240 	DATA 	Mouse: Left button up, pos=(575,345)
+9.7053 	DATA 	Keypress: space
+9.7324 	EXP 	TextStim: autoDraw = None
+9.7324 	EXP 	TextStim: autoDraw = None
+10.1431 	DATA 	Keypress: space
+10.2504 	EXP 	TextStim: autoDraw = None
+10.2504 	EXP 	ImageStim: autoDraw = None
+10.6695 	DATA 	Keypress: space
+12.7663 	DATA 	Keypress: space
+13.2155 	EXP 	Sound  started
+13.2320 	EXP 	ImageStim: autoDraw = None
+13.2320 	EXP 	ImageStim: autoDraw = None
+14.2035 	EXP 	Sound  stopped
+14.2202 	EXP 	Sound  started
+15.4854 	DATA 	Keypress: space
+19.2025 	EXP 	Sound  stopped
+19.2192 	EXP 	TextStim: autoDraw = None

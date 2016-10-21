@@ -1,0 +1,14 @@
+13.2172 	EXP 	Created window1 = Window(allowGUI=False, allowStencil=False, autoLog=True, bitsMode=UNKNOWN, blendMode='avg', color=array([ 0.,  0.,  0.]), colorSpace='rgb', fullscr=UNKNOWN, gamma=None, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x111786490>, name='window1', pos=[0, 0], screen=0, size=array([800, 600]), stereo=False, units=u'norm', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+13.2173 	EXP 	window1: recordFrameIntervals = False
+13.3830 	EXP 	window1: recordFrameIntervals = True
+13.5671 	EXP 	window1: recordFrameIntervals = False
+14.0501 	EXP 	Created movie = MovieStim3(autoLog=True, color=UNKNOWN, colorSpace=UNKNOWN, depth=0.0, filename=u'flame.avi', flipHoriz=False, flipVert=False, fps=UNKNOWN, interpolate=True, loop=False, name='movie', noAudio=False, opacity=1.0, ori=0, pos=array([ 0.,  0.]), size=array([ 256.,  240.]), units='pix', vframe_callback=UNKNOWN, volume=UNKNOWN, win=Window(...))
+14.1148 	EXP 	Set  sound=tada.wav
+14.1149 	EXP 	Set Sound  volume=1.000
+14.1153 	EXP 	Sound  started
+14.1515 	EXP 	movie: movie = u'flame.avi'
+14.1515 	EXP 	movie: autoLog = True
+14.1515 	EXP 	movie: autoDraw = True
+15.1040 	EXP 	Sound  stopped
+15.1044 	EXP 	Sound  stopped
+15.1063 	EXP 	window1: mouseVisible = True

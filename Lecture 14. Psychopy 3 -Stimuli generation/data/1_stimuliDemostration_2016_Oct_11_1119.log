@@ -1,0 +1,9 @@
+13.2696 	EXP 	Created window1 = Window(allowGUI=False, allowStencil=False, autoLog=True, bitsMode=UNKNOWN, blendMode='avg', color=array([ 0.,  0.,  0.]), colorSpace='rgb', fullscr=UNKNOWN, gamma=None, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x11158e410>, name='window1', pos=[0, 0], screen=0, size=array([1440,  900]), stereo=False, units=u'norm', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+13.2696 	EXP 	window1: recordFrameIntervals = False
+13.4354 	EXP 	window1: recordFrameIntervals = True
+13.6195 	EXP 	window1: recordFrameIntervals = False
+14.1169 	EXP 	Created movie = MovieStim3(autoLog=True, color=UNKNOWN, colorSpace=UNKNOWN, depth=0.0, filename=u'flame.avi', flipHoriz=False, flipVert=False, fps=UNKNOWN, interpolate=True, loop=False, name='movie', noAudio=False, opacity=1.0, ori=0, pos=array([ 0.,  0.]), size=array([ 256.,  240.]), units='pix', vframe_callback=UNKNOWN, volume=UNKNOWN, win=Window(...))
+14.1366 	EXP 	movie: movie = u'flame.avi'
+14.1366 	EXP 	movie: autoLog = True
+14.1366 	EXP 	movie: autoDraw = True
+15.1099 	EXP 	window1: mouseVisible = True
