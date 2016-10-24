@@ -9,6 +9,7 @@
 ### Table of Content
 - Mouse Clicks
 - Keyboard Inputs
+- Capture Response Box
 
 
 !SLIDE left
@@ -136,3 +137,32 @@ while True:
 core.quit()
 ~~~~
 
+
+~~~~
+
+!SLIDE left
+# Capture Response Box
+- Hardware:
+-- Faculty's Technical Support Group
+-- Timing accuracy 1 ms
+
+
+!SLIDE left
+# Capture Response Box
+- Code:
+
+
+~~~~{python}
+
+~~~~
+
+!SLIDE left
+# Advanced topic
+- Give response feedback
+- Example: Posner Cueing Paradigm.
+
+
+!SLIDE left
+# References:
+
+http://slideplayer.com/slide/9313647/
