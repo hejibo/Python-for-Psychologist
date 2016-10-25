@@ -165,7 +165,7 @@ core.quit()
 !SLIDE left
 # References:
 
-http://slideplayer.com/slide/9313647/
+- http://slideplayer.com/slide/9313647/
 
-Posner Example code
-https://github.com/psychopy/posner
+### Posner Example code
+- https://github.com/psychopy/posner
