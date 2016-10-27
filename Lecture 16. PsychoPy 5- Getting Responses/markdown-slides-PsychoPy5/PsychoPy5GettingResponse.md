@@ -2,7 +2,7 @@
 
 # PsychoPy : Getting Responses
    
-    Created by Jibo He, <a>hejibo@usee.tech</a>
+    Created by Jibo He, <a>drhejibo@gmail.com/a>
 
 !SLIDE
 
@@ -12,9 +12,6 @@
 - Capture Response Box
 
 
-!SLIDE left
-
-# Mouse Clicks
 
 !SLIDE left
 
@@ -142,18 +139,37 @@ core.quit()
 
 !SLIDE left
 # Capture Response Box
-- Hardware:
--- Faculty's Technical Support Group
--- Timing accuracy 1 ms
+## Hardware:
+- Faculty's Technical Support Group
+
+- Timing accuracy 1 ms
+
+- The buttonbox talks to your computer over a USB-cable 
+
+![response box image](responsebuttonbox2b.jpg)
+
+
 
 
 !SLIDE left
 # Capture Response Box
-- Code:
 
+- Code:
+The buttonbox connects to the computer using the BITSI protocol. 
 
 ~~~~{python}
-
+#!/usr/bin/env python
+## Setup Section
+from psychopy import core, visual, event
+from rusocsci import buttonbox
+win = visual.Window([400,300], monitor="testMonitor")
+bb = buttonbox.Buttonbox()
+ 
+## Experiment Section
+bb.waitButtons(maxWait = 10.0, buttonList=['A'])
+ 
+## Cleanup Section
+core.quit()
 ~~~~
 
 !SLIDE left

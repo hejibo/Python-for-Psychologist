@@ -33,14 +33,14 @@
 
 <!-- Begin slides -->
 <section class="slide "><div class="content"><h1>PsychoPy : Getting Responses</h1>
-<div class="codehilite"><pre>Created by Jibo He, <span class="nt">&lt;a&gt;</span>hejibo@usee.tech<span class="nt">&lt;/a&gt;</span>
+<div class="codehilite"><pre>Created by Jibo He, &lt;a&gt;drhejibo@gmail.com/a&gt;
 </pre></div></div></section>
 <section class="slide "><div class="content"><h3>Table of Content</h3>
 <ul>
 <li>Mouse Clicks</li>
 <li>Keyboard Inputs</li>
+<li>Capture Response Box</li>
 </ul></div></section>
-<section class="slide left"><div class="content"><h1>Mouse Clicks</h1></div></section>
 <section class="slide left"><div class="content"><h1>Keyboard Inputs</h1>
 <ul>
 <li>show text</li>
@@ -50,21 +50,41 @@
 <ul>
 <li>show text</li>
 </ul>
-<div class="codehilite"><pre><span class="n">CapturedResponseString</span> <span class="o">=</span> <span class="n">visual</span><span class="o">.</span><span class="n">TextStim</span><span class="p">(</span><span class="n">myWin</span><span class="p">,</span> 
-                        <span class="n">units</span><span class="o">=</span><span class="s">&#39;norm&#39;</span><span class="p">,</span><span class="n">height</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
-                        <span class="n">pos</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.40</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span>
-                        <span class="n">alignHoriz</span> <span class="o">=</span> <span class="s">&#39;center&#39;</span><span class="p">,</span><span class="n">alignVert</span><span class="o">=</span><span class="s">&#39;center&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-
-<span class="n">captured_string</span> <span class="o">=</span> <span class="s">&#39;&#39;</span> <span class="c">#key presses will be captured in this string</span>
+<div class="codehilite"><pre><span class="n">textString</span> <span class="o">=</span> <span class="s">&quot;Press any key to continue</span><span class="se">\n</span><span class="s">&quot;</span>
+<span class="n">message</span> <span class="o">=</span> <span class="n">visual</span><span class="o">.</span><span class="n">TextStim</span><span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">textString</span><span class="p">)</span>
 </pre></div></div></section>
 <section class="slide left"><div class="content"><h1>Capture Keyboard Inputs</h1>
-<div class="codehilite"><pre><span class="n">CapturedResponseString</span> <span class="o">=</span> <span class="n">visual</span><span class="o">.</span><span class="n">TextStim</span><span class="p">(</span><span class="n">myWin</span><span class="p">,</span> 
-                        <span class="n">units</span><span class="o">=</span><span class="s">&#39;norm&#39;</span><span class="p">,</span><span class="n">height</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
-                        <span class="n">pos</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.40</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span>
-                        <span class="n">alignHoriz</span> <span class="o">=</span> <span class="s">&#39;center&#39;</span><span class="p">,</span><span class="n">alignVert</span><span class="o">=</span><span class="s">&#39;center&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<ul>
+<li>event.waitKeys()</li>
+</ul>
+<div class="codehilite"><pre><span class="n">event</span><span class="o">.</span><span class="n">waitKeys</span><span class="p">()</span>
+</pre></div></div></section>
+<section class="slide left"><div class="content"><h1>Capture Keyboard Inputs</h1>
+<div class="codehilite"><pre><span class="c">#!/usr/bin/env python</span>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="c"># There is little experiment if the experimentee cannot give any input.</span>
+<span class="c"># Here we changed our assignmet 1 a bit so that it waits for a keys, rather</span>
+<span class="c"># than waiting 5 s. Note that we need to import the event library from</span>
+<span class="c"># PsychoPy to make this work.</span>
+<span class="kn">from</span> <span class="nn">psychopy</span> <span class="kn">import</span> <span class="n">core</span><span class="p">,</span> <span class="n">visual</span><span class="p">,</span> <span class="n">event</span>
 
-<span class="c">#key presses will be captured in this string</span>
-<span class="n">CapturedResponseString</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">waitKeys</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="c">## Setup Section</span>
+<span class="n">win</span> <span class="o">=</span> <span class="n">visual</span><span class="o">.</span><span class="n">Window</span><span class="p">([</span><span class="mi">400</span><span class="p">,</span><span class="mi">300</span><span class="p">],</span> <span class="n">monitor</span><span class="o">=</span><span class="s">&quot;testMonitor&quot;</span><span class="p">)</span>
+<span class="n">textString</span> <span class="o">=</span> <span class="s">&quot;Press any key to continue</span><span class="se">\n</span><span class="s">&quot;</span>
+<span class="n">message</span> <span class="o">=</span> <span class="n">visual</span><span class="o">.</span><span class="n">TextStim</span><span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">textString</span><span class="p">)</span>
+
+<span class="c">## Experiment Section</span>
+<span class="n">message</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+<span class="n">win</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">waitKeys</span><span class="p">()</span> <span class="c"># read a character</span>
+<span class="n">message</span> <span class="o">=</span> <span class="n">visual</span><span class="o">.</span><span class="n">TextStim</span><span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">textString</span> <span class="o">+</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">message</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+<span class="n">win</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+<span class="n">event</span><span class="o">.</span><span class="n">waitKeys</span><span class="p">()</span>
+
+<span class="c">## Closing Section</span>
+<span class="n">win</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">core</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
 </pre></div></div></section>
 <section class="slide left"><div class="content"><h1>Capture Mouse Clicks</h1>
 <ul>
@@ -118,7 +138,51 @@
     <span class="n">myWin</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
 
 <span class="n">core</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+</pre></div>
+
+
+<p>~~~~</p></div></section>
+<section class="slide left"><div class="content"><h1>Capture Response Box</h1>
+<h2>Hardware:</h2>
+<ul>
+<li>
+<p>Faculty's Technical Support Group</p>
+</li>
+<li>
+<p>Timing accuracy 1 ms</p>
+</li>
+<li>
+<p>The buttonbox talks to your computer over a USB-cable </p>
+</li>
+</ul>
+<p><img alt="response box image" src="responsebuttonbox2b.jpg" /></p></div></section>
+<section class="slide left"><div class="content"><h1>Capture Response Box</h1>
+<ul>
+<li>Code:
+The buttonbox connects to the computer using the BITSI protocol. </li>
+</ul>
+<div class="codehilite"><pre><span class="c">#!/usr/bin/env python</span>
+<span class="c">## Setup Section</span>
+<span class="kn">from</span> <span class="nn">psychopy</span> <span class="kn">import</span> <span class="n">core</span><span class="p">,</span> <span class="n">visual</span><span class="p">,</span> <span class="n">event</span>
+<span class="kn">from</span> <span class="nn">rusocsci</span> <span class="kn">import</span> <span class="n">buttonbox</span>
+<span class="n">win</span> <span class="o">=</span> <span class="n">visual</span><span class="o">.</span><span class="n">Window</span><span class="p">([</span><span class="mi">400</span><span class="p">,</span><span class="mi">300</span><span class="p">],</span> <span class="n">monitor</span><span class="o">=</span><span class="s">&quot;testMonitor&quot;</span><span class="p">)</span>
+<span class="n">bb</span> <span class="o">=</span> <span class="n">buttonbox</span><span class="o">.</span><span class="n">Buttonbox</span><span class="p">()</span>
+
+<span class="c">## Experiment Section</span>
+<span class="n">bb</span><span class="o">.</span><span class="n">waitButtons</span><span class="p">(</span><span class="n">maxWait</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">buttonList</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;A&#39;</span><span class="p">])</span>
+
+<span class="c">## Cleanup Section</span>
+<span class="n">core</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
 </pre></div></div></section>
+<section class="slide left"><div class="content"><h1>Advanced topic</h1>
+<ul>
+<li>Give response feedback</li>
+<li>Example: Posner Cueing Paradigm.</li>
+</ul></div></section>
+<section class="slide left"><div class="content"><h1>References:</h1>
+<p>http://slideplayer.com/slide/9313647/</p>
+<p>Posner Example code
+https://github.com/psychopy/posner</p></div></section>
 
 
 <!-- deck.status snippet -->
