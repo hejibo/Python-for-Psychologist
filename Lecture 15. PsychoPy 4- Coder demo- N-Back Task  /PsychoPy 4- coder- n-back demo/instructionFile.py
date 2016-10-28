@@ -29,4 +29,5 @@ def showInstruction(instructionFilename):
     #pause, so you get a chance to see it!
     core.wait(5.0)
 
-
+if __name__ == "__main__":
+    showInstruction("instruction.txt")

@@ -13,6 +13,9 @@ myWin.setRecordFrameIntervals()
 #choose some fonts. If a list is provided, the first font found will be used.
 fancy = ['Monotype Corsiva', 'Palace Script MT', 'Edwardian Script ITC']
 
+# show instruction
+from instructionFile import showInstruction as ShowMeTheMagic
+ShowMeTheMagic('instruction.txt')
 
 # load the data source
 infile = open('datasource.csv','r')
@@ -41,4 +44,4 @@ for trial in xrange(1,len(datasource)):
     #pause, so you get a chance to see it!
     core.wait(5.0)
 
-
+import EndOfExperimentFileEndOfExperimentFile.showInstruction('EndOfExperimentInstruction.txt')
