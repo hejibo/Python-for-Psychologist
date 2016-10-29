@@ -72,10 +72,49 @@ PsychoPy has very many stimulus types:
     * Eye Trackers, via the ioHub Common Eye Tracking Interface
 
 !SLIDE left
-
 # ioHub diagram
-
 ![ioHub diagram](iohub_diagram.png)
+
+
+!SLIDE left
+
+# The ioHub Common Eye Tracker Interface
+
+The Common Eye Tracking Interface provides the same user level Python API for all supported eye tracking hardware, meaning:
+
+* The same experiment script can be run with any supported eye tracker hardware.
+* The eye event types supported by an eye tracker implementation are saved using the same format regardless of eye tracker hardware.
+
+!SLIDE left
+
+# Currently Supported Eye Tracking Systems
+* LC Technologies EyeGaze and EyeFollower models.
+* SensoMotoric Instruments iViewX models.
+* SR Research EyeLink models.
+* Tobii Technologies Tobii models.
+
+!SLIDE left
+
+# Areas of Functionality
+* Initializing the Eye Tracker / Setting the Device State.
+* Performing Calibration / System Setup.
+* Starting and Stopping of Data Recording.
+* Sending Messages or Codes to an Eye Tracker.
+* Accessing Eye Tracker Data During Recording.
+* Accessing the Eye Tracker native time base.
+* Synchronizing the ioHub time base with the Eye Tracker time base.
+
+!SLIDE left
+# ioDataStore - Saving Event Data
+* saving large streams of eye-movement data 
+* HDF5 standardised data format
+
+What can be Stored
+* All events from all monitored devices during an experiment runtime.
+* Experiment meta-data (experiment name, code, description, version,...)
+* Session meta-data (session code, any user defined session level variables)
+* Experiment DV and IV information (generally saved on a trial by trial basis, but up to you)
+
 
 
 !SLIDE left
@@ -135,10 +174,6 @@ while True:
 
 # Stop the ioHub Process and Exit
 io.quit()
-
-
-
-
 ~~~~
 
 
