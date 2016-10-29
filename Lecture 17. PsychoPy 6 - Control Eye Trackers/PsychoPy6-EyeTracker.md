@@ -2,7 +2,9 @@
 
 # PsychoPy 6: Interface with Eye Trackers
    
-    Created by Jibo He, <a>hejibo@usee.tech</a>
+    Created by Dr. Jibo He
+    
+    [mailto:hejibo@usee.tech](hejibo@usee.tech)
 
 !SLIDE
 
