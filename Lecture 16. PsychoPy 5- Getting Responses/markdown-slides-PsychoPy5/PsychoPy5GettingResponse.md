@@ -1,3 +1,8 @@
+<header>
+PsychoPy 5: Getting Responses
+============
+</header>
+<main>
 !SLIDE
 
 # PsychoPy : Getting Responses
@@ -325,3 +330,5 @@ http://slideplayer.com/slide/9313647/
 
 Posner Example code
 https://github.com/psychopy/posner
+
+</main>
