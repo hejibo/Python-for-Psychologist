@@ -326,9 +326,14 @@ EndOfExperimentFile.showInstruction('EndOfExperimentInstruction.txt')
 !SLIDE left
 # References:
 
-http://slideplayer.com/slide/9313647/
+- http://slideplayer.com/slide/9313647/
 
+<<<<<<< HEAD
 Posner Example code
 https://github.com/psychopy/posner
 
 </main>
+=======
+### Posner Example code
+- https://github.com/psychopy/posner
+>>>>>>> origin/master
