@@ -59,7 +59,7 @@
 </ul>
 <div class="codehilite"><pre><span class="n">event</span><span class="o">.</span><span class="n">waitKeys</span><span class="p">()</span>
 </pre></div></div></section>
-<section class="slide left"><div class="content"><h1>Capture Keyboard Inputs</h1>
+<section class="slide left"><div class="content"><h1>display N-Back Task</h1>
 <div class="codehilite"><pre><span class="c">#!/usr/bin/env python</span>
 <span class="c"># -*- coding: utf-8 -*-</span>
 <span class="c"># There is little experiment if the experimentee cannot give any input.</span>
@@ -85,6 +85,79 @@
 <span class="c">## Closing Section</span>
 <span class="n">win</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 <span class="n">core</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+</pre></div></div></section>
+<section class="slide left"><div class="content"><h1>Capture keyboard inputs</h1>
+<div class="codehilite"><pre><span class="n">ResponseList</span> <span class="o">=</span><span class="p">[]</span>
+<span class="c">#......</span>
+
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">waitKeys</span><span class="p">()</span>
+    <span class="k">print</span> <span class="s">&quot;inputs:&quot;</span><span class="p">,</span><span class="n">inputs</span>
+    <span class="n">ResponseList</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+</pre></div></div></section>
+<section class="slide left"><div class="content"><h1>log data</h1>
+<div class="codehilite"><pre><span class="n">outfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;response-n-back-task.txt&quot;</span><span class="p">,</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ResponseList</span><span class="p">:</span>
+    <span class="k">print</span> <span class="o">&gt;&gt;</span><span class="n">outfile</span><span class="p">,</span><span class="n">i</span>
+<span class="n">outfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div></div></section>
+<section class="slide left"><div class="content"><h1>Complete code for visual N-Back Task with Response</h1>
+<div class="codehilite"><pre><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">By Jibo He @ WSU</span>
+<span class="sd">Sep 16,2014</span>
+<span class="sd">demostrate a visual n-back task</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">from</span> <span class="nn">psychopy</span> <span class="kn">import</span> <span class="n">visual</span><span class="p">,</span> <span class="n">core</span><span class="p">,</span> <span class="n">event</span>
+<span class="kn">import</span> <span class="nn">instructionFile</span>
+<span class="kn">import</span> <span class="nn">EndOfExperimentFile</span>
+<span class="n">instructionFile</span><span class="o">.</span><span class="n">showInstruction</span><span class="p">(</span><span class="s">&#39;instruction.txt&#39;</span><span class="p">)</span>
+
+
+
+<span class="c"># load the data source</span>
+<span class="n">infile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;datasource.csv&#39;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">datasource</span> <span class="o">=</span><span class="p">{}</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">infile</span><span class="o">.</span><span class="n">readlines</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]:</span>
+    <span class="n">trial</span><span class="p">,</span><span class="n">number</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)</span>
+    <span class="n">datasource</span><span class="p">[</span><span class="n">trial</span><span class="p">]</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">number</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="k">print</span> <span class="n">datasource</span>
+<span class="n">infile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c">#create a window to draw in</span>
+<span class="n">myWin</span> <span class="o">=</span> <span class="n">visual</span><span class="o">.</span><span class="n">Window</span><span class="p">((</span><span class="mf">800.0</span><span class="p">,</span><span class="mf">800.0</span><span class="p">),</span><span class="n">allowGUI</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">winType</span><span class="o">=</span><span class="s">&#39;pyglet&#39;</span><span class="p">,</span>
+            <span class="n">monitor</span><span class="o">=</span><span class="s">&#39;testMonitor&#39;</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span><span class="s">&#39;deg&#39;</span><span class="p">,</span> <span class="n">screen</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">myWin</span><span class="o">.</span><span class="n">setRecordFrameIntervals</span><span class="p">()</span>
+<span class="c">#choose some fonts. If a list is provided, the first font found will be used.</span>
+<span class="n">fancy</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Monotype Corsiva&#39;</span><span class="p">,</span> <span class="s">&#39;Palace Script MT&#39;</span><span class="p">,</span> <span class="s">&#39;Edwardian Script ITC&#39;</span><span class="p">]</span>
+
+<span class="n">ResponseList</span> <span class="o">=</span><span class="p">[]</span>
+<span class="c">#INITIALISE SOME STIMULI</span>
+<span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">datasource</span><span class="p">)):</span>
+    <span class="n">number</span> <span class="o">=</span> <span class="n">visual</span><span class="o">.</span><span class="n">TextStim</span><span class="p">(</span><span class="n">myWin</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;#FFFFFF&#39;</span><span class="p">,</span>
+                            <span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datasource</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">trial</span><span class="p">)]</span>
+                       <span class="p">),</span>
+                            <span class="n">units</span><span class="o">=</span><span class="s">&#39;norm&#39;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                            <span class="n">pos</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="n">alignHoriz</span><span class="o">=</span><span class="s">&#39;right&#39;</span><span class="p">,</span><span class="n">alignVert</span><span class="o">=</span><span class="s">&#39;top&#39;</span><span class="p">,</span>
+                            <span class="n">font</span><span class="o">=</span><span class="n">fancy</span><span class="p">)</span>
+
+
+    <span class="n">number</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+
+    <span class="n">myWin</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">waitKeys</span><span class="p">()</span>
+    <span class="k">print</span> <span class="s">&quot;inputs:&quot;</span><span class="p">,</span><span class="n">inputs</span>
+    <span class="n">ResponseList</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+
+    <span class="c">#pause, so you get a chance to see it!</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="mf">5.0</span><span class="p">)</span>
+
+<span class="n">outfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;response-n-back-task.txt&quot;</span><span class="p">,</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ResponseList</span><span class="p">:</span>
+    <span class="k">print</span> <span class="o">&gt;&gt;</span><span class="n">outfile</span><span class="p">,</span><span class="n">i</span>
+<span class="n">outfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="n">EndOfExperimentFile</span><span class="o">.</span><span class="n">showInstruction</span><span class="p">(</span><span class="s">&#39;EndOfExperimentInstruction.txt&#39;</span><span class="p">)</span>
 </pre></div></div></section>
 <section class="slide left"><div class="content"><h1>Capture Mouse Clicks</h1>
 <ul>
@@ -174,11 +247,60 @@ The buttonbox connects to the computer using the BITSI protocol. </li>
 <span class="c">## Cleanup Section</span>
 <span class="n">core</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
 </pre></div></div></section>
-<section class="slide left"><div class="content"><h1>Advanced topic</h1>
+<section class="slide left"><div class="content"><h1>Example:</h1>
 <ul>
-<li>Give response feedback</li>
-<li>Example: Posner Cueing Paradigm.</li>
+<li>Visual N-Back Task </li>
 </ul></div></section>
+<section class="slide left"><div class="content"><h1>Code for the presentation of the N-Back Task</h1>
+<div class="codehilite"><pre><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">By Jibo He @ WSU</span>
+<span class="sd">Sep 16,2014</span>
+<span class="sd">demostrate a visual n-back task</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">from</span> <span class="nn">psychopy</span> <span class="kn">import</span> <span class="n">visual</span><span class="p">,</span> <span class="n">core</span><span class="p">,</span> <span class="n">event</span>
+<span class="kn">import</span> <span class="nn">instructionFile</span>
+<span class="kn">import</span> <span class="nn">EndOfExperimentFile</span>
+<span class="n">instructionFile</span><span class="o">.</span><span class="n">showInstruction</span><span class="p">(</span><span class="s">&#39;instruction.txt&#39;</span><span class="p">)</span>
+
+
+
+<span class="c"># load the data source</span>
+<span class="n">infile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;datasource.csv&#39;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">datasource</span> <span class="o">=</span><span class="p">{}</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">infile</span><span class="o">.</span><span class="n">readlines</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]:</span>
+    <span class="n">trial</span><span class="p">,</span><span class="n">number</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)</span>
+    <span class="n">datasource</span><span class="p">[</span><span class="n">trial</span><span class="p">]</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">number</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="k">print</span> <span class="n">datasource</span>
+<span class="n">infile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c">#create a window to draw in</span>
+<span class="n">myWin</span> <span class="o">=</span> <span class="n">visual</span><span class="o">.</span><span class="n">Window</span><span class="p">((</span><span class="mf">800.0</span><span class="p">,</span><span class="mf">800.0</span><span class="p">),</span><span class="n">allowGUI</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">winType</span><span class="o">=</span><span class="s">&#39;pyglet&#39;</span><span class="p">,</span>
+            <span class="n">monitor</span><span class="o">=</span><span class="s">&#39;testMonitor&#39;</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span><span class="s">&#39;deg&#39;</span><span class="p">,</span> <span class="n">screen</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">myWin</span><span class="o">.</span><span class="n">setRecordFrameIntervals</span><span class="p">()</span>
+<span class="c">#choose some fonts. If a list is provided, the first font found will be used.</span>
+<span class="n">fancy</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Monotype Corsiva&#39;</span><span class="p">,</span> <span class="s">&#39;Palace Script MT&#39;</span><span class="p">,</span> <span class="s">&#39;Edwardian Script ITC&#39;</span><span class="p">]</span>
+
+<span class="c">#INITIALISE SOME STIMULI</span>
+<span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">datasource</span><span class="p">)):</span>
+    <span class="n">number</span> <span class="o">=</span> <span class="n">visual</span><span class="o">.</span><span class="n">TextStim</span><span class="p">(</span><span class="n">myWin</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;#FFFFFF&#39;</span><span class="p">,</span>
+                            <span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datasource</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">trial</span><span class="p">)]</span>
+                       <span class="p">),</span>
+                            <span class="n">units</span><span class="o">=</span><span class="s">&#39;norm&#39;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                            <span class="n">pos</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="n">alignHoriz</span><span class="o">=</span><span class="s">&#39;right&#39;</span><span class="p">,</span><span class="n">alignVert</span><span class="o">=</span><span class="s">&#39;top&#39;</span><span class="p">,</span>
+                            <span class="n">font</span><span class="o">=</span><span class="n">fancy</span><span class="p">)</span>
+
+
+    <span class="n">number</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+
+    <span class="n">myWin</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+
+    <span class="c">#pause, so you get a chance to see it!</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="mf">5.0</span><span class="p">)</span>
+
+<span class="n">EndOfExperimentFile</span><span class="o">.</span><span class="n">showInstruction</span><span class="p">(</span><span class="s">&#39;EndOfExperimentInstruction.txt&#39;</span><span class="p">)</span>
+</pre></div></div></section>
 <section class="slide left"><div class="content"><h1>References:</h1>
 <p>http://slideplayer.com/slide/9313647/</p>
 <p>Posner Example code
