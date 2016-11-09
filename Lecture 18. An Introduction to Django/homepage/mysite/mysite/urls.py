@@ -15,14 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from mysite.views import hello,current_datetime  
+from mysite.views import hello,current_datetime,current_datetime2  
 
 
 urlpatterns = [
     url(r'^$', hello),
     url(r'^admin/', admin.site.urls),
     url(r'^hello/$', hello),
-    url(r'^time/$', current_datetime
+    url(r'^time/$', current_datetime),
     url(r'^time2/$', current_datetime2),
     
 ]

@@ -55,7 +55,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            'C:\Users\zoomq\Desktop\Computer Applications for Social Scientists\Lecture 17. An Introduction to Django\homepage\mysite\templates'
+            #'C:\Users\zoomq\Desktop\Computer Applications for Social Scientists\Lecture 17. An Introduction to Django\homepage\mysite\templates'
+            '/Users/hejibo/Documents/Python-for-Psychologist/Lecture 18. An Introduction to Django/homepage/mysite/templates'
         ],
         'APP_DIRS': True,
         'OPTIONS': {

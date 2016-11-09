@@ -1,4 +1,3 @@
-
 !SLIDE
 # An Introduction to Django
    
