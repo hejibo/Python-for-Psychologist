@@ -41,53 +41,44 @@ The top padding is (720-173)/2
 from PIL import Image, ImageDraw, ImageFont
 
 #opens an image:
-im = Image.open("baseFaceFoundationImage.png")
+im = Image.open("ShaverBase.png")
 #creates a new empty image, RGB mode, and size 400 by 400.
 new_im = Image.new('RGB', (1280,720),(255, 255, 255))
 
-TopPadding =273
+TopPadding =180
+TopPaddingText = 323
 
 half = 0.7
 imDownsized = im.resize( [int(half * s) for s in im.size] )
 print "base image size:",imDownsized.size
 
-new_im.paste(imDownsized, (20,TopPadding))
+new_im.paste(imDownsized, (125,TopPadding))
 
 #new_im.show()
 
 font_path = "Courier.ttf"
-fontHighlited = ImageFont.truetype(font_path, 35)
-fontNormal = ImageFont.truetype(font_path, 20)
+fontHighlited = ImageFont.truetype(font_path, 30)
+fontNormal = ImageFont.truetype(font_path, 12)
 
 draw = ImageDraw.Draw(new_im)
 
-draw.text((720, TopPadding),
-'''Glycerin and shea\n
-butter keep skin\n
-feeling moisturized\n
-while a gel base\n
-creates a lightweight\n
-finish that stays color-\n
-true.''',
-    (0,0,0),
-    font=fontNormal
-    )
 
-draw.text((1000, TopPadding),'''
-This long-wearing\n
-perfectly balanced\n
-formula evens skin\n
-tone, minimizes\n
-the appearance of\n
-pores, and conceals\n
-imperfections.
+
+
+draw.text((725, TopPaddingText),'''
+ Even though cheap, this one-\nof-a-kind product offers value\n to novices and experienced\n shavers alike. It is easy to use,\n durable, and comes with an\n array of professional-grade\n accessories
 ''',(0,0,0),font=fontNormal)
 
 
-draw.text((460, TopPadding),
+draw.text((975, TopPaddingText),'''
+This model, made from high-\n grade aluminum, has all the\nimpressive qualitites you'd\nexpect from a razor, with a\nlightweight design that smacks\n of fast cars and fighter jets.
+''',(0,0,0),font=fontNormal)
+
+
+draw.text((475, TopPaddingText),
 '''Great on\n
-overall\n
-performance''',(255,0,0),font=fontHighlited)
+lightness
+''',(255,0,0),font=fontHighlited)
 
 
 new_im.save("output.png", "PNG")

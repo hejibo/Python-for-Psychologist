@@ -12,7 +12,7 @@
 - Environment configuration
 - Add image to another image
 - Add text to image
-- Add Chinese characters in an image
+- Add non-English text in an image
 
 !SLIDE left
 # Environment configuration
@@ -69,7 +69,31 @@ new_im.show()
 ~~~~
 
 !SLIDE left
-# Add Chinese characters in an image
+# Add non-English text in an image
+~~~~{python}
+SyntaxError: Non-ASCII character '\xe6' in file /Users/hejibo/Documents/Python-for-Psychologist/Lecture 18. P
+sychoPy 7 - Prepare Text and Image Stimuli/AddNonEnglishText.py on line 18, but no encoding declared; see htt
+p://python.org/dev/peps/pep-0263/ for details
+~~~~
+
+!SLIDE left
+# Add non-English text in an image
+~~~~{python}
+SyntaxError: Non-ASCII character '\xe6' in file /Users/hejibo/Documents/Python-for-Psychologist/Lecture 18. P
+sychoPy 7 - Prepare Text and Image Stimuli/AddNonEnglishText.py on line 18, but no encoding declared; see htt
+p://python.org/dev/peps/pep-0263/ for details
+~~~~
+
+!SLIDE left
+# Add non-English text in an image
+~~~~{python}
+#!/usr/bin/python
+#-*-coding:utf-8 -*-
+~~~~
+
+
+
+
 
 !SLIDE left
 # A real project
