@@ -41,11 +41,11 @@ The top padding is (720-173)/2
 from PIL import Image, ImageDraw, ImageFont
 
 #opens an image:
-im = Image.open("baseFaceFoundationImage.png")
+im = Image.open("ShaverBase.png")
 #creates a new empty image, RGB mode, and size 400 by 400.
 new_im = Image.new('RGB', (1280,1024),(255, 255, 255))
 
-TopPadding =450
+TopPadding =180
 TopPaddingText = 323
 
 half = 0.7
@@ -65,29 +65,14 @@ draw = ImageDraw.Draw(new_im)
 
 
 
-draw.text((740, TopPadding),
-'''Glycerin and shea\n
-butter keep skin\n
-feeling moisturized\n
-while a gel base\n
-creates a lightweight\n
-finish that stays color-\n
-true.''',
-    (0,0,0),
-    font=fontNormal
-    )
-
-
-draw.text((1020, TopPadding),'''
-This long-wearing\n
-perfectly balanced\n
-formula evens skin\n
-tone, minimizes\n
-the appearance of\n
-pores, and conceals\n
-imperfections.
+draw.text((670, TopPaddingText-50),'''
+ Even though cheap,\n this one-of-a-kind\n product offers value\n to novices and\n experienced shavers\n alike. It is easy to\n use, durable, and\n comes with an array\n of professional-\ngrade accessories
 ''',(0,0,0),font=fontNormal)
 
+
+draw.text((940, TopPaddingText-50),'''
+This model, made\n from high-grade\n aluminum, has all\n the impressive\n qualitites you'd\n expect from a razor,\n with a lightweight\n design that smacks\n of fast cars and\n fighter jets.
+''',(0,0,0),font=fontNormal)
 
 
 
@@ -96,9 +81,9 @@ imperfections.
 #performance
 #''',(255,0,0),font=fontHighlited)
 
-draw.text((470, TopPadding),
+draw.text((400, TopPaddingText),
 '''Great on \n
-moisturization
+lightness
 ''',(255,0,0),font=fontHighlited)
 
 

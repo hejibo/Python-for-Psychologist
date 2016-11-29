@@ -40,32 +40,39 @@ The top padding is (720-173)/2
 
 from PIL import Image, ImageDraw, ImageFont
 
+
+text = "Hello World!"
+# textColor = (255, 255, 0) # RGB Yellow
+# textBackgroundColor = (255, 0, 0) # RGB Red
+textX = 400 # text width in pixels
+textY = 100 # text height in pixels
+textTopLeftX = 0
+textTopLeftY = 0
+
+
+
 #opens an image:
 im = Image.open("baseFaceFoundationImage.png")
 #creates a new empty image, RGB mode, and size 400 by 400.
-new_im = Image.new('RGB', (1280,1024),(255, 255, 255))
+new_im = Image.new('RGB', (1280,720),(255, 255, 255))
 
-TopPadding =450
-TopPaddingText = 323
+TopPadding =273
 
 half = 0.7
 imDownsized = im.resize( [int(half * s) for s in im.size] )
 print "base image size:",imDownsized.size
 
-new_im.paste(imDownsized, (25,TopPadding))
+new_im.paste(imDownsized, (20,TopPadding))
 
 #new_im.show()
 
 font_path = "Courier.ttf"
-fontHighlited = ImageFont.truetype(font_path, 30)
-fontNormal = ImageFont.truetype(font_path, 18)
+fontHighlited = ImageFont.truetype(font_path, 35)
+fontNormal = ImageFont.truetype(font_path, 20)
 
 draw = ImageDraw.Draw(new_im)
 
-
-
-
-draw.text((740, TopPadding),
+draw.text((720, TopPadding),
 '''Glycerin and shea\n
 butter keep skin\n
 feeling moisturized\n
@@ -77,8 +84,7 @@ true.''',
     font=fontNormal
     )
 
-
-draw.text((1020, TopPadding),'''
+draw.text((1000, TopPadding),'''
 This long-wearing\n
 perfectly balanced\n
 formula evens skin\n
@@ -89,17 +95,10 @@ imperfections.
 ''',(0,0,0),font=fontNormal)
 
 
-
-
-#draw.text((370, TopPaddingText),
-#'''Great on overall\n
-#performance
-#''',(255,0,0),font=fontHighlited)
-
-draw.text((470, TopPadding),
-'''Great on \n
-moisturization
-''',(255,0,0),font=fontHighlited)
+draw.text((460, TopPadding),
+'''Great on\n
+overall\n
+performance''',(255,0,0),font=fontHighlited)
 
 
 new_im.save("output.png", "PNG")
