@@ -1,6 +1,0 @@
-        Instruction
-                        
-This is an experiment instruction. You need to do the following stuff.
-1. Fixate at the dot.
-2. press the 'Y' or 'N' key 
-Press any key to continue'
