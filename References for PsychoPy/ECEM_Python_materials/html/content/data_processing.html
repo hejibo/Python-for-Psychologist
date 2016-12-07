@@ -1,0 +1,504 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Py4ET - Python Open Source Tools in Eye Movement Research 2013 &mdash; 2:40-3:30 Processing Recorded Eye Data</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2013.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="Py4ET - Python Open Source Tools in Eye Movement Research 2013" href="../index.html" />
+    <link rel="next" title="Online Python Resources and Q&A" href="web_resources.html" />
+    <link rel="prev" title="1:40 - 2:40pm Eye Data Visualization" href="data_viz.html" /> 
+  </head>
+  <body>
+
+
+<div id="header"  style="background-color: white">
+<table width="100%" cellpadding="10">
+<tr>
+    <td style="text-align:right;vertical-align:middle">
+<a href='http://www.nottingham.ac.uk'><img src="../_static/nott_logo.gif" alt="University of Nottingham" /></a>
+</td>
+</table>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="web_resources.html" title="Online Python Resources and Q&A"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="data_viz.html" title="1:40 - 2:40pm Eye Data Visualization"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Py4ET 2013</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference internal" href="#">2:40-3:30 Processing Recorded Eye Data</a><ul>
+<li><a class="reference internal" href="#pixel-to-visual-angle-conversion">Pixel to Visual Angle Conversion</a><ul>
+<li><a class="reference internal" href="#example-plot">Example Plot</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#velocity-and-acceleration-calculation">Velocity and Acceleration Calculation</a><ul>
+<li><a class="reference internal" href="#velocity-calculation">Velocity Calculation</a></li>
+<li><a class="reference internal" href="#accelleration-calculation">Accelleration Calculation</a><ul>
+<li><a class="reference internal" href="#example-plots">Example Plots</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#filtering-out-noise">Filtering Out Noise</a><ul>
+<li><a class="reference internal" href="#some-example-filters">Some Example Filters</a></li>
+<li><a class="reference internal" href="#id1">Butterworth Filter</a><ul>
+<li><a class="reference internal" href="#id2">Gaussian Filter</a></li>
+<li><a class="reference internal" href="#id3">Median Filter</a></li>
+<li><a class="reference internal" href="#id4">Savitzky Golay Filter</a></li>
+<li><a class="reference internal" href="#id5">Weighted Moving Average Filter</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#parsing-eye-sample-data-into-eye-events">Parsing Eye Sample Data into Eye Events</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="data_viz.html"
+                                  title="previous chapter">1:40 - 2:40pm Eye Data Visualization</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="web_resources.html"
+                                  title="next chapter">Online Python Resources and Q&amp;A</a></p>
+
+          <div id="searchbox" style="display: none">
+            <h3>Searches</h3>
+            <form action="http://www.google.com/cse" id="cse-search-box">
+                <input type="hidden" name="cx" value="partner-pub-0861691574026297:eyw5n7-ugep" />
+                <input type="hidden" name="ie" value="ISO-8859-1" />
+                <input type="text" name="q" size="20" />
+                <input type="submit" name="sa" value="Go" />
+            </form>
+              <p class="searchtip" style="font-size: 90%">
+              General
+              </p>
+            <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Docs only
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="processing-recorded-eye-data">
+<span id="dataprocessing"></span><h1>2:40-3:30 Processing Recorded Eye Data<a class="headerlink" href="#processing-recorded-eye-data" title="Permalink to this headline">¶</a></h1>
+<p>This section of the workshop will cover some common areas of eye data
+processing, including:</p>
+<ol class="arabic simple">
+<li><a class="reference internal" href="#unitcalcs"><em>Pixel to Visual Angle Conversion</em></a></li>
+<li><a class="reference internal" href="#velocitycalc"><em>Velocity and Acceleration Calculation</em></a></li>
+<li><a class="reference internal" href="#filtering"><em>Filtering Out Noise</em></a></li>
+<li><a class="reference internal" href="#parsingevents"><em>Parsing Eye Sample Data into Eye Events</em></a></li>
+</ol>
+<div class="section" id="pixel-to-visual-angle-conversion">
+<span id="unitcalcs"></span><h2>Pixel to Visual Angle Conversion<a class="headerlink" href="#pixel-to-visual-angle-conversion" title="Permalink to this headline">¶</a></h2>
+<p>When using PsychoPy and the ioHub the experiment creator can specify that position
+information should be represented in one of several coordinate spaces, including
+pixels and visual degrees. When visual degrees are specified, stimuli are
+drawn using visual degree coordinates and sizes, and position data returned by
+devices capable of doing so (like the mouse or an Eye Tracker), will also
+report position in visual degrees.</p>
+<p>In some cases you may wish to use pixels for the coordinate space in your experiment,
+but convert the eye position data to visual degrees after the data has been collected.
+Examples of this include wanting to use a different pixel to visual degree
+calculation or having incorrect or unknown eye to calibration plane distance during recording.
+A fanother use case for pixel2degree conversion is when using a remote eye tracker
+with the nead free and moving about. Ssome of the remote eye tracking systems available
+now report the current eye to screen distance for each sample collected, and this
+can be used to calculate visual degrees without using a fixed eye distance for a whole trial.</p>
+<p>In situations like the above, using the example code provide here will allow the conversion
+of pixel data to angle data; either using a fixed eye to calibration plain distance,
+or a varying distance based on data in an array that is the same length as the
+pixel position data being processed. The relevent section of the example sript
+is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Load the ioDataStore data file</span>
+<span class="c"># ....example code in many of the scripts provided ....</span>
+<span class="c">#</span>
+
+<span class="c"># Provide the necessary display geometry information.</span>
+<span class="c"># Note that in the future this default information could be read from</span>
+<span class="c"># the loaded data file so it does not need to be manually entered here.</span>
+<span class="c">#</span>
+<span class="n">calibration_area_info</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">display_size_mm</span><span class="o">=</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="mf">280.0</span><span class="p">),</span>
+                           <span class="n">display_res_pix</span><span class="o">=</span><span class="p">(</span><span class="mf">1280.0</span><span class="p">,</span><span class="mf">1024.0</span><span class="p">),</span>
+                           <span class="n">eye_distance_mm</span><span class="o">=</span><span class="mf">550.0</span><span class="p">)</span>
+
+<span class="c"># Use the VisualAngleCalc class defined in the common_workshop_functions to</span>
+<span class="c"># generate an object that can convert data from pixel coordinates</span>
+<span class="c"># to visual angles based on the supplied calibration / display surface geometry</span>
+<span class="c"># and eye distance.</span>
+<span class="c">#</span>
+<span class="n">vac</span><span class="o">=</span><span class="n">VisualAngleCalc</span><span class="p">(</span><span class="o">**</span><span class="n">calibration_area_info</span><span class="p">)</span>
+
+<span class="c"># Calculate the visual degree position in x and y for the given pixel position arrays.</span>
+<span class="c"># If an array of head position data is provided to the pix2deg method,</span>
+<span class="c"># the degrees data will be calculated for each eye sample useing the head</span>
+<span class="c"># distance reported for that sample.</span>
+<span class="c">#</span>
+<span class="n">degree_x</span><span class="p">,</span><span class="n">degree_y</span><span class="o">=</span><span class="n">vac</span><span class="o">.</span><span class="n">pix2deg</span><span class="p">(</span><span class="n">pix_x</span><span class="p">,</span><span class="n">pix_y</span><span class="p">)</span>
+
+<span class="c"># Do as you may with the angle data.</span>
+<span class="c"># .....</span>
+</pre></div>
+</div>
+<p>A full python script which loads eye data from a iodataStore file, converts it to degrees,
+and plots the pixel and degree eye position sample traces can be found at python_source/data_processing/pixels2angle.py</p>
+<div class="section" id="example-plot">
+<h3>Example Plot<a class="headerlink" href="#example-plot" title="Permalink to this headline">¶</a></h3>
+<p>Eye Position Traces in Pixel and Visual Degree Coordinates</p>
+<img alt="Eye Position Traces in Pixel and Visual Degree Coordinates." class="align-center" src="../_images/pix2deg.png" style="width: 600px; height: 400px;" />
+</div>
+</div>
+<div class="section" id="velocity-and-acceleration-calculation">
+<span id="velocitycalc"></span><h2>Velocity and Acceleration Calculation<a class="headerlink" href="#velocity-and-acceleration-calculation" title="Permalink to this headline">¶</a></h2>
+<p>Velocity and Acceleration are often calculated using eye sample position data
+for use in eye event parsing algorithms (well, parsers based on velocity thresholds at least ;) ).
+Data is converted from pixel to visual degree coordinate space before being
+passed to the velocity and acceleration algorithms.</p>
+<div class="section" id="velocity-calculation">
+<h3>Velocity Calculation<a class="headerlink" href="#velocity-calculation" title="Permalink to this headline">¶</a></h3>
+<p>The following function can be used to calculate the instantaneous velocity from eye position sample data:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">calculateVelocity</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">degrees_x</span><span class="p">,</span><span class="n">degrees_y</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the instantaneous velocity (degrees / second) for data points in</span>
+<span class="sd">    degrees_x and (optionally) degrees_y, using the time numpy array for</span>
+<span class="sd">    time delta information.</span>
+
+<span class="sd">    Numpy arrays time, degrees_x, and degrees_y must all be 1D arrays of the same</span>
+<span class="sd">    length.</span>
+
+<span class="sd">    If both degrees_x and degrees_y are provided, then the euclidian distance</span>
+<span class="sd">    between each set of points is calculated and used in the velocity calculation.</span>
+
+<span class="sd">    time must be in seconds.msec units, while degrees_x and degrees_y are expected</span>
+<span class="sd">    to be in visual degrees. If the position traces are in pixel coordinate space,</span>
+<span class="sd">    use the VisualAngleCalc class to convert the data into degrees.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">degrees_y</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">degrees_x</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">degrees_x</span><span class="o">*</span><span class="n">degrees_x</span><span class="o">+</span><span class="n">degrees_y</span><span class="o">*</span><span class="n">degrees_y</span><span class="p">)</span>
+
+    <span class="n">velocity_between</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">-</span><span class="n">data</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">-</span><span class="n">time</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">velocity</span> <span class="o">=</span> <span class="p">(</span><span class="n">velocity_between</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">+</span><span class="n">velocity_between</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mf">2.0</span>
+    <span class="k">return</span> <span class="n">velocity</span>
+</pre></div>
+</div>
+<p>A full example python script which loaded eye data from an ioDataStore file,
+calculates the velocity for one trial of the data, and plots the result can be found in the workshop source materials: python_source/data_processing/velocity_accelleration.py</p>
+</div>
+<div class="section" id="accelleration-calculation">
+<h3>Accelleration Calculation<a class="headerlink" href="#accelleration-calculation" title="Permalink to this headline">¶</a></h3>
+<p>Accelleration, or the rate of velocity change over time, can be calculated at follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">calculateAccelleration</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">data_x</span><span class="p">,</span><span class="n">data_y</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the accelleration (degrees / second / second) for data points in</span>
+<span class="sd">    degrees_x and (optionally) degrees_y, using the time numpy array for</span>
+<span class="sd">    time delta information.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">velocity</span><span class="o">=</span><span class="n">calculateVelocity</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">data_x</span><span class="p">,</span><span class="n">data_y</span><span class="p">)</span>
+    <span class="n">accel</span> <span class="o">=</span> <span class="n">calculateVelocity</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">velocity</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">accel</span>
+</pre></div>
+</div>
+<p>A full example python script which loaded eye data from an ioDataStore file,
+calculates the velocity for one trial of the data, and plots the result can be found in the workshop source materials: python_source/data_processing/velocity_accelleration.py</p>
+<div class="section" id="example-plots">
+<h4>Example Plots<a class="headerlink" href="#example-plots" title="Permalink to this headline">¶</a></h4>
+<p>Eye Angle Traces with associated XY Velocity and Accelleration Trace</p>
+<img alt="Eye Angle Traces with associated XY Velocity and Acceleration Trace" class="align-center" src="../_images/velocity_accelleration_plot.png" style="width: 700px; height: 400px;" />
+<p>Magnified Eye Angle Traces with associated XY Velocity and Acceleration Trace</p>
+<img alt="Magnified Eye Angle Traces with associated XY Velocity and Acceleration Trace" class="align-center" src="../_images/vel_acc_zoomed.png" style="width: 700px; height: 400px;" />
+</div>
+</div>
+</div>
+<div class="section" id="filtering-out-noise">
+<span id="filtering"></span><h2>Filtering Out Noise<a class="headerlink" href="#filtering-out-noise" title="Permalink to this headline">¶</a></h2>
+<p>With any eye tracking system it is often beneficial to filter the sample data
+data recorded device to:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Reduce high-frequency noise from eye position data, possibly increasing precision measures.</li>
+<li>Decrease velocity and acceleration noise in the eye signal, possibly improving eye event detection (Saccades, Fixations, etc).</li>
+</ol>
+</div></blockquote>
+<p>When using a filtering algorithm on your eye sample data, it is important to consider:</p>
+<p>A. What effect does the filter have on the reported characteristics of the
+occulomotor behaviour:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Are small saccades being removed?</li>
+<li>Is the duration, amplitude, peak velocity, or other such properties of saccades being significantly effected?</li>
+<li>Are over-shoots to target locations being exagerated?</li>
+</ol>
+</div></blockquote>
+<ol class="upperalpha simple" start="2">
+<li>What is the impact of the filter on the overall delay of on-line access to the eye data being reported?</li>
+<li>What parameters are adjustable in the filtering algorithm, and what are the <em>best</em> settings to use?</li>
+</ol>
+<p>There is often no one right answer to the above questions and considerations. The
+experimental paradigm being run and the way in which the resulting eye data collected will
+be analyzed can significantly influence what may be considered as <em>correct</em>.</p>
+<p>With this in mind, it can be fruitful (and fun) to try different filtering algorithms and
+see how each changes the data being reported; both for better or worse.</p>
+<div class="section" id="some-example-filters">
+<h3>Some Example Filters<a class="headerlink" href="#some-example-filters" title="Permalink to this headline">¶</a></h3>
+<p>All the example filters demonstrated in the workshop can be used from the same
+python file. Simply uncomment the filter you wish to test and comment out
+the previously active filter.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># -*- coding: utf-8 -*-</span>
+
+<span class="c"># This source file is available in python_source/data_processing/filters.py</span>
+
+<span class="kn">from</span> <span class="nn">psychopy.iohub.datastore.util</span> <span class="kn">import</span> <span class="n">ExperimentDataAccessUtility</span>
+<span class="kn">from</span> <span class="nn">psychopy.iohub</span> <span class="kn">import</span> <span class="n">EventConstants</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.transforms</span> <span class="kn">as</span> <span class="nn">mtransforms</span>
+<span class="kn">from</span> <span class="nn">matplotlib.font_manager</span> <span class="kn">import</span> <span class="n">FontProperties</span>
+
+<span class="kn">from</span> <span class="nn">scipy.ndimage.filters</span> <span class="kn">import</span> <span class="n">gaussian_filter1d</span>
+<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">butter</span><span class="p">,</span><span class="n">filtfilt</span><span class="p">,</span><span class="n">medfilt</span>
+
+<span class="kn">from</span> <span class="nn">common_workshop_functions</span> <span class="kn">import</span> <span class="n">processSampleEventGaps</span><span class="p">,</span><span class="n">VisualAngleCalc</span><span class="p">,</span><span class="n">savitzky_golay</span>
+
+<span class="n">calibration_area_info</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">display_size_mm</span><span class="o">=</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="mf">280.0</span><span class="p">),</span>
+                           <span class="n">display_res_pix</span><span class="o">=</span><span class="p">(</span><span class="mf">1280.0</span><span class="p">,</span><span class="mf">1024.0</span><span class="p">),</span>
+                           <span class="n">eye_distance_mm</span><span class="o">=</span><span class="mf">550.0</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">filterEyeSamples</span><span class="p">(</span><span class="n">filter_type</span><span class="p">,</span><span class="n">xpix</span><span class="p">,</span><span class="n">ypix</span><span class="p">,</span><span class="n">pupil</span><span class="p">,</span><span class="n">invalid_data_mask</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">processSampleEventGaps</span><span class="p">(</span><span class="n">xpix</span><span class="p">,</span><span class="n">ypix</span><span class="p">,</span><span class="n">pupil</span><span class="p">,</span><span class="n">invalid_data_mask</span><span class="p">,</span><span class="s">&#39;linear&#39;</span><span class="p">)</span>        
+    <span class="n">vac</span><span class="o">=</span><span class="n">VisualAngleCalc</span><span class="p">(</span><span class="o">**</span><span class="n">calibration_area_info</span><span class="p">)</span>    
+    <span class="n">xdeg</span><span class="p">,</span><span class="n">ydeg</span><span class="o">=</span><span class="n">vac</span><span class="o">.</span><span class="n">pix2deg</span><span class="p">(</span><span class="n">xpix</span><span class="p">,</span><span class="n">ypix</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">filter_type</span><span class="o">==</span><span class="s">&#39;butter&#39;</span><span class="p">:</span>  
+        <span class="n">wn</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;wn&#39;</span><span class="p">,</span><span class="mf">0.2</span><span class="p">)</span>
+        <span class="n">order</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;order&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">butter</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">wn</span><span class="p">,</span> <span class="s">&#39;low&#39;</span><span class="p">)</span>                    
+        <span class="n">x_filtered</span> <span class="o">=</span> <span class="n">filtfilt</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">xdeg</span><span class="p">)</span>
+        <span class="n">y_filtered</span> <span class="o">=</span> <span class="n">filtfilt</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">ydeg</span><span class="p">)</span>
+        
+    <span class="k">elif</span> <span class="n">filter_type</span><span class="o">==</span><span class="s">&#39;gauss&#39;</span><span class="p">:</span>  
+        <span class="n">sigma</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;sigma&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">x_filtered</span> <span class="o">=</span> <span class="n">gaussian_filter1d</span><span class="p">(</span><span class="n">xdeg</span><span class="p">,</span><span class="n">sigma</span><span class="p">)</span>
+        <span class="n">y_filtered</span> <span class="o">=</span> <span class="n">gaussian_filter1d</span><span class="p">(</span><span class="n">ydeg</span><span class="p">,</span><span class="n">sigma</span><span class="p">)</span>
+            
+    <span class="k">elif</span> <span class="n">filter_type</span><span class="o">==</span><span class="s">&#39;median&#39;</span><span class="p">:</span>  
+        <span class="n">size</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;size&#39;</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">x_filtered</span><span class="o">=</span><span class="n">medfilt</span><span class="p">(</span><span class="n">xdeg</span><span class="p">,</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">y_filtered</span><span class="o">=</span><span class="n">medfilt</span><span class="p">(</span><span class="n">ydeg</span><span class="p">,</span><span class="n">size</span><span class="p">)</span>
+    
+    <span class="k">elif</span> <span class="n">filter_type</span><span class="o">==</span><span class="s">&#39;sg&#39;</span><span class="p">:</span>  
+        <span class="n">size</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;size&#39;</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span>
+        <span class="n">order</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;order&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">x_filtered</span><span class="o">=</span><span class="n">savitzky_golay</span><span class="p">(</span><span class="n">xdeg</span><span class="p">,</span><span class="n">window_size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
+        <span class="n">y_filtered</span><span class="o">=</span><span class="n">savitzky_golay</span><span class="p">(</span><span class="n">ydeg</span><span class="p">,</span><span class="n">window_size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">filter_type</span><span class="o">==</span><span class="s">&#39;average&#39;</span><span class="p">:</span>  
+        <span class="n">weights</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;weights&#39;</span><span class="p">,[</span><span class="mf">1.</span><span class="p">,</span><span class="mf">2.</span><span class="p">,</span><span class="mf">3.</span><span class="p">,</span><span class="mf">2.</span><span class="p">,</span><span class="mf">1.</span><span class="p">]))</span>
+        <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>  
+        <span class="n">x_filtered</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">xdeg</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span><span class="s">&#39;same&#39;</span><span class="p">)</span>
+        <span class="n">y_filtered</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">ydeg</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span><span class="s">&#39;same&#39;</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Unknown Filter Type: </span><span class="si">%s</span><span class="s">. Must be one of </span><span class="si">%s</span><span class="s">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">filter_type</span><span class="p">,</span><span class="nb">str</span><span class="p">([</span><span class="s">&#39;sg&#39;</span><span class="p">,</span><span class="s">&#39;butter&#39;</span><span class="p">,</span><span class="s">&#39;gauss&#39;</span><span class="p">,</span><span class="s">&#39;median&#39;</span><span class="p">])))</span>
+
+    <span class="n">xdeg</span><span class="p">[</span><span class="n">invalid_data_mask</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
+    <span class="n">ydeg</span><span class="p">[</span><span class="n">invalid_data_mask</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
+    <span class="n">x_filtered</span><span class="p">[</span><span class="n">invalid_data_mask</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
+    <span class="n">y_filtered</span><span class="p">[</span><span class="n">invalid_data_mask</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span>  
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">xdeg</span><span class="p">,</span><span class="n">ydeg</span><span class="p">),(</span><span class="n">x_filtered</span><span class="p">,</span><span class="n">y_filtered</span><span class="p">)</span>
+
+<span class="c"># Enter data for use in this example</span>
+<span class="c">#</span>
+<span class="c"># We will do the pixel to degree calculation and plotting for one trial in</span>
+<span class="c"># the sample data file, select which to use (0 - 4):</span>
+<span class="c">#</span>
+<span class="n">TRIAL_INDEX</span><span class="o">=</span><span class="mi">3</span>
+<span class="c"># Enter the eye tracker setup used for the data collection.</span>
+<span class="c">#</span>
+<span class="n">calibration_area_info</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">display_size_mm</span><span class="o">=</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="mf">280.0</span><span class="p">),</span>
+                           <span class="n">display_res_pix</span><span class="o">=</span><span class="p">(</span><span class="mf">1280.0</span><span class="p">,</span><span class="mf">1024.0</span><span class="p">),</span>
+                           <span class="n">eye_distance_mm</span><span class="o">=</span><span class="mf">550.0</span><span class="p">)</span>
+
+<span class="n">dataAccessUtil</span><span class="o">=</span><span class="n">ExperimentDataAccessUtility</span><span class="p">(</span><span class="s">&#39;../hdf5_files&#39;</span><span class="p">,</span><span class="s">&#39;remote_data.hdf5&#39;</span><span class="p">,</span> 
+                                           <span class="n">experimentCode</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">sessionCodes</span><span class="o">=</span><span class="p">[])</span>
+<span class="c"># Get the filtered event data.</span>
+<span class="c">#</span>
+<span class="n">event_type</span><span class="o">=</span><span class="n">EventConstants</span><span class="o">.</span><span class="n">BINOCULAR_EYE_SAMPLE</span>
+<span class="n">retrieve_attributes</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;time&#39;</span><span class="p">,</span><span class="s">&#39;left_gaze_x&#39;</span><span class="p">,</span><span class="s">&#39;left_gaze_y&#39;</span><span class="p">,</span><span class="s">&#39;left_pupil_measure1&#39;</span><span class="p">,</span>
+            <span class="s">&#39;right_gaze_x&#39;</span><span class="p">,</span><span class="s">&#39;right_gaze_y&#39;</span><span class="p">,</span><span class="s">&#39;right_pupil_measure1&#39;</span><span class="p">,</span><span class="s">&#39;status&#39;</span><span class="p">)</span>
+<span class="n">trial_event_data</span><span class="o">=</span><span class="n">dataAccessUtil</span><span class="o">.</span><span class="n">getEventAttributeValues</span><span class="p">(</span><span class="n">event_type</span><span class="p">,</span>
+            <span class="n">retrieve_attributes</span><span class="p">,</span>
+            <span class="n">conditionVariablesFilter</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+            <span class="n">startConditions</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;time&#39;</span><span class="p">:(</span><span class="s">&#39;&gt;=&#39;</span><span class="p">,</span><span class="s">&#39;@TRIAL_START@&#39;</span><span class="p">)},</span>
+            <span class="n">endConditions</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;time&#39;</span><span class="p">:(</span><span class="s">&#39;&lt;=&#39;</span><span class="p">,</span><span class="s">&#39;@TRIAL_END@&#39;</span><span class="p">)},</span>
+            <span class="p">)</span>
+
+<span class="n">trial_data</span><span class="o">=</span><span class="n">trial_event_data</span><span class="p">[</span><span class="n">TRIAL_INDEX</span><span class="p">]</span>
+
+<span class="n">time</span><span class="o">=</span><span class="n">trial_data</span><span class="o">.</span><span class="n">time</span>
+<span class="n">status</span><span class="o">=</span><span class="n">trial_data</span><span class="o">.</span><span class="n">status</span>
+<span class="n">pix_x</span><span class="o">=</span><span class="n">trial_data</span><span class="o">.</span><span class="n">right_gaze_x</span>
+<span class="n">pix_y</span><span class="o">=</span><span class="n">trial_data</span><span class="o">.</span><span class="n">right_gaze_y</span>
+<span class="n">pupil</span><span class="o">=</span><span class="n">trial_data</span><span class="o">.</span><span class="n">right_pupil_measure1</span>
+<span class="n">invalid_data_mask</span><span class="o">=</span><span class="n">trial_data</span><span class="o">.</span><span class="n">status</span><span class="o">%</span><span class="mi">10</span><span class="o">&gt;=</span><span class="mi">2</span>
+
+<span class="c"># No need to keep the hdf5 file open anymore...</span>
+<span class="c">#</span>
+<span class="n">dataAccessUtil</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c"># Get the range to use for the x axis</span>
+<span class="c"># </span>
+<span class="n">tmin</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">//</span><span class="mi">1</span>
+<span class="n">tmax</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">//</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span>
+
+<span class="c">#filter_label=&#39;butter&#39;</span>
+<span class="c">#unfiltered,filtered=filterEyeSamples(filter_label,pix_x,pix_y,pupil,invalid_data_mask,wn=0.2,order=2)</span>
+
+<span class="c">#filter_label=&#39;gauss&#39;</span>
+<span class="c">#unfiltered,filtered=filterEyeSamples(filter_label,pix_x,pix_y,pupil,invalid_data_mask,sigma=1.5)</span>
+
+<span class="c">#filter_label=&#39;median&#39;</span>
+<span class="c">#unfiltered,filtered=filterEyeSamples(filter_label,pix_x,pix_y,pupil,invalid_data_mask,size=5)</span>
+
+<span class="c">#filter_label=&#39;sg&#39;</span>
+<span class="c">#unfiltered,filtered=filterEyeSamples(filter_label,pix_x,pix_y,pupil,invalid_data_mask,size=7,order=2)</span>
+
+<span class="n">filter_label</span><span class="o">=</span><span class="s">&#39;average&#39;</span>
+<span class="n">unfiltered</span><span class="p">,</span><span class="n">filtered</span><span class="o">=</span><span class="n">filterEyeSamples</span><span class="p">(</span><span class="n">filter_label</span><span class="p">,</span><span class="n">pix_x</span><span class="p">,</span><span class="n">pix_y</span><span class="p">,</span><span class="n">pupil</span><span class="p">,</span><span class="n">invalid_data_mask</span><span class="p">,</span><span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="o">.</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">unfiltered_x</span><span class="p">,</span><span class="n">unfiltered_y</span><span class="o">=</span><span class="n">unfiltered</span>
+<span class="n">filtered_x</span><span class="p">,</span><span class="n">filtered_y</span><span class="o">=</span><span class="n">filtered</span>
+
+<span class="c"># Create a plot of filtered and unfiltered eye position for the full trial.</span>
+<span class="c">#                                     </span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> Filtered and Unfiltered Eye Sample Data&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">filter_label</span><span class="o">.</span><span class="n">upper</span><span class="p">()),</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">gax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">gax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">unfiltered_x</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;X Filtered&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span><span class="o">.</span><span class="mi">25</span><span class="p">))</span>
+<span class="n">gax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">unfiltered_y</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Y Filtered&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="o">.</span><span class="mi">25</span><span class="p">,</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">gax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">filtered_x</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;X Unfiltered&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span><span class="o">.</span><span class="mi">25</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">gax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">filtered_y</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Y Unfiltered&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">.</span><span class="mi">25</span><span class="p">,</span><span class="o">.</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">tmin</span><span class="p">,</span><span class="n">tmax</span><span class="p">,</span><span class="mf">0.5</span><span class="p">),</span><span class="n">rotation</span><span class="o">=</span><span class="s">&#39;vertical&#39;</span><span class="p">)</span>
+
+<span class="n">trans</span> <span class="o">=</span> <span class="n">mtransforms</span><span class="o">.</span><span class="n">blended_transform_factory</span><span class="p">(</span><span class="n">gax</span><span class="o">.</span><span class="n">transData</span><span class="p">,</span> <span class="n">gax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">)</span>
+<span class="n">gax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">invalid_data_mask</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s">&#39;DarkRed&#39;</span><span class="p">,</span>
+                      <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">trans</span><span class="p">)</span>
+<span class="n">gax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&#39;Degrees&#39;</span><span class="p">)</span>
+<span class="n">gax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&#39;Time (sec)&#39;</span><span class="p">)</span>
+
+<span class="n">box</span> <span class="o">=</span> <span class="n">gax</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+<span class="n">gax</span><span class="o">.</span><span class="n">set_position</span><span class="p">([</span><span class="n">box</span><span class="o">.</span><span class="n">x0</span><span class="p">,</span> <span class="n">box</span><span class="o">.</span><span class="n">y0</span><span class="p">,</span> <span class="n">box</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">box</span><span class="o">.</span><span class="n">height</span><span class="o">-.</span><span class="mo">05</span><span class="p">])</span>
+<span class="n">fontP</span> <span class="o">=</span> <span class="n">FontProperties</span><span class="p">()</span>
+<span class="n">fontP</span><span class="o">.</span><span class="n">set_size</span><span class="p">(</span><span class="s">&#39;small&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="o">.</span><span class="mi">8</span><span class="p">,</span> <span class="mf">1.15</span><span class="p">),</span> <span class="n">borderaxespad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">prop</span> <span class="o">=</span> <span class="n">fontP</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h3><a class="reference external" href="http://en.wikipedia.org/wiki/Butterworth_filter">Butterworth Filter</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Unfiltered vs. Butterworth Filtered Eye Position Data</p>
+<img alt="Unfiltered vs. Butterworth Filtered Eye Position Data" class="align-center" src="../_images/butter_filter.png" style="width: 600px; height: 400px;" />
+<div class="section" id="id2">
+<h4><a class="reference external" href="http://en.wikipedia.org/wiki/Gaussian_filter">Gaussian Filter</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p>Unfiltered vs. Gaussian Filtered Eye Position Data</p>
+<img alt="Unfiltered vs. Gaussian Filtered Eye Position Data" class="align-center" src="../_images/gauss_filter.png" style="width: 600px; height: 400px;" />
+</div>
+<div class="section" id="id3">
+<h4><a class="reference external" href="http://en.wikipedia.org/wiki/Median_filter">Median Filter</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<p>Unfiltered vs. Median Filtered Eye Position Data</p>
+<img alt="Unfiltered vs. Median Filtered Eye Position Data" class="align-center" src="../_images/median_filter.png" style="width: 600px; height: 400px;" />
+</div>
+<div class="section" id="id4">
+<h4><a class="reference external" href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_filter_for_smoothing_and_differentiation">Savitzky Golay Filter</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<p>Unfiltered vs. Savitzky Golay Filtered Eye Position Data</p>
+<img alt="Unfiltered vs. Savitzky Golay Filtered Eye Position Data" class="align-center" src="../_images/sg_filter.png" style="width: 600px; height: 400px;" />
+</div>
+<div class="section" id="id5">
+<h4><a class="reference external" href="https://en.wikipedia.org/wiki/Moving_average#Weighted_moving_average">Weighted Moving Average Filter</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<p>Unfiltered vs. Weighted Moving Average Filtered Eye Position Data</p>
+<img alt="Unfiltered vs. Weighted Moving Average Filtered Eye Position Data" class="align-center" src="../_images/average.png" style="width: 600px; height: 400px;" />
+</div>
+</div>
+</div>
+<div class="section" id="parsing-eye-sample-data-into-eye-events">
+<span id="parsingevents"></span><h2>Parsing Eye Sample Data into Eye Events<a class="headerlink" href="#parsing-eye-sample-data-into-eye-events" title="Permalink to this headline">¶</a></h2>
+<p>Content to Be Moved from notebook.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="web_resources.html" title="Online Python Resources and Q&A"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="data_viz.html" title="1:40 - 2:40pm Eye Data Visualization"
+             >previous</a> |</li>
+        <li><a href="../index.html">Py4ET 2013</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Jonathan Peirce and Sol Simpson.
+      Last updated on Aug 06, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+  </body>
+</html>

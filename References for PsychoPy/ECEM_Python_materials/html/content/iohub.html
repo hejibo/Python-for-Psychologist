@@ -1,0 +1,560 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Py4ET - Python Open Source Tools in Eye Movement Research 2013 &mdash; 11.20 - 12.00 Introducing the ioHub</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2013.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="Py4ET - Python Open Source Tools in Eye Movement Research 2013" href="../index.html" />
+    <link rel="next" title="1:00 - 1:40pm: Incorporating Eye tracking into PsychoPy Experiments" href="adding_et_func.html" />
+    <link rel="prev" title="9:50 - 11:20am Introducing PsychoPy" href="psychopy.html" /> 
+  </head>
+  <body>
+
+
+<div id="header"  style="background-color: white">
+<table width="100%" cellpadding="10">
+<tr>
+    <td style="text-align:right;vertical-align:middle">
+<a href='http://www.nottingham.ac.uk'><img src="../_static/nott_logo.gif" alt="University of Nottingham" /></a>
+</td>
+</table>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="adding_et_func.html" title="1:00 - 1:40pm: Incorporating Eye tracking into PsychoPy Experiments"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="psychopy.html" title="9:50 - 11:20am Introducing PsychoPy"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Py4ET 2013</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference internal" href="#">11.20 - 12.00 Introducing the ioHub</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a><ul>
+<li><a class="reference internal" href="#psychopy-iohub-multiprocess-design">PsychoPy.ioHub MultiProcess Design</a></li>
+<li><a class="reference internal" href="#useful-psychopy-iohub-links">Useful PsychoPy.ioHub Links</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#documentation">Documentation</a></li>
+<li><a class="reference internal" href="#support">Support</a></li>
+<li><a class="reference internal" href="#want-to-contribute">Want to Contribute?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#high-level-iohub-api-review">High Level ioHub API Review</a><ul>
+<li><a class="reference internal" href="#starting-the-iohub-server-process">Starting the ioHub Server Process</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-iohub-common-eye-tracker-interface">The ioHub Common Eye Tracker Interface</a><ul>
+<li><a class="reference internal" href="#currently-supported-eye-tracking-systems">Currently Supported Eye Tracking Systems</a></li>
+<li><a class="reference internal" href="#areas-of-functionality">Areas of Functionality</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#iodatastore-saving-event-data">ioDataStore - Saving Event Data</a><ul>
+<li><a class="reference internal" href="#what-can-be-stored">What can be Stored</a></li>
+<li><a class="reference internal" href="#notable-features">Notable Features</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#iodatastore-file-structure">ioDataStore File Structure</a><ul>
+<li><a class="reference internal" href="#hierchial-file-structure-and-meta-data-tables">Hierchial File Structure and Meta-Data Tables</a></li>
+<li><a class="reference internal" href="#example-event-table-monocular-eye-sample-event">Example Event Table: Monocular Eye Sample Event</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reading-saved-data-the-experimentdataaccessutility-class">Reading Saved Data - the ExperimentDataAccessUtility Class</a><ul>
+<li><a class="reference internal" href="#examples-of-using-the-iodatastore-access-api">Examples of using the ioDataStore Access API</a><ul>
+<li><a class="reference internal" href="#open-experimentdataaccessutility-and-explore-iodatastore-file-structure">Open ExperimentDataAccessUtility and explore ioDataStore file structure</a></li>
+<li><a class="reference internal" href="#accessing-experiment-and-session-meta-data">Accessing Experiment and Session Meta Data</a></li>
+<li><a class="reference internal" href="#read-any-saved-trial-condition-variables">Read Any Saved Trial Condition Variables</a></li>
+<li><a class="reference internal" href="#list-device-event-types-where-the-event-count-0">List Device Event Types Where the Event Count &gt; 0</a></li>
+<li><a class="reference internal" href="#retrieving-specific-event-fields-grouped-by-trial-using-a-trial-condition-query-selection">Retrieving Specific Event Fields Grouped by Trial using a Trial Condition Query Selection</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="psychopy.html"
+                                  title="previous chapter">9:50 - 11:20am Introducing PsychoPy</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="adding_et_func.html"
+                                  title="next chapter">1:00 - 1:40pm: Incorporating Eye tracking into PsychoPy Experiments</a></p>
+
+          <div id="searchbox" style="display: none">
+            <h3>Searches</h3>
+            <form action="http://www.google.com/cse" id="cse-search-box">
+                <input type="hidden" name="cx" value="partner-pub-0861691574026297:eyw5n7-ugep" />
+                <input type="hidden" name="ie" value="ISO-8859-1" />
+                <input type="text" name="q" size="20" />
+                <input type="submit" name="sa" value="Go" />
+            </form>
+              <p class="searchtip" style="font-size: 90%">
+              General
+              </p>
+            <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Docs only
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="introducing-the-iohub">
+<span id="iohub"></span><h1>11.20 - 12.00 Introducing the ioHub<a class="headerlink" href="#introducing-the-iohub" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">PsychoPy.ioHub is a Python package providing a cross-platform device
+event monitoring and storage framework.</p>
+</li>
+<li><p class="first">ioHub is free to use and is GPL version 3 licensed.</p>
+</li>
+<li><dl class="first docutils">
+<dt>Support for the following operating Systems:</dt>
+<dd><ul class="first last simple">
+<li>Windows XP SP3, 7, 8</li>
+<li>Apple OS X 10.6+</li>
+<li>Linux 2.6+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Monitoring of events from computer _devices_ such as:</dt>
+<dd><ul class="first last simple">
+<li>Keyboard</li>
+<li>Mouse</li>
+<li>Analog to Digital Converter</li>
+<li>XInput compatible gamepads</li>
+<li>Remote ioHub Server instances</li>
+<li><strong>Eye Trackers, via the ioHub Common Eye Tracking Interface</strong></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<dl class="docutils">
+<dt>The ioHub is designed to solve several issues in experiments involving eyetracking and other high-throughput data collection.</dt>
+<dd><ul class="first last simple">
+<li>Asynchronous from the stimulus presentation process so that all hardware polling or callback handling occurs at a high rate. Events are collected and time stamped if necessary regardless of what the experiment is doing (loading images or videos, waiting for the next retrace start, etc.</li>
+<li>Not only asynchronous but running on a separate core (assuming you have more than one). That means intensive data collection doesn&#8217;t result in sloppy timing in stimulus presentation</li>
+<li>Can also save high-throughput data to disk using without impacting either stimulus presentation or data collection, and quickly query and access very large data sets.</li>
+</ul>
+</dd>
+</dl>
+<div class="section" id="psychopy-iohub-multiprocess-design">
+<h3>PsychoPy.ioHub MultiProcess Design<a class="headerlink" href="#psychopy-iohub-multiprocess-design" title="Permalink to this headline">¶</a></h3>
+<img alt="ioHub MultiProcess Design" class="align-center" src="../_images/iohub_diagram.png" style="width: 480px; height: 325px;" />
+</div>
+<div class="section" id="useful-psychopy-iohub-links">
+<h3>Useful PsychoPy.ioHub Links<a class="headerlink" href="#useful-psychopy-iohub-links" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="installation">
+<h4>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>ioHub is installed as part of PsychoPy</li>
+</ul>
+</div>
+<div class="section" id="documentation">
+<h4>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h4>
+<p><em>Docs are yet to be merged with the core PsychoPy documentation</em></p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.psychopy.org/documentation.html">PsychoPy Docs</a></li>
+<li><a class="reference external" href="http://www.isolver-solutions.com/iohubdocs/index.html">ioHub Docs</a></li>
+</ul>
+</div>
+<div class="section" id="support">
+<h4>Support<a class="headerlink" href="#support" title="Permalink to this headline">¶</a></h4>
+<p><a class="reference external" href="https://groups.google.com/forum/#!forum/psychopy-users">PsychoPy User Group</a></p>
+</div>
+<div class="section" id="want-to-contribute">
+<h4>Want to Contribute?<a class="headerlink" href="#want-to-contribute" title="Permalink to this headline">¶</a></h4>
+<p><a class="reference external" href="https://groups.google.com/forum/#!forum/psychopy-dev">PsychoPy Developer Group</a></p>
+</div>
+</div>
+<div class="section" id="high-level-iohub-api-review">
+<h3>High Level ioHub API Review<a class="headerlink" href="#high-level-iohub-api-review" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="starting-the-iohub-server-process">
+<h4>Starting the ioHub Server Process<a class="headerlink" href="#starting-the-iohub-server-process" title="Permalink to this headline">¶</a></h4>
+<p>There are three ways to create a PsychoPy experiment which uses the iohub process. All approaches ultimately give you access to an instance of the
+<a class="reference external" href="http://www.isolver-solutions.com/iohubdocs/iohub/api_and_manual/iohub_process/getting_connected.html#the-iohubconnection-class">ioHubConnection Class</a>
+for communication and control of the iohub server:</p>
+<ol class="arabic simple">
+<li>Directly create a <a class="reference external" href="http://www.isolver-solutions.com/iohubdocs/iohub/api_and_manual/iohub_process/getting_connected.html#the-iohubconnection-class">ioHubConnection Class</a> instance.</li>
+<li>Use the <a class="reference external" href="http://www.isolver-solutions.com/iohubdocs/iohub/api_and_manual/iohub_process/launchHubServer.html#the-launchhubserver-function">psychopy.iohub.launchHubServer()</a> function.</li>
+<li>Use the <a class="reference external" href="http://www.isolver-solutions.com/iohubdocs/iohub/api_and_manual/iohub_process/ioHubExperimentRuntime.html#the-iohubexperimentruntime-class">psychopy.iohub.client.ioHubExperimentRuntime</a>, implementing the class&#8217;s run() method for your experiment&#8217;s starting python code.</li>
+</ol>
+<p>Each approach has pros and cons depending on the devices being used, whether Coder or Buider is being used for experiment creation, etc.</p>
+<p>See the <a class="reference external" href="http://www.isolver-solutions.com/iohubdocs/iohub/api_and_manual/iohub_process/getting_connected.html">ioHub Getting Connected documentation section</a> for  details on each approach.</p>
+<img alt="The ioHub Getting Connected Online Help Page" class="align-center" src="../_images/getting_connected_page.png" style="width: 800px; height: 500px;" />
+<p>An example python script is available at [workshop_materials_root]python_source/launchHubServer.py, which illustrates how to use the launchHubServer() method.
+Several other examples included in the workshop materials illustrate how to use the different connection approaches.</p>
+</div>
+</div>
+</div>
+<div class="section" id="the-iohub-common-eye-tracker-interface">
+<span id="commonetinterface"></span><h2>The ioHub Common Eye Tracker Interface<a class="headerlink" href="#the-iohub-common-eye-tracker-interface" title="Permalink to this headline">¶</a></h2>
+<p>The API details for the ioHub EyeTracker device can be found <a class="reference external" href="http://www.isolver-solutions.com/iohubdocs/iohub/api_and_manual/device_details/eyetracker.html#the-iohub-common-eye-tracker-interface">here</a></p>
+<p>The Common Eye Tracking Interface provides the same user level Python API for all supported eye tracking hardware, meaning:</p>
+<ul class="simple">
+<li>The same experiment script can be run with any supported eye tracker hardware.</li>
+<li>The eye event types supported by an eye tracker implementation are saved using the same format regardless of eye tracker hardware.</li>
+</ul>
+<div class="section" id="currently-supported-eye-tracking-systems">
+<h3>Currently Supported Eye Tracking Systems<a class="headerlink" href="#currently-supported-eye-tracking-systems" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>LC Technologies</strong> EyeGaze and EyeFollower models.</li>
+<li><strong>SensoMotoric Instruments</strong> iViewX models.</li>
+<li><strong>SR Research</strong> EyeLink models.</li>
+<li><strong>Tobii Technologies</strong> Tobii models.</li>
+</ul>
+<p>Visit the ioHub documentation for <a class="reference external" href="http://www.isolver-solutions.com/iohubdocs/iohub/api_and_manual/device_details/eyetracker.html#eye-tracking-hardware-implementations">Eye Tracking Hardware Implementations</a> for details on each implementation.</p>
+</div>
+<div class="section" id="areas-of-functionality">
+<h3>Areas of Functionality<a class="headerlink" href="#areas-of-functionality" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><strong>Initializing the Eye Tracker / Setting the Device State.</strong></li>
+<li><strong>Performing Calibration / System Setup.</strong></li>
+<li><strong>Starting and Stopping of Data Recording.</strong></li>
+<li>Sending Messages or Codes to an Eye Tracker.</li>
+<li><strong>Accessing Eye Tracker Data During Recording.</strong></li>
+<li><strong>Accessing the Eye Tracker native time base.</strong></li>
+<li><strong>Synchronizing the ioHub time base with the Eye Tracker time base.</strong></li>
+</ol>
+<p><strong>Note:</strong> Area&#8217;s of Functionality in <strong>bold</strong> are considered core areas, and must be implemented for every eye tracker interface.</p>
+<p>See the <a class="reference external" href="http://www.isolver-solutions.com/iohubdocs/iohub/api_and_manual/device_details/eyetracker.html#the-iohub-common-eye-tracker-interface">Common Eye Tracker Interface API specification</a> for API details.</p>
+</div>
+</div>
+<div class="section" id="iodatastore-saving-event-data">
+<span id="iodatastore"></span><h2>ioDataStore - Saving Event Data<a class="headerlink" href="#iodatastore-saving-event-data" title="Permalink to this headline">¶</a></h2>
+<p>For relatively small amounts of data you can fetch information from the ioHub while back to the stimulus presentation thread and use PsychoPy&#8217;s standard data storage facilities. (You would still benefit from the fact that the events had been timestamped by ioHub on collection so it doesn&#8217;t matter that you only retrieve the data from ioHub once per screen refresh). At other times you might be saving large streams of eye-movement data and you can use ioHub to save the data directly to disk using the HDF5 standardised data format.</p>
+<div class="section" id="what-can-be-stored">
+<h3>What can be Stored<a class="headerlink" href="#what-can-be-stored" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>All events from all monitored devices during an experiment runtime.</li>
+<li>Experiment meta-data (experiment name, code, description, version,...)</li>
+<li>Session meta-data (session code, any user defined session level variables)</li>
+<li>Experiment DV and IV information (generally saved on a trial by trial basis, but up to you)</li>
+</ul>
+</div>
+<div class="section" id="notable-features">
+<h3>Notable Features<a class="headerlink" href="#notable-features" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>You control what devices save which event types to the data store.</li>
+<li>Data is saved in the standard <a class="reference external" href="http://www.hdfgroup.org">HDF5 file format</a></li>
+<li><a class="reference external" href="http://www.pytables.org">Pytables</a> is the Python package used to provide HDF5 read / write access.</li>
+<li>Each device event is saved in a table like structure; different event types use different event tables.</li>
+<li>Events are retrieved as numpy ndarrays, and can therefore easily and directly be used by packages such as numpy, scipy, and matplotlib.</li>
+<li>Data Files can be opened and viewed using free HDF5 Viewing tools such as <cite>HDFView</cite> &lt;<a class="reference external" href="http://www.hdfgroup.org/hdf-java-html/hdfview/">http://www.hdfgroup.org/hdf-java-html/hdfview/</a>&gt;`_ and <a class="reference external" href="http://vitables.org/download/index.html">ViTables</a>, both of which are open-source, free, and cross-platform.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="iodatastore-file-structure">
+<h2>ioDataStore File Structure<a class="headerlink" href="#iodatastore-file-structure" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="hierchial-file-structure-and-meta-data-tables">
+<h3>Hierchial File Structure and Meta-Data Tables<a class="headerlink" href="#hierchial-file-structure-and-meta-data-tables" title="Permalink to this headline">¶</a></h3>
+<p>ioDataStore HDF5 File Viewed using the HDFView Application</p>
+<img alt="ioDataStore HDF5 File Viewed using the HDFView Application" class="align-center" src="../_images/ioDataStore_HDF5_File_Structure.png" />
+</div>
+<div class="section" id="example-event-table-monocular-eye-sample-event">
+<h3>Example Event Table: Monocular Eye Sample Event<a class="headerlink" href="#example-event-table-monocular-eye-sample-event" title="Permalink to this headline">¶</a></h3>
+<p>Example Event Table Viewed using the HDFView Application</p>
+<img alt="Example Event Table Viewed using the HDFView Application" class="align-center" src="../_images/ioDataStore_MonoSample_Event.png" />
+</div>
+</div>
+<div class="section" id="reading-saved-data-the-experimentdataaccessutility-class">
+<h2>Reading Saved Data - the ExperimentDataAccessUtility Class<a class="headerlink" href="#reading-saved-data-the-experimentdataaccessutility-class" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Contains ioHub device event reading functionality</p>
+</li>
+<li><p class="first">Simple event access API</p>
+</li>
+<li><p class="first">Access events using the same type constants and event attributes as are used during on-line event access.</p>
+</li>
+<li><p class="first">Supports on-disk querying of event tables based on event attribute values and meta-data info.; <em>fast</em> retieval of only the events which meet the query constraints.</p>
+</li>
+<li><dl class="first docutils">
+<dt>When combined with use of the ExperimentVariableProvider class, events access can be filtered by:</dt>
+<dd><ul class="first last simple">
+<li>Dependent and Independent Conditions</li>
+<li>Session and Trial IDs</li>
+<li>Other Variables Calculated at Runtime, e.g. Trial Start and End Times, Stimulus Onset and Offset Times, etc</li>
+<li>Any Event Attribute Value</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="section" id="examples-of-using-the-iodatastore-access-api">
+<h3>Examples of using the ioDataStore Access API<a class="headerlink" href="#examples-of-using-the-iodatastore-access-api" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="open-experimentdataaccessutility-and-explore-iodatastore-file-structure">
+<h4>Open ExperimentDataAccessUtility and explore ioDataStore file structure<a class="headerlink" href="#open-experimentdataaccessutility-and-explore-iodatastore-file-structure" title="Permalink to this headline">¶</a></h4>
+<p><strong>Source file:</strong> python_source/datastore_examples/printing_datastore_file_structure.py</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">psychopy.iohub.datastore.util</span> <span class="kn">import</span> <span class="n">ExperimentDataAccessUtility</span>         
+
+<span class="c"># Create an instance of the ExperimentDataAccessUtility class</span>
+<span class="c"># for the selected DataStore file. This allows us to access data</span>
+<span class="c"># in the file based on Device Event names and attributes.</span>
+<span class="c">#</span>
+<span class="n">experiment_data</span><span class="o">=</span><span class="n">ExperimentDataAccessUtility</span><span class="p">(</span><span class="s">&#39;.\hdf5_files&#39;</span> <span class="p">,</span> <span class="s">&#39;events.hdf5&#39;</span><span class="p">)</span>
+
+<span class="c"># Print the HDF5 Structure for the given ioDataStore file.</span>
+<span class="c">#</span>
+<span class="n">experiment_data</span><span class="o">.</span><span class="n">printHubFileStructure</span><span class="p">()</span>
+
+<span class="c"># Close the HDF5 File</span>
+<span class="c">#</span>
+<span class="n">experiment_data</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="accessing-experiment-and-session-meta-data">
+<h4>Accessing Experiment and Session Meta Data<a class="headerlink" href="#accessing-experiment-and-session-meta-data" title="Permalink to this headline">¶</a></h4>
+<p><strong>Source file:</strong> python_source/datastore_examples/access_exp_metadata.py</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">psychopy.iohub.datastore.util</span> <span class="kn">import</span> <span class="n">ExperimentDataAccessUtility</span>         
+
+<span class="k">def</span> <span class="nf">printExperimentMetaDataDemo</span><span class="p">():</span>
+    <span class="c"># Create an instance of the ExperimentDataAccessUtility class</span>
+    <span class="c"># for the selected DataStore file. This allows us to access data</span>
+    <span class="c"># in the file based on Device Event names and attributes.</span>
+    <span class="c"># </span>
+    <span class="n">experiment_data</span><span class="o">=</span><span class="n">ExperimentDataAccessUtility</span><span class="p">(</span><span class="s">&#39;..\hdf5_files&#39;</span> <span class="p">,</span> <span class="s">&#39;events.hdf5&#39;</span><span class="p">)</span>
+    
+    <span class="c"># Access the Experiment Meta Data for the first Experiment found in the file.</span>
+    <span class="c"># Note that currently only one experiment&#39;s data can be saved in each hdf5 file </span>
+    <span class="c"># created. However multiple sessions / runs of the same experiment are all</span>
+    <span class="c"># saved in one file.</span>
+    <span class="c">#</span>
+    <span class="n">exp_md</span><span class="o">=</span><span class="n">experiment_data</span><span class="o">.</span><span class="n">getExperimentMetaData</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="n">printExperimentMetaData</span><span class="p">(</span><span class="n">exp_md</span><span class="p">)</span>
+    
+    <span class="c"># Close the HDF5 File</span>
+    <span class="c">#</span>
+    <span class="n">experiment_data</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    
+<span class="k">def</span> <span class="nf">printExperimentMetaData</span><span class="p">(</span><span class="n">exp_md</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Function to &#39;pretty print&#39; the data. Should be added to the </span>
+<span class="sd">    ExperimentDataAccessUtility class itself.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">exp_md_dict</span><span class="o">=</span><span class="n">exp_md</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
+    <span class="k">print</span> <span class="s">&#39;ExperimentMetaData:&#39;</span>
+    <span class="k">for</span> <span class="n">fname</span><span class="p">,</span><span class="n">fvalue</span> <span class="ow">in</span> <span class="n">exp_md_dict</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">fname</span> <span class="o">!=</span><span class="s">&#39;sessions&#39;</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;{0} : {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">fvalue</span><span class="p">)</span>            
+    <span class="n">printSessionMetaData</span><span class="p">(</span><span class="n">exp_md</span><span class="o">.</span><span class="n">sessions</span><span class="p">)</span>
+    
+<span class="k">def</span> <span class="nf">printSessionMetaData</span><span class="p">(</span><span class="n">sess_md</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Function to &#39;pretty print&#39; the data. Should be added to the </span>
+<span class="sd">    ExperimentDataAccessUtility class itself.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">session_info</span> <span class="ow">in</span> <span class="n">sess_md</span><span class="p">:</span>
+        <span class="n">sess_md_dict</span><span class="o">=</span><span class="n">session_info</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">SessionMetaData:&#39;</span>
+        <span class="k">for</span> <span class="n">fname</span><span class="p">,</span><span class="n">fvalue</span> <span class="ow">in</span> <span class="n">sess_md_dict</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="k">print</span> <span class="s">&quot;</span><span class="se">\t\t</span><span class="s">{0} : {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">fvalue</span><span class="p">)</span>
+
+<span class="c"># Run the main demo function</span>
+<span class="c">#</span>
+<span class="n">printExperimentMetaDataDemo</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="read-any-saved-trial-condition-variables">
+<h4>Read Any Saved Trial Condition Variables<a class="headerlink" href="#read-any-saved-trial-condition-variables" title="Permalink to this headline">¶</a></h4>
+<p><strong>Source file:</strong> python_source/datastore_examples/read_condition_data.py</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">psychopy.iohub.datastore.util</span> <span class="kn">import</span> <span class="n">ExperimentDataAccessUtility</span>         
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span> 
+
+<span class="k">def</span> <span class="nf">printExperimentConditionVariableDemo</span><span class="p">():</span>
+    <span class="c"># Create an instance of the ExperimentDataAccessUtility class</span>
+    <span class="c"># for the selected DataStore file. This allows us to access data</span>
+    <span class="c"># in the file based on Device Event names and attributes.</span>
+    <span class="c"># </span>
+    <span class="n">experiment_data</span><span class="o">=</span><span class="n">ExperimentDataAccessUtility</span><span class="p">(</span><span class="s">&#39;..\hdf5_files&#39;</span> <span class="p">,</span> <span class="s">&#39;events.hdf5&#39;</span><span class="p">)</span>
+    
+    <span class="c"># Here we are accessing the condition values saved.</span>
+    <span class="c"># A list is returned, with each element being the condition variable data </span>
+    <span class="c"># for a trial of the experiment, in the order the trials </span>
+    <span class="c"># were run for the given session.    </span>
+    <span class="c">#    </span>
+    <span class="n">condition_variables</span><span class="o">=</span><span class="n">experiment_data</span><span class="o">.</span><span class="n">getConditionVariables</span><span class="p">()</span>
+
+    <span class="k">print</span> <span class="s">&quot;Experiment Condition Variable values:&quot;</span>
+    <span class="k">print</span> 
+    
+    <span class="k">for</span> <span class="n">variable_set</span> <span class="ow">in</span> <span class="n">condition_variables</span><span class="p">:</span>
+        <span class="n">pprint</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">variable_set</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()))</span>
+        <span class="k">print</span>
+    <span class="c"># Close the HDF5 File</span>
+    <span class="c">#</span>
+    <span class="n">experiment_data</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c"># Run the main demo function</span>
+<span class="c">#</span>
+<span class="n">printExperimentConditionVariableDemo</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="list-device-event-types-where-the-event-count-0">
+<h4>List Device Event Types Where the Event Count &gt; 0<a class="headerlink" href="#list-device-event-types-where-the-event-count-0" title="Permalink to this headline">¶</a></h4>
+<p><strong>Source file:</strong> python_source/datastore_examples/access_events_with_data.py</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">psychopy.iohub.datastore.util</span> <span class="kn">import</span> <span class="n">ExperimentDataAccessUtility</span>         
+<span class="kn">from</span> <span class="nn">psychopy.iohub</span> <span class="kn">import</span> <span class="n">EventConstants</span>
+
+<span class="k">def</span> <span class="nf">printEventTypesWithDataDemo</span><span class="p">():</span>
+    <span class="c"># Create an instance of the ExperimentDataAccessUtility class</span>
+    <span class="c"># for the selected DataStore file. This allows us to access data</span>
+    <span class="c"># in the file based on Device Event names and attributes.</span>
+    <span class="c"># </span>
+    <span class="n">experiment_data</span><span class="o">=</span><span class="n">ExperimentDataAccessUtility</span><span class="p">(</span><span class="s">&#39;..\hdf5_files&#39;</span> <span class="p">,</span> <span class="s">&#39;events.hdf5&#39;</span><span class="p">)</span>
+    
+    <span class="c"># Get any event tables that have &gt;=1 event saved in them</span>
+    <span class="c">#</span>
+    <span class="n">events_by_type</span><span class="o">=</span><span class="n">experiment_data</span><span class="o">.</span><span class="n">getEventsByType</span><span class="p">()</span>
+    
+    <span class="c"># print out info on each table</span>
+    <span class="c">#</span>
+    <span class="k">for</span> <span class="n">event_id</span><span class="p">,</span> <span class="n">event_gen</span> <span class="ow">in</span> <span class="n">events_by_type</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+        <span class="n">event_constant</span><span class="o">=</span><span class="n">EventConstants</span><span class="o">.</span><span class="n">getName</span><span class="p">(</span><span class="n">event_id</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&quot;{0} ({1}): {2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">event_constant</span><span class="p">,</span><span class="n">event_gen</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">nrows</span><span class="p">,</span><span class="n">event_gen</span><span class="p">)</span>
+
+    <span class="c"># Close the HDF5 File</span>
+    <span class="c">#</span>
+    <span class="n">experiment_data</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c"># Run the main demo function</span>
+<span class="c">#</span>
+<span class="n">printEventTypesWithDataDemo</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="retrieving-specific-event-fields-grouped-by-trial-using-a-trial-condition-query-selection">
+<h4>Retrieving Specific Event Fields Grouped by Trial using a Trial Condition Query Selection<a class="headerlink" href="#retrieving-specific-event-fields-grouped-by-trial-using-a-trial-condition-query-selection" title="Permalink to this headline">¶</a></h4>
+<p><strong>Source file:</strong> python_source/datastore_examples/access_single_event_table.py</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">psychopy.iohub.datastore.util</span> <span class="kn">import</span> <span class="n">ExperimentDataAccessUtility</span>         
+<span class="kn">from</span> <span class="nn">psychopy.iohub</span> <span class="kn">import</span> <span class="n">EventConstants</span>
+
+<span class="k">def</span> <span class="nf">printQueriedEventsDemo</span><span class="p">():</span>
+    <span class="c"># Create an instance of the ExperimentDataAccessUtility class</span>
+    <span class="c"># for the selected DataStore file. This allows us to access data</span>
+    <span class="c"># in the file based on Device Event names and attributes.</span>
+    <span class="c"># </span>
+    <span class="n">experiment_data</span><span class="o">=</span><span class="n">ExperimentDataAccessUtility</span><span class="p">(</span><span class="s">&#39;..\hdf5_files&#39;</span> <span class="p">,</span> <span class="s">&#39;events.hdf5&#39;</span><span class="p">)</span>
+    
+    <span class="c"># Retrieve the &#39;time&#39;,&#39;device_time&#39;,&#39;event_id&#39;,&#39;delay&#39;,&#39;category&#39;,&#39;text&#39;</span>
+    <span class="c"># attributes from the Message Event table, where the event time is between</span>
+    <span class="c"># the associated trials condition variables TRIAL_START and TRIAL_END</span>
+    <span class="c"># value.</span>
+    <span class="c"># i.e. only get message events sent during each trial of the eperiment, not any</span>
+    <span class="c">#      sent between trials.</span>
+    <span class="c">#</span>
+    <span class="n">event_results</span><span class="o">=</span><span class="n">experiment_data</span><span class="o">.</span><span class="n">getEventAttributeValues</span><span class="p">(</span><span class="n">EventConstants</span><span class="o">.</span><span class="n">MESSAGE</span><span class="p">,</span>
+                        <span class="p">[</span><span class="s">&#39;time&#39;</span><span class="p">,</span><span class="s">&#39;device_time&#39;</span><span class="p">,</span><span class="s">&#39;event_id&#39;</span><span class="p">,</span><span class="s">&#39;delay&#39;</span><span class="p">,</span><span class="s">&#39;category&#39;</span><span class="p">,</span><span class="s">&#39;text&#39;</span><span class="p">],</span> 
+                        <span class="n">conditionVariablesFilter</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+                        <span class="n">startConditions</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;time&#39;</span><span class="p">:(</span><span class="s">&#39;&gt;=&#39;</span><span class="p">,</span><span class="s">&#39;@TRIAL_START@&#39;</span><span class="p">)},</span>
+                        <span class="n">endConditions</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;time&#39;</span><span class="p">:(</span><span class="s">&#39;&lt;=&#39;</span><span class="p">,</span><span class="s">&#39;@TRIAL_END@&#39;</span><span class="p">)})</span>
+
+    
+    <span class="k">for</span> <span class="n">trial_events</span> <span class="ow">in</span> <span class="n">event_results</span><span class="p">:</span>    
+        <span class="k">print</span> <span class="s">&#39;==== TRIAL DATA START =======&#39;</span>
+        <span class="k">print</span> <span class="s">&quot;Trial Condition Values:&quot;</span>
+        <span class="k">for</span> <span class="n">ck</span><span class="p">,</span><span class="n">cv</span> <span class="ow">in</span> <span class="n">trial_events</span><span class="o">.</span><span class="n">condition_set</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">{ck} : {cv}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ck</span><span class="o">=</span><span class="n">ck</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">)</span>
+        <span class="k">print</span>
+        
+        <span class="n">trial_events</span><span class="o">.</span><span class="n">query_string</span>
+        <span class="k">print</span> <span class="s">&quot;Trial Query String:</span><span class="se">\t</span><span class="s">&quot;</span>
+        <span class="k">print</span> <span class="n">trial_events</span><span class="o">.</span><span class="n">query_string</span>
+        <span class="k">print</span> 
+        
+        <span class="n">event_value_arrays</span><span class="o">=</span><span class="p">[(</span><span class="n">cv_name</span><span class="p">,</span><span class="n">cv_value</span><span class="p">)</span> <span class="k">for</span> <span class="n">cv_name</span><span class="p">,</span><span class="n">cv_value</span> <span class="ow">in</span> <span class="n">trial_events</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()</span> <span class="k">if</span> <span class="n">cv_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;query_string&#39;</span><span class="p">,</span><span class="s">&#39;condition_set&#39;</span><span class="p">)]</span>
+        <span class="k">print</span> <span class="s">&quot;Trial Event Field Data:&quot;</span>
+        <span class="k">for</span> <span class="n">field_name</span><span class="p">,</span><span class="n">field_data</span> <span class="ow">in</span> <span class="n">event_value_arrays</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span><span class="o">+</span><span class="n">field_name</span><span class="o">+</span><span class="s">&#39;: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">field_data</span><span class="p">)</span>
+            <span class="k">print</span>
+        <span class="k">print</span> <span class="s">&#39;===== TRIAL DATA END ========&#39;</span>
+
+    <span class="n">experiment_data</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c"># Run the main demo function</span>
+<span class="c">#</span>
+<span class="n">printQueriedEventsDemo</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="adding_et_func.html" title="1:00 - 1:40pm: Incorporating Eye tracking into PsychoPy Experiments"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="psychopy.html" title="9:50 - 11:20am Introducing PsychoPy"
+             >previous</a> |</li>
+        <li><a href="../index.html">Py4ET 2013</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Jonathan Peirce and Sol Simpson.
+      Last updated on Aug 06, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+  </body>
+</html>

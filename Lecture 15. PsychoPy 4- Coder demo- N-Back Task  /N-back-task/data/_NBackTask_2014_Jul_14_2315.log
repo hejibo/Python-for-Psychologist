@@ -1,0 +1,11 @@
+5.0276 	EXP 	Set Window color=[ 0.  0.  0.] (rgb)
+6.0578 	EXP 	Created text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color=u'white', colorSpace='named', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font=UNKNOWN, fontFiles=UNKNOWN, height=52, italic=False, name='text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 255.,  255.,  255.]), text=u'default text', units=u'norm', win=Window(...), wrapWidth=UNKNOWN)
+6.0583 	EXP 	Imported datasource.csv as conditions, 9 conditions, 1 params
+6.0596 	EXP 	Created sequence: random, trialTypes=9, nReps=5, seed=None
+6.0605 	EXP 	New trial (rep=0, index=0): {'number': 8}
+2.9267 	EXP 	Set Window color=[ 0.  0.  0.] (rgb)
+3.7131 	EXP 	Created text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color=u'white', colorSpace='named', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font=UNKNOWN, fontFiles=UNKNOWN, height=52, italic=False, name='text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 255.,  255.,  255.]), text=u'default text', units=u'norm', win=Window(...), wrapWidth=UNKNOWN)
+3.7137 	EXP 	Imported datasource.csv as conditions, 9 conditions, 1 params
+3.7143 	EXP 	Created sequence: random, trialTypes=9, nReps=5, seed=None
+3.7150 	EXP 	New trial (rep=0, index=0): {'number': 6}
+3.7620 	WARNING 	Data file, data/_NBackTask_2014_Jul_14_2315.csv, will be overwritten

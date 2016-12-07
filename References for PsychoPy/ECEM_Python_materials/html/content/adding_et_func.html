@@ -1,0 +1,335 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Py4ET - Python Open Source Tools in Eye Movement Research 2013 &mdash; 1:00 - 1:40pm: Incorporating Eye tracking into PsychoPy Experiments</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2013.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="Py4ET - Python Open Source Tools in Eye Movement Research 2013" href="../index.html" />
+    <link rel="next" title="1:40 - 2:40pm Eye Data Visualization" href="data_viz.html" />
+    <link rel="prev" title="11.20 - 12.00 Introducing the ioHub" href="iohub.html" /> 
+  </head>
+  <body>
+
+
+<div id="header"  style="background-color: white">
+<table width="100%" cellpadding="10">
+<tr>
+    <td style="text-align:right;vertical-align:middle">
+<a href='http://www.nottingham.ac.uk'><img src="../_static/nott_logo.gif" alt="University of Nottingham" /></a>
+</td>
+</table>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="data_viz.html" title="1:40 - 2:40pm Eye Data Visualization"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="iohub.html" title="11.20 - 12.00 Introducing the ioHub"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Py4ET 2013</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference internal" href="#">1:00 - 1:40pm: Incorporating Eye tracking into PsychoPy Experiments</a><ul>
+<li><a class="reference internal" href="#using-an-eye-tracker-from-coder">Using an Eye Tracker from Coder</a><ul>
+<li><a class="reference internal" href="#basic-eye-tracking-coder-example">Basic Eye Tracking Coder Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-an-eye-tracker-in-builder">Using an Eye Tracker in Builder</a><ul>
+<li><a class="reference internal" href="#stroop">Stroop:</a><ul>
+<li><a class="reference internal" href="#begin-the-experiment">Begin the Experiment</a></li>
+<li><a class="reference internal" href="#begin-the-routine">Begin the Routine</a></li>
+<li><a class="reference internal" href="#each-frame">Each Frame</a></li>
+<li><a class="reference internal" href="#end-of-routine">End of Routine</a></li>
+<li><a class="reference internal" href="#end-experiment">End Experiment</a></li>
+<li><a class="reference internal" href="#gaze-cursor">Gaze cursor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="iohub.html"
+                                  title="previous chapter">11.20 - 12.00 Introducing the ioHub</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="data_viz.html"
+                                  title="next chapter">1:40 - 2:40pm Eye Data Visualization</a></p>
+
+          <div id="searchbox" style="display: none">
+            <h3>Searches</h3>
+            <form action="http://www.google.com/cse" id="cse-search-box">
+                <input type="hidden" name="cx" value="partner-pub-0861691574026297:eyw5n7-ugep" />
+                <input type="hidden" name="ie" value="ISO-8859-1" />
+                <input type="text" name="q" size="20" />
+                <input type="submit" name="sa" value="Go" />
+            </form>
+              <p class="searchtip" style="font-size: 90%">
+              General
+              </p>
+            <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Docs only
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="pm-incorporating-eye-tracking-into-psychopy-experiments">
+<span id="eyetrackingpsychopy"></span><h1>1:00 - 1:40pm: Incorporating Eye tracking into PsychoPy Experiments<a class="headerlink" href="#pm-incorporating-eye-tracking-into-psychopy-experiments" title="Permalink to this headline">¶</a></h1>
+<p>To add eyetracking into your study you will generally:</p>
+<ol class="upperalpha simple">
+<li>Configure ioHub for the eye tracker to be used ( configuration settings are hardware-dependent )</li>
+<li>Run the eye tracker setup routine, which will hopefully result in the successful calibration of the ET hardware</li>
+<li>Start event reporting for the ET device.</li>
+<li>Monitor eye tracker events or status as needed</li>
+<li>Inform the eye tracker to stop reporting events.</li>
+<li>Close the connection to the ET device.</li>
+</ol>
+<p>This can be done by writing Python script and using PsychoPy in the Coder mode,
+or by adding custom python code segments to the PsychoPy Builder. Support for
+graphically adding eye tracking support and data access from within Builder is
+expected to occur by end of this year.</p>
+<div class="section" id="using-an-eye-tracker-from-coder">
+<h2>Using an Eye Tracker from Coder<a class="headerlink" href="#using-an-eye-tracker-from-coder" title="Permalink to this headline">¶</a></h2>
+<p>For this Section of the Workshop we will use the PsychoPy Coder.</p>
+<ol class="arabic">
+<li><p class="first">Open the PsychoPy Coder IDE</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Start-&gt;Programs-&gt;PsychoPy2-&gt;PsychoPy</li>
+</ol>
+</div></blockquote>
+</li>
+<li><p class="first">Ensure the IDE is in <em>Coder</em> Mode</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>If title of IDE has <em>Coder</em> in it, you are in the Coder View.</li>
+<li>Otherwise, select menu View-&gt;Open Coder View.</li>
+<li>Close the Builder View.</li>
+</ol>
+</div></blockquote>
+</li>
+<li><dl class="first docutils">
+<dt>Open the the getting_started.py demo script:</dt>
+<dd><ul class="first last simple">
+<li>Select Menu File-&gt;Open</li>
+<li>Python file is found in [Worshop Materials Root]demoscodergetting_startedgetting_started.py</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+<p>So now you should have the PsychoPy Coder IDE open and it should look soemthing like this:</p>
+<img alt="PsychoPy Coder" class="align-center" src="../_images/psychopy_coder.png" style="width: 422px; height: 450px;" />
+<div class="section" id="basic-eye-tracking-coder-example">
+<h3>Basic Eye Tracking Coder Example<a class="headerlink" href="#basic-eye-tracking-coder-example" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="using-an-eye-tracker-in-builder">
+<h2>Using an Eye Tracker in Builder<a class="headerlink" href="#using-an-eye-tracker-in-builder" title="Permalink to this headline">¶</a></h2>
+<p>There isn&#8217;t currently an Eyetracker Component in Builder (I&#8217;m sure there will be very soon!) but you can effectively create one yourself using a code component. Remember, these have 5 sections for <cite>Beginning the Experiment</cite>, <cite>Beginning the Routine</cite> (e.g. trial), <cite>Each Frame</cite> of the Routine, <cite>End of the Routine</cite> and <cite>End of the Experiment</cite>.</p>
+<p>The way we&#8217;ve set up the demos is that they check first whether you&#8217;ve asked for an eye tracker to be used - in <cite>Experiment Settings</cite> we added an entry to the experiment info dialog box called &#8216;Eye tracker&#8217;. In the code below, if that is set to be a string that represents a valid yaml config file then we&#8217;ll have an eyetracker installed and if not we&#8217;ll revert to using the mouse as before (handy while creating the experiment in your office!).</p>
+<div class="section" id="stroop">
+<h3>Stroop:<a class="headerlink" href="#stroop" title="Permalink to this headline">¶</a></h3>
+<p>We&#8217;ll look at these steps for a new version of the Stroop task where we simply check whether fixation was maintained during the trial and flag trials where it was broken (at any point).</p>
+<div class="section" id="begin-the-experiment">
+<h4>Begin the Experiment<a class="headerlink" href="#begin-the-experiment" title="Permalink to this headline">¶</a></h4>
+<p>Here we need to import and launch the ioHub server and set up some default values for the rest of the experiment (like how large a window we think is reasonable for fixation to be maintained):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">maintain_fix_pix_boundary</span><span class="o">=</span><span class="mf">66.0</span> <span class="c"># pixels</span>
+<span class="n">eyetracker</span> <span class="o">=</span><span class="bp">False</span> <span class="c">#will change if we get one!</span>
+
+<span class="k">if</span> <span class="n">expInfo</span><span class="p">[</span><span class="s">&#39;Eye Tracker&#39;</span><span class="p">]:</span>
+    <span class="kn">from</span> <span class="nn">psychopy.iohub</span> <span class="kn">import</span> <span class="n">EventConstants</span><span class="p">,</span><span class="n">ioHubConnection</span><span class="p">,</span><span class="n">load</span><span class="p">,</span><span class="n">Loader</span>
+    <span class="kn">from</span> <span class="nn">psychopy.data</span> <span class="kn">import</span> <span class="n">getDateStr</span>
+
+    <span class="c"># Load the specified iohub configuration file converting it to a python dict.</span>
+    <span class="n">io_config</span><span class="o">=</span><span class="n">load</span><span class="p">(</span><span class="nb">file</span><span class="p">(</span><span class="n">expInfo</span><span class="p">[</span><span class="s">&#39;Eye Tracker&#39;</span><span class="p">],</span><span class="s">&#39;r&#39;</span><span class="p">),</span> <span class="n">Loader</span><span class="o">=</span><span class="n">Loader</span><span class="p">)</span>
+
+    <span class="c"># Add / Update the session code to be unique. Here we use the psychopy getDateStr() function for session code generation</span>
+    <span class="n">session_info</span><span class="o">=</span><span class="n">io_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;data_store&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;session_info&#39;</span><span class="p">)</span>
+    <span class="n">session_info</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="s">&quot;S_</span><span class="si">%s</span><span class="s">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">getDateStr</span><span class="p">()))</span>
+
+    <span class="c"># Create an ioHubConnection instance, which starts the ioHubProcess, and informs it of the requested devices and their configurations.</span>
+    <span class="n">io</span><span class="o">=</span><span class="n">ioHubConnection</span><span class="p">(</span><span class="n">io_config</span><span class="p">)</span>
+
+    <span class="n">iokeyboard</span><span class="o">=</span><span class="n">io</span><span class="o">.</span><span class="n">devices</span><span class="o">.</span><span class="n">keyboard</span>
+    <span class="n">mouse</span><span class="o">=</span><span class="n">io</span><span class="o">.</span><span class="n">devices</span><span class="o">.</span><span class="n">mouse</span>
+    <span class="k">if</span> <span class="n">io</span><span class="o">.</span><span class="n">getDevice</span><span class="p">(</span><span class="s">&#39;tracker&#39;</span><span class="p">):</span>
+        <span class="n">eyetracker</span><span class="o">=</span><span class="n">io</span><span class="o">.</span><span class="n">getDevice</span><span class="p">(</span><span class="s">&#39;tracker&#39;</span><span class="p">)</span>
+
+        <span class="c"># Run the eye tracker setup routine.</span>
+
+        <span class="n">win</span><span class="o">.</span><span class="n">winHandle</span><span class="o">.</span><span class="n">minimize</span><span class="p">()</span>
+        <span class="n">eyetracker</span><span class="o">.</span><span class="n">runSetupProcedure</span><span class="p">()</span>
+        <span class="n">win</span><span class="o">.</span><span class="n">winHandle</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+        <span class="n">win</span><span class="o">.</span><span class="n">winHandle</span><span class="o">.</span><span class="n">maximize</span><span class="p">()</span>
+
+    <span class="n">display_gaze</span><span class="o">=</span><span class="bp">False</span>
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Notes:</dt>
+<dd><ul class="first last simple">
+<li>We only import ioHub and set it up if it will be needed!</li>
+<li>We perform the eye tracker setup procedure.</li>
+<li>We should create initial values here for things that will be updated during the script (like the current x,y so that other parts of the script won&#8217;t throw an error if they use them before the first time the true values are determined)</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="begin-the-routine">
+<h4>Begin the Routine<a class="headerlink" href="#begin-the-routine" title="Permalink to this headline">¶</a></h4>
+<p>Simple code that runs if the eyetracker exists (remember, that started as False but was then assigned an eyetracker object if one was successfully created):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">eyetracker</span><span class="p">:</span>
+    <span class="n">heldFixation</span> <span class="o">=</span> <span class="bp">True</span> <span class="c">#unless otherwise</span>
+    <span class="n">io</span><span class="o">.</span><span class="n">clearEvents</span><span class="p">(</span><span class="s">&#39;all&#39;</span><span class="p">)</span>
+    <span class="n">eyetracker</span><span class="o">.</span><span class="n">setRecordingState</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Notes:</dt>
+<dd><ul class="first last simple">
+<li>at the beginning of the trial we create a variable <cite>heldFixation</cite> and set it to be True. We&#8217;ll check on each frame if it stays true but this is our default.</li>
+<li>clearing events means we don&#8217;t worry what happened before the trial started</li>
+<li>we start collecting eye data</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="each-frame">
+<h4>Each Frame<a class="headerlink" href="#each-frame" title="Permalink to this headline">¶</a></h4>
+<p>Now we need to check whether gaze has strayed outside the valid fixation window. But we&#8217;ll also check whether the user pressed &#8216;g&#8217; and if so we&#8217;ll toggle the <cite>display_gaze</cite> variable.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">eyetracker</span><span class="p">:</span>
+    <span class="c"># check for &#39;g&#39; key press to toggle gaze cursor visibility</span>
+    <span class="n">iokeys</span><span class="o">=</span><span class="n">iokeyboard</span><span class="o">.</span><span class="n">getEvents</span><span class="p">(</span><span class="n">EventConstants</span><span class="o">.</span><span class="n">KEYBOARD_PRESS</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">iok</span> <span class="ow">in</span> <span class="n">iokeys</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">iok</span><span class="o">.</span><span class="n">key</span><span class="o">==</span><span class="s">u&#39;g&#39;</span><span class="p">:</span>
+            <span class="n">display_gaze</span><span class="o">=</span><span class="ow">not</span> <span class="n">display_gaze</span>
+    <span class="c"># get /eye tracker gaze/ position</span>
+    <span class="n">gpos</span><span class="o">=</span><span class="n">eyetracker</span><span class="o">.</span><span class="n">getPosition</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">gpos</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">list</span><span class="p">,</span><span class="nb">tuple</span><span class="p">]:</span>
+        <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">gpos</span>
+        <span class="n">d</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">d</span><span class="o">&gt;</span><span class="n">maintain_fix_pix_boundary</span><span class="p">:</span>
+            <span class="n">heldFixation</span> <span class="o">=</span> <span class="bp">False</span> <span class="c">#unless otherwise</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Notes:</dt>
+<dd><ul class="first last simple">
+<li>On each frame we check if the &#8216;g&#8217; key has been pressed. If so, we toggle the visibility of a gaze contingent dot.</li>
+<li>We get the latest eye tracker gaze position from the iohub. If it is a tuple or list, we know we have valid eye position info.</li>
+<li>If we have a valid eye position, we calculate the distance between the center of the screen and the eye position reported.</li>
+<li>If the eye to screan center distance is above threshold, we flag that fixation was not maintained for the trial.</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="end-of-routine">
+<h4>End of Routine<a class="headerlink" href="#end-of-routine" title="Permalink to this headline">¶</a></h4>
+<p>This is some simple code at the end of the trial that uses the standard data outputs of PsychoPy - a column will appear in the excel/csv file showing whether fixation was held on each trial. We also stop recording eye data at the end of each trial:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">eyetracker</span><span class="p">:</span>
+    <span class="n">eyetracker</span><span class="o">.</span><span class="n">setRecordingState</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+    <span class="c">#add eye-track data to data file</span>
+    <span class="n">trials</span><span class="o">.</span><span class="n">addData</span><span class="p">(</span><span class="s">&quot;heldFixation&quot;</span><span class="p">,</span> <span class="n">heldFixation</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="end-experiment">
+<h4>End Experiment<a class="headerlink" href="#end-experiment" title="Permalink to this headline">¶</a></h4>
+<p>At the end of the experiment we close the connection to the eye tracker. Since ioHub
+runs in a separate process; it&#8217;s good practice to shut that down just in case it
+fails to do so itself!:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">eyetracker</span><span class="p">:</span>
+    <span class="n">eyetracker</span><span class="o">.</span><span class="n">setConnectionState</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">io</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gaze-cursor">
+<h4>Gaze cursor<a class="headerlink" href="#gaze-cursor" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt>How do we make use of that <cite>display_gaze</cite> variable to show where the gaze is currently located? Simple! We add a <cite>Grating Component</cite> (for example) that has:</dt>
+<dd><ul class="first last simple">
+<li>a small size</li>
+<li>an opacity of <cite>$display_gaze</cite>. That means it uses the display_gaze variable (which is True=1, False=0). Make sure you <cite>set every frame</cite></li>
+<li>a location of <cite>$[x,y]</cite>. Make sure you <cite>set every frame</cite></li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="data_viz.html" title="1:40 - 2:40pm Eye Data Visualization"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="iohub.html" title="11.20 - 12.00 Introducing the ioHub"
+             >previous</a> |</li>
+        <li><a href="../index.html">Py4ET 2013</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Jonathan Peirce and Sol Simpson.
+      Last updated on Aug 06, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+  </body>
+</html>

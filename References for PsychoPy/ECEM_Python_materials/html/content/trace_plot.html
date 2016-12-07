@@ -1,0 +1,273 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Py4ET - Python Open Source Tools in Eye Movement Research 2013 &mdash; Plotting Eye Position Traces</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2013.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="Py4ET - Python Open Source Tools in Eye Movement Research 2013" href="../index.html" /> 
+  </head>
+  <body>
+
+
+<div id="header"  style="background-color: white">
+<table width="100%" cellpadding="10">
+<tr>
+    <td style="text-align:right;vertical-align:middle">
+<a href='http://www.nottingham.ac.uk'><img src="../_static/nott_logo.gif" alt="University of Nottingham" /></a>
+</td>
+</table>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">Py4ET 2013</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference internal" href="#">Plotting Eye Position Traces</a><ul>
+<li><a class="reference internal" href="#example-plots">Example Plots</a></li>
+</ul>
+</li>
+</ul>
+
+
+          <div id="searchbox" style="display: none">
+            <h3>Searches</h3>
+            <form action="http://www.google.com/cse" id="cse-search-box">
+                <input type="hidden" name="cx" value="partner-pub-0861691574026297:eyw5n7-ugep" />
+                <input type="hidden" name="ie" value="ISO-8859-1" />
+                <input type="text" name="q" size="20" />
+                <input type="submit" name="sa" value="Go" />
+            </form>
+              <p class="searchtip" style="font-size: 90%">
+              General
+              </p>
+            <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Docs only
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="plotting-eye-position-traces">
+<span id="traceplot"></span><h1>Plotting Eye Position Traces<a class="headerlink" href="#plotting-eye-position-traces" title="Permalink to this headline">¶</a></h1>
+<p>The basic steps involved in plotting eye position traces collected from an eye tracker
+via the ioHub Common Eye Tracker Interface are:</p>
+<ol class="arabic simple">
+<li>Read Data From ioDataStore</li>
+<li>Identify Missing Sample Data Periods (i.e. from Blinks, Eye Occlusion, and Other Causes of Eye Tracking Loss)</li>
+<li>Plot the Data (we will use Matplotlib)</li>
+</ol>
+<p>The following code example outlines these steps. It is assumed that you are running
+matplotlib using the windowed graph viewer.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># This Python Source File Available in python_source/data_visualization/sample_trace_plot.py</span>
+
+<span class="kn">from</span> <span class="nn">psychopy.iohub.datastore.util</span> <span class="kn">import</span> <span class="n">ExperimentDataAccessUtility</span>
+<span class="kn">from</span> <span class="nn">psychopy.iohub</span> <span class="kn">import</span> <span class="n">EventConstants</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.transforms</span> <span class="kn">as</span> <span class="nn">mtransforms</span>
+<span class="kn">from</span> <span class="nn">matplotlib.font_manager</span> <span class="kn">import</span> <span class="n">FontProperties</span>
+
+<span class="kn">from</span> <span class="nn">common_workshop_functions</span> <span class="kn">import</span> <span class="n">processSampleEventGaps</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="c"># Load an ioDataStore file containing 120 Hz sample data from a</span>
+<span class="c"># remote eye tracker that was recording both eyes. In the plotting example</span>
+<span class="n">dataAccessUtil</span><span class="o">=</span><span class="n">ExperimentDataAccessUtility</span><span class="p">(</span><span class="s">&#39;../hdf5_files&#39;</span><span class="p">,</span><span class="s">&#39;remote_data.hdf5&#39;</span><span class="p">,</span> <span class="n">experimentCode</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">sessionCodes</span><span class="o">=</span><span class="p">[])</span>
+
+<span class="c">##### STEP A. #####</span>
+<span class="c"># Retrieve a subset of the BINOCULAR_EYE_SAMPLE event attributes, for events that occurred</span>
+<span class="c"># between each time period defined by the TRIAL_START and TRIAL_END trial variables of each entry</span>
+<span class="c"># in the trial_conditions data table.</span>
+<span class="c">#</span>
+<span class="n">event_type</span><span class="o">=</span><span class="n">EventConstants</span><span class="o">.</span><span class="n">BINOCULAR_EYE_SAMPLE</span>
+<span class="n">retrieve_attributes</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;time&#39;</span><span class="p">,</span><span class="s">&#39;left_gaze_x&#39;</span><span class="p">,</span><span class="s">&#39;left_gaze_y&#39;</span><span class="p">,</span><span class="s">&#39;left_pupil_measure1&#39;</span><span class="p">,</span>
+            <span class="s">&#39;right_gaze_x&#39;</span><span class="p">,</span><span class="s">&#39;right_gaze_y&#39;</span><span class="p">,</span><span class="s">&#39;right_pupil_measure1&#39;</span><span class="p">,</span><span class="s">&#39;status&#39;</span><span class="p">)</span>
+<span class="n">trial_event_data</span><span class="o">=</span><span class="n">dataAccessUtil</span><span class="o">.</span><span class="n">getEventAttributeValues</span><span class="p">(</span><span class="n">event_type</span><span class="p">,</span>
+            <span class="n">retrieve_attributes</span><span class="p">,</span>
+            <span class="n">conditionVariablesFilter</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+            <span class="n">startConditions</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;time&#39;</span><span class="p">:(</span><span class="s">&#39;&gt;=&#39;</span><span class="p">,</span><span class="s">&#39;@TRIAL_START@&#39;</span><span class="p">)},</span>
+            <span class="n">endConditions</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;time&#39;</span><span class="p">:(</span><span class="s">&#39;&lt;=&#39;</span><span class="p">,</span><span class="s">&#39;@TRIAL_END@&#39;</span><span class="p">)},</span>
+            <span class="p">)</span>
+
+<span class="c"># No need to keep the hdf5 file open anymore...</span>
+<span class="c">#</span>
+<span class="n">dataAccessUtil</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c"># Process and plot the sample data for each trial in the data file.</span>
+<span class="c">#</span>
+<span class="k">for</span> <span class="n">trial_index</span><span class="p">,</span><span class="n">trial_samples</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">trial_event_data</span><span class="p">):</span>
+    <span class="c">##### STEP B. #####</span>
+    <span class="c"># Find all samples that have missing eye position data and filter the eye position</span>
+    <span class="c"># and pupil size streams so that the eye track plot is more useful. In this case that</span>
+    <span class="c"># means setting position fields to NaN and pupil size to 0.</span>
+    <span class="c">#</span>
+    <span class="c"># left eye manufacturer specific missing data indicator</span>
+    <span class="n">left_eye_invalid_data_masks</span><span class="o">=</span><span class="n">trial_samples</span><span class="o">.</span><span class="n">status</span><span class="o">//</span><span class="mi">10</span><span class="o">&gt;=</span><span class="mi">2</span>
+    <span class="c"># Right eye manufacturer specific missing data indicator</span>
+    <span class="n">right_eye_invalid_data_masks</span><span class="o">=</span><span class="n">trial_samples</span><span class="o">.</span><span class="n">status</span><span class="o">%</span><span class="mi">10</span><span class="o">&gt;=</span><span class="mi">2</span>
+    <span class="c"># Get the needed left eye sample arrays</span>
+    <span class="c">#</span>
+    <span class="n">left_gaze_x</span><span class="o">=</span><span class="n">trial_samples</span><span class="o">.</span><span class="n">left_gaze_x</span>
+    <span class="n">left_gaze_y</span><span class="o">=</span><span class="n">trial_samples</span><span class="o">.</span><span class="n">left_gaze_y</span>
+    <span class="n">left_pupil_size</span><span class="o">=</span><span class="n">trial_samples</span><span class="o">.</span><span class="n">left_pupil_measure1</span>
+    <span class="c"># Process the left eye fields using the processSampleEventGaps function defined</span>
+    <span class="c"># in the common_workshop_functions.py file. The last argument of &#39;clear&#39;</span>
+    <span class="c"># tells the function to set any x or y position missing data samples to NaN</span>
+    <span class="c"># and to set the pupil size field to 0. The operations are preformed in-place</span>
+    <span class="c"># on the numpy arrays passed to the function.</span>
+    <span class="c"># The returned valid_data_periods is a list of each group of temporally adjacent</span>
+    <span class="c"># samples that are valid, but providing a list where each element is the (start, stop)</span>
+    <span class="c"># index for a given period of valid data.</span>
+    <span class="c">#</span>
+    <span class="n">left_valid_data_periods</span><span class="o">=</span><span class="n">processSampleEventGaps</span><span class="p">(</span><span class="n">left_gaze_x</span><span class="p">,</span><span class="n">left_gaze_y</span><span class="p">,</span>
+        <span class="n">left_pupil_size</span><span class="p">,</span>
+        <span class="n">left_eye_invalid_data_masks</span><span class="p">,</span>
+        <span class="s">&#39;clear&#39;</span><span class="p">)</span>
+
+    <span class="c"># Get the needed right eye sample field arrays</span>
+    <span class="c">#</span>
+    <span class="n">right_gaze_x</span><span class="o">=</span><span class="n">trial_samples</span><span class="o">.</span><span class="n">right_gaze_x</span>
+    <span class="n">right_gaze_y</span><span class="o">=</span><span class="n">trial_samples</span><span class="o">.</span><span class="n">right_gaze_y</span>
+    <span class="n">right_pupil_size</span><span class="o">=</span><span class="n">trial_samples</span><span class="o">.</span><span class="n">right_pupil_measure1</span>
+
+    <span class="c"># Process the right eye fields</span>
+    <span class="c">#</span>
+    <span class="n">right_valid_data_periods</span><span class="o">=</span><span class="n">processSampleEventGaps</span><span class="p">(</span><span class="n">right_gaze_x</span><span class="p">,</span><span class="n">right_gaze_y</span><span class="p">,</span>
+        <span class="n">right_pupil_size</span><span class="p">,</span>
+        <span class="n">right_eye_invalid_data_masks</span><span class="p">,</span>
+        <span class="s">&#39;clear&#39;</span><span class="p">)</span>
+
+    <span class="c"># get the array of sample times for the current trial</span>
+    <span class="n">time</span><span class="o">=</span><span class="n">trial_samples</span><span class="o">.</span><span class="n">time</span>
+    <span class="c">##### STEP C. #####</span>
+    <span class="c"># Plot the sample traces for x and y gaze positions separately for each eye</span>
+    <span class="c"># using two sub plots.</span>
+    <span class="c">#</span>
+    <span class="c"># Get the range to use for the x axis</span>
+    <span class="n">tmin</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">//</span><span class="mi">1</span>
+    <span class="n">tmax</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">//</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span>
+
+    <span class="c">#Create a 12x8 inch figure</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+    <span class="c"># Create a subplot for the left eye, 2,1,1 means the subplot</span>
+    <span class="c"># grid will be 2 rows and 1 column, and we are about to create</span>
+    <span class="c"># the subplot for row 1 of 2</span>
+    <span class="c">#&quot;Left Eye Position&quot;</span>
+    <span class="n">left_axis</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">left_axis</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">left_gaze_x</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;X Gaze&quot;</span><span class="p">)</span>
+    <span class="n">left_axis</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">left_gaze_y</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;Y Gaze&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">tmin</span><span class="p">,</span><span class="n">tmax</span><span class="p">,</span><span class="mf">0.5</span><span class="p">),</span><span class="n">rotation</span><span class="o">=</span><span class="s">&#39;vertical&#39;</span><span class="p">)</span>
+    <span class="c"># Fill in missing eye data areas of the plot with a vertical bar the full</span>
+    <span class="c"># height of the sub plot.</span>
+    <span class="n">trans</span> <span class="o">=</span> <span class="n">mtransforms</span><span class="o">.</span><span class="n">blended_transform_factory</span><span class="p">(</span><span class="n">left_axis</span><span class="o">.</span><span class="n">transData</span><span class="p">,</span> <span class="n">left_axis</span><span class="o">.</span><span class="n">transAxes</span><span class="p">)</span>
+    <span class="n">left_axis</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">left_pupil_size</span><span class="o">==</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">facecolor</span><span class="o">=</span><span class="s">&#39;DarkRed&#39;</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">trans</span><span class="p">)</span>
+    <span class="c">#text(0.5, 0.95, &#39;test&#39;, transform=fig.transFigure, horizontalalignment=&#39;center&#39;)</span>
+    <span class="n">left_axis</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&#39;Position (pixels)&#39;</span><span class="p">)</span>
+    <span class="c"># Left Eye Sample Sub Plot</span>
+    <span class="n">left_axis</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;Left Eye Position&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+    <span class="c"># Resize the plot x axis by 85% so that the legend , which is outside</span>
+    <span class="c"># the plot, will still fit in the matplotlib window.</span>
+    <span class="c">#</span>
+    <span class="n">box</span> <span class="o">=</span> <span class="n">left_axis</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+    <span class="n">left_axis</span><span class="o">.</span><span class="n">set_position</span><span class="p">([</span><span class="n">box</span><span class="o">.</span><span class="n">x0</span><span class="p">,</span> <span class="n">box</span><span class="o">.</span><span class="n">y0</span><span class="p">,</span> <span class="n">box</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">box</span><span class="o">.</span><span class="n">height</span><span class="p">])</span>
+    <span class="n">fontP</span> <span class="o">=</span> <span class="n">FontProperties</span><span class="p">()</span>
+    <span class="n">fontP</span><span class="o">.</span><span class="n">set_size</span><span class="p">(</span><span class="s">&#39;small&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">borderaxespad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">prop</span> <span class="o">=</span> <span class="n">fontP</span><span class="p">)</span>
+    <span class="c"># Right Eye Sample Sub Plot</span>
+    <span class="c"># Basically the same as the left eye, but we are adding to the row 2 sub plt now.</span>
+    <span class="c">#</span>
+    <span class="n">right_axis</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">sharex</span><span class="o">=</span><span class="n">left_axis</span><span class="p">,</span><span class="n">sharey</span> <span class="o">=</span> <span class="n">left_axis</span><span class="p">)</span>
+    <span class="n">right_axis</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">right_gaze_x</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;X Gaze&quot;</span><span class="p">)</span>
+    <span class="n">right_axis</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">right_gaze_y</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;Y Gaze&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">tmin</span><span class="p">,</span><span class="n">tmax</span><span class="p">,</span><span class="mf">0.5</span><span class="p">),</span><span class="n">rotation</span><span class="o">=</span><span class="s">&#39;vertical&#39;</span><span class="p">)</span>
+    <span class="n">trans</span> <span class="o">=</span> <span class="n">mtransforms</span><span class="o">.</span><span class="n">blended_transform_factory</span><span class="p">(</span><span class="n">right_axis</span><span class="o">.</span><span class="n">transData</span><span class="p">,</span> <span class="n">right_axis</span><span class="o">.</span><span class="n">transAxes</span><span class="p">)</span>
+    <span class="n">right_axis</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">right_pupil_size</span><span class="o">==</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">facecolor</span><span class="o">=</span><span class="s">&#39;DarkRed&#39;</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">trans</span><span class="p">)</span>
+    <span class="n">right_axis</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&#39;Time&#39;</span><span class="p">)</span>
+    <span class="n">right_axis</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&#39;Position (Pixels)&#39;</span><span class="p">)</span>
+    <span class="n">right_axis</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;Right Eye Position&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mf">0.125</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s">&quot;Eye Sample Data For Trial Index </span><span class="si">%d</span><span class="s">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">trial_index</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+
+    <span class="c"># Show each trial&#39;s eye sample trace. The program will block until you close</span>
+    <span class="c"># the trial plot, and will then open the next trial plt.</span>
+    <span class="c">#</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="example-plots">
+<h2>Example Plots<a class="headerlink" href="#example-plots" title="Permalink to this headline">¶</a></h2>
+<p>Left and Right Eye Position Traces using MatPlotLib</p>
+<img alt="Left and Right Eye Position Traces using MatPlotLib" class="align-center" src="../_images/eye_position_traces.png" style="width: 485px; height: 360px;" />
+<p>Same Plot as above, zoomed into a Two Second Interval of Eye Position Data</p>
+<img alt="Same Plot as above, Zoomed into a Two Second Interval of Eye Position Data" class="align-center" src="../_images/eye_position_traces_zoomed.png" style="width: 485px; height: 360px;" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">Py4ET 2013</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Jonathan Peirce and Sol Simpson.
+      Last updated on Aug 06, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+  </body>
+</html>

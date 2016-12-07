@@ -1,0 +1,360 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Py4ET - Python Open Source Tools in Eye Movement Research 2013 &mdash; Fixation Distribution Using Heat Map Visualization</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2013.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="Py4ET - Python Open Source Tools in Eye Movement Research 2013" href="../index.html" /> 
+  </head>
+  <body>
+
+
+<div id="header"  style="background-color: white">
+<table width="100%" cellpadding="10">
+<tr>
+    <td style="text-align:right;vertical-align:middle">
+<a href='http://www.nottingham.ac.uk'><img src="../_static/nott_logo.gif" alt="University of Nottingham" /></a>
+</td>
+</table>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">Py4ET 2013</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference internal" href="#">Fixation Distribution Using Heat Map Visualization</a><ul>
+<li><a class="reference internal" href="#example-plots">Example Plots</a></li>
+</ul>
+</li>
+</ul>
+
+
+          <div id="searchbox" style="display: none">
+            <h3>Searches</h3>
+            <form action="http://www.google.com/cse" id="cse-search-box">
+                <input type="hidden" name="cx" value="partner-pub-0861691574026297:eyw5n7-ugep" />
+                <input type="hidden" name="ie" value="ISO-8859-1" />
+                <input type="text" name="q" size="20" />
+                <input type="submit" name="sa" value="Go" />
+            </form>
+              <p class="searchtip" style="font-size: 90%">
+              General
+              </p>
+            <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Docs only
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="fixation-distribution-using-heat-map-visualization">
+<span id="heatmap"></span><h1>Fixation Distribution Using Heat Map Visualization<a class="headerlink" href="#fixation-distribution-using-heat-map-visualization" title="Permalink to this headline">¶</a></h1>
+<p>The basic steps involved in Fixation Distribution Using Heat Map Visualization
+using eye data from the ioDataStore:</p>
+<p>X. Load the eye data from the ioDataStore (in this example we will just create simulated fixation data to spare time).
+A. Define settings to control how fixation data is used to great the heat map, and how the heat map should look.
+B. Create 2D Gaussian Mask templateto use as the fixation denisity map for each fixation being used.
+C. Load the background image displayed during eye data collection.
+D. In our example, create some random fixation data.
+E. Create the fixation density map based on the variable values specified in A, the gaussian created in B., and the Fixation data either loaded in X., or in our case, created in D.
+F. Turn the fixation density map into a heat map by applying a color range to the fixation map data.
+G. (Optional) Create a figure plotting</p>
+<blockquote>
+<div># Gausian mask being used.
+# Background image the heatmap will be applied to.
+# The fixation data points used in creating the fixation density map.
+# The heat map created which will be overlayed on the background image.</div></blockquote>
+<ol class="upperalpha simple" start="8">
+<li>Create the final fixation denisity based heat map overlayed on the background image.</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># This Python Source File Available in python_source/data_visualization/heat_map.py</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="kn">as</span> <span class="nn">plb</span>
+<span class="kn">import</span> <span class="nn">matplotlib.image</span> <span class="kn">as</span> <span class="nn">mpimg</span>
+<span class="kn">import</span> <span class="nn">matplotlib.cm</span> <span class="kn">as</span> <span class="nn">cm</span>
+
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">scoreatpercentile</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c">##### STEP A. #####</span>
+<span class="c"># Define the value for settings when creating the heat map.</span>
+<span class="c">#</span>
+<span class="c"># We will use a sigma 33 pixels for the gaussian distribution applied to</span>
+<span class="c"># the fixation density map for each fixation position, which</span>
+<span class="c"># = ~ 2 visual degrees on a 1024x768 monitor when viewed at 60 cm.</span>
+<span class="c">#</span>
+<span class="n">sigma_x</span> <span class="o">=</span> <span class="n">sigma_y</span> <span class="o">=</span> <span class="mf">33.0</span>
+<span class="c"># If fixation duration is used to weight each fixation when added to the </span>
+<span class="c"># fixation density array, these two variables specify the min and max fixation </span>
+<span class="c"># duration that will be applied.</span>
+<span class="c">#</span>
+<span class="n">min_fix_duration</span><span class="o">=</span><span class="mi">0</span>
+<span class="n">max_fix_duration</span><span class="o">=</span><span class="mi">500</span>
+<span class="c"># use_dwell_time_weighting:</span>
+<span class="c"># True : Each fixations impact on the fixation map is linearly proprotional </span>
+<span class="c">#        to the fixation dwell time within the fixation duration range </span>
+<span class="c">#        min_fix_duration to max_fix_duration</span>
+<span class="c"># False: Fixations are still filtered by min_fix_duration, max_fix_duration; </span>
+<span class="c">#        however each fixation provides equal weight to the fixtion map, </span>
+<span class="c">#        regardless of duration.</span>
+<span class="c">#</span>
+<span class="n">use_dwell_time_weighting</span><span class="o">=</span><span class="bp">True</span>
+<span class="c"># Percentile range of fixation map distribution to include in heat map </span>
+<span class="c"># calculation.</span>
+<span class="c">#</span>
+<span class="n">fix_perc_range</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mo">05</span><span class="p">,</span><span class="o">.</span><span class="mi">95</span><span class="p">]</span>
+<span class="c"># Percentile floor of fixation map distribution for heat map visualization</span>
+<span class="c">#</span>
+<span class="n">min_fix_dist_perc</span><span class="o">=</span><span class="mi">10</span>
+<span class="c"># We will be creating simulated fixation data, this specifies the number of </span>
+<span class="c"># fixation points to create.</span>
+<span class="c">#</span>
+<span class="n">sim_fix_count</span><span class="o">=</span><span class="mi">500</span>
+ 
+<span class="c">##### STEP B. #####</span>
+<span class="c"># Create 2D Gaussian Mask template as a 2D numpy array</span>
+<span class="c">#</span>
+<span class="c"># Create x and y pixel ranges for Gauss Mask.</span>
+<span class="c">#</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">sigma_x</span><span class="o">*</span><span class="mf">2.5</span><span class="p">,</span><span class="n">sigma_x</span><span class="o">*</span><span class="mf">2.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">sigma_y</span><span class="o">*</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">sigma_y</span><span class="o">*</span><span class="mf">2.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="c"># Create X and Y pixel position values for each element of Gauss. Mask.</span>
+<span class="c">#</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="c"># Create 2D Gauss Mask as numpy array using X and Y mesh grid data</span>
+<span class="c"># and sigma&#39;s, with Gauss centered in 2D array (0,0)</span>
+<span class="c">#</span>
+<span class="n">gauss</span><span class="o">=</span><span class="n">plb</span><span class="o">.</span><span class="n">bivariate_normal</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">sigma_x</span><span class="p">,</span> <span class="n">sigma_y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="c"># Normalize the Gausian, such that the max value in the is 1.0.</span>
+<span class="c">#</span>
+<span class="n">gauss</span><span class="o">*=</span><span class="mf">1.0</span><span class="o">/</span><span class="n">gauss</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">ghw</span><span class="p">,</span><span class="n">ghh</span><span class="o">=</span><span class="n">gauss</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span><span class="n">gauss</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span>
+
+<span class="c">##### STEP C. #####</span>
+<span class="c"># Load Background Image Displayed During Eye Data Collection </span>
+<span class="c"># Flip vertically</span>
+<span class="c">#</span>
+<span class="n">image_array</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">mpimg</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s">&quot;./images/canal.jpg&quot;</span><span class="p">))</span>    
+<span class="c"># Get background image size</span>
+<span class="c">#</span>
+<span class="n">image_size</span><span class="o">=</span><span class="n">image_array</span><span class="o">.</span><span class="n">shape</span><span class="c">#(image_array.shape[0],image_array.shape[1])</span>
+<span class="n">ihw</span><span class="p">,</span><span class="n">ihh</span><span class="o">=</span><span class="n">image_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">image_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span>
+
+<span class="c">##### STEP D. #####</span>
+<span class="c"># Create some Random Fixation Data</span>
+<span class="c">#</span>
+<span class="c"># Here, the fixation event data is being simulated as sim_fix_count fixations</span>
+<span class="c"># of random position within center 50% of fixation density map (since it</span>
+<span class="c"># is created with 2*width, 2*height of the image that the fixation density map</span>
+<span class="c"># will be applied to).Random fixation durations between 150 and 1500 msec </span>
+<span class="c"># are used.</span>
+<span class="c">#</span>
+<span class="n">border</span><span class="o">=</span><span class="mi">10</span>
+<span class="n">fix_duration_range</span><span class="o">=</span><span class="n">min_fix_duration</span><span class="p">,</span><span class="n">max_fix_duration</span>
+<span class="n">fixation_x_range</span><span class="o">=-</span><span class="n">ihw</span><span class="o">+</span><span class="n">border</span><span class="p">,</span> <span class="n">ihw</span><span class="o">-</span><span class="n">border</span>
+<span class="n">fixation_y_range</span><span class="o">=-</span><span class="n">ihh</span><span class="o">+</span><span class="n">border</span><span class="p">,</span> <span class="n">ihh</span><span class="o">-</span><span class="n">border</span>
+
+<span class="c"># Create the dummy Fixation Data as a 3x500 numpy array</span>
+<span class="c">#</span>
+<span class="n">fix_pos</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">*</span><span class="n">fixation_y_range</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">sim_fix_count</span><span class="p">),</span>
+                          <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">*</span><span class="n">fixation_x_range</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">sim_fix_count</span><span class="p">),</span>
+                          <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">*</span><span class="n">fix_duration_range</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">sim_fix_count</span><span class="p">)))</span>
+
+<span class="c">##### STEP E. #####</span>
+<span class="c"># Create the Fixation Density Map Layer based on </span>
+<span class="c"># the Gauss Mask Template and the Fixation Data</span>
+<span class="c"># Start with empty 2D numpy array 2x size of background image to be used </span>
+<span class="c"># (this makes applying Gauss mask for each fixation easier as array clipping</span>
+<span class="c"># is not a consern.). The density map will be trimmed back to the center</span>
+<span class="c"># 50% later.</span>
+<span class="c">#</span>
+<span class="n">fixation_map</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">image_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span><span class="n">image_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="c"># Apply Gaussian Mask for each fixation position to the density array</span>
+<span class="c"># based on the created fixation event data.</span>
+<span class="c">#</span>
+
+<span class="k">if</span> <span class="n">use_dwell_time_weighting</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">fx</span><span class="p">,</span><span class="n">fy</span><span class="p">,</span><span class="n">fix_dur</span> <span class="ow">in</span> <span class="n">fix_pos</span><span class="p">:</span>
+        <span class="n">fx</span><span class="o">+=</span><span class="n">ihh</span><span class="o">*</span><span class="mi">2</span>
+        <span class="n">fy</span><span class="o">+=</span><span class="n">ihw</span><span class="o">*</span><span class="mi">2</span>
+        <span class="n">fixation_map</span><span class="p">[</span><span class="n">fy</span><span class="o">-</span><span class="n">ghh</span><span class="p">:</span><span class="n">fy</span><span class="o">+</span><span class="n">ghh</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">fx</span><span class="o">-</span><span class="n">ghw</span><span class="p">:</span><span class="n">fx</span><span class="o">+</span><span class="n">ghw</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">+=</span><span class="p">(</span><span class="n">gauss</span><span class="o">*</span><span class="n">fix_dur</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">fx</span><span class="p">,</span><span class="n">fy</span><span class="p">,</span><span class="n">fix_dur</span> <span class="ow">in</span> <span class="n">fix_pos</span><span class="p">:</span>
+        <span class="n">fx</span><span class="o">+=</span><span class="n">ihh</span><span class="o">*</span><span class="mi">2</span>
+        <span class="n">fy</span><span class="o">+=</span><span class="n">ihw</span><span class="o">*</span><span class="mi">2</span>
+        <span class="n">fixation_map</span><span class="p">[</span><span class="n">fy</span><span class="o">-</span><span class="n">ghh</span><span class="p">:</span><span class="n">fy</span><span class="o">+</span><span class="n">ghh</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">fx</span><span class="o">-</span><span class="n">ghw</span><span class="p">:</span><span class="n">fx</span><span class="o">+</span><span class="n">ghw</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">+=</span><span class="n">gauss</span>
+
+<span class="n">fixation_map</span><span class="o">=</span><span class="n">fixation_map</span><span class="p">[</span><span class="n">ihw</span><span class="p">:</span><span class="n">image_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">ihw</span><span class="p">,</span><span class="n">ihh</span><span class="p">:</span><span class="n">image_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">ihh</span><span class="p">]</span>
+<span class="c"># Apply fixation duration and distribution pertentile heuristics to heat map:</span>
+<span class="c">#</span>
+<span class="n">fixation_map_min</span><span class="o">=</span><span class="n">fixation_map</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">fixation_map_max</span><span class="o">=</span><span class="n">fixation_map</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">fix_range</span><span class="o">=</span><span class="n">fixation_map_max</span><span class="o">-</span><span class="n">fixation_map_min</span>
+<span class="n">fix_range</span><span class="o">=</span><span class="n">fixation_map_min</span><span class="o">+</span><span class="n">fix_perc_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">fix_range</span><span class="p">,</span><span class="n">fixation_map_min</span><span class="o">+</span><span class="n">fix_perc_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">fix_range</span>
+<span class="n">min_fix_map_value</span><span class="o">=</span><span class="n">scoreatpercentile</span><span class="p">(</span><span class="n">fixation_map</span><span class="p">,</span> <span class="n">min_fix_dist_perc</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">fix_range</span><span class="p">)</span>
+<span class="n">fix_floor_value</span><span class="o">=</span><span class="n">scoreatpercentile</span><span class="p">(</span><span class="n">fixation_map</span><span class="p">,</span> <span class="n">fix_perc_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mf">100.0</span><span class="p">)</span>
+<span class="n">fix_ceil_value</span><span class="o">=</span><span class="n">scoreatpercentile</span><span class="p">(</span><span class="n">fixation_map</span><span class="p">,</span> <span class="n">fix_perc_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mf">100.0</span><span class="p">)</span>
+
+<span class="n">fixation_map</span><span class="p">[</span><span class="n">fixation_map</span><span class="o">&lt;</span><span class="n">fix_floor_value</span><span class="p">]</span><span class="o">=</span><span class="n">fix_floor_value</span>
+<span class="n">fixation_map</span><span class="p">[</span><span class="n">fixation_map</span><span class="o">&gt;</span><span class="n">fix_ceil_value</span><span class="p">]</span><span class="o">=</span><span class="n">fix_ceil_value</span>
+<span class="n">fixation_map</span><span class="p">[</span><span class="n">fixation_map</span><span class="o">&lt;</span><span class="n">min_fix_map_value</span><span class="p">]</span><span class="o">=</span><span class="n">min_fix_map_value</span>
+
+
+<span class="c">##### STEP F. #####</span>
+<span class="c"># Plot the Fixation Gaussian, the Simulated Fixation Points,</span>
+<span class="c"># the resulting Fixation Density Map, and the background image</span>
+<span class="c"># to be used for illustrative purposes.</span>
+<span class="c">#</span>
+
+<span class="c">#Create a 12x8 inch figure</span>
+<span class="c">#</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s">&quot;Components in Creating a Fixation Density Based Heat Map&quot;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="c"># Figure will have 2 x 2 subplots</span>
+<span class="c">#</span>
+<span class="n">gauss_axis</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="c">#left_axis.set_ylabel(&#39;Position (pixels)&#39;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">gauss</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span><span class="n">origin</span><span class="o">=</span><span class="s">&#39;lower&#39;</span><span class="p">,</span><span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">ghh</span><span class="p">,</span> <span class="n">ghh</span><span class="p">,</span><span class="o">-</span><span class="n">ghw</span><span class="p">,</span> <span class="n">ghw</span><span class="p">))</span>
+<span class="n">gauss_axis</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;Gaussian Mask Used for Each Fixation&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">gauss_axis</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&#39;Pixels&#39;</span><span class="p">)</span>
+
+<span class="c"># Display the background image.</span>
+<span class="c">#</span>
+<span class="n">image_axis</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_array</span><span class="p">,</span><span class="n">origin</span><span class="o">=</span><span class="s">&#39;lower&#39;</span><span class="p">,</span><span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">ihh</span><span class="p">,</span> <span class="n">ihh</span><span class="p">,</span><span class="o">-</span><span class="n">ihw</span><span class="p">,</span> <span class="n">ihw</span><span class="p">))</span>
+<span class="n">image_axis</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;Background Image&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+
+<span class="c"># Plot the simulated fixation data.</span>
+<span class="c">#</span>
+<span class="n">fix_point_axis</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">fix_pos</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">fix_pos</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="n">s</span><span class="o">=</span><span class="n">fix_pos</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">fix_point_axis</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;Simulated Fixation Point Data.</span><span class="se">\n</span><span class="s">Point Size Proportional to Fixation Duration&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">fix_point_axis</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&#39;Pixels&#39;</span><span class="p">)</span>
+<span class="n">fix_point_axis</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&#39;Pixels&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">((</span><span class="o">-</span><span class="n">ihh</span><span class="p">,</span> <span class="n">ihh</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">((</span><span class="o">-</span><span class="n">ihw</span><span class="p">,</span> <span class="n">ihw</span><span class="p">))</span>
+<span class="c"># Plot fixation density mask using a Yellow-&gt;Orange-&gt;Red Color Map,</span>
+<span class="c"># clipped to center 50% of </span>
+<span class="c">#.</span>
+<span class="n">heat_map_axis</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">clmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s">&#39;YlOrRd&#39;</span><span class="p">)</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">fixation_map</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">,</span> 
+                                <span class="n">origin</span><span class="o">=</span><span class="s">&#39;lower&#39;</span><span class="p">,</span>
+                                <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">ihh</span><span class="p">,</span> <span class="n">ihh</span><span class="p">,</span><span class="o">-</span><span class="n">ihw</span><span class="p">,</span> <span class="n">ihw</span><span class="p">),</span>
+                                <span class="n">cmap</span><span class="o">=</span><span class="n">clmap</span><span class="p">)</span>           
+<span class="n">heat_map_axis</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;Heat Map for the Fixation Density Map.&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">heat_map_axis</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&#39;Pixels&#39;</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">left</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=.</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+  
+<span class="c">###### STEP G. #####</span>
+<span class="c">## Putting it all Together: Heat Map Representation of Fixation Position </span>
+<span class="c">## and Dwell Time Density During Image Viewing</span>
+<span class="c">##</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s">&quot;Fixation Density Heat Map&quot;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+
+<span class="c">## Draw the background Image</span>
+<span class="c">#</span>
+<span class="n">image_array</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">mpimg</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s">&quot;./images/canal.jpg&quot;</span><span class="p">))</span>    
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_array</span><span class="p">,</span><span class="n">origin</span><span class="o">=</span><span class="s">&#39;lower&#39;</span><span class="p">,</span><span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">ihh</span><span class="p">,</span> <span class="n">ihh</span><span class="p">,</span><span class="o">-</span><span class="n">ihw</span><span class="p">,</span> <span class="n">ihw</span><span class="p">))</span>
+<span class="c"># Create RGBA values for the color map created above.</span>
+<span class="c"># Set the Color Map Transparency to Increase as a Function of Fixation Dwell Time.  </span>
+<span class="c">#</span>
+<span class="n">clmap</span><span class="o">.</span><span class="n">_init</span><span class="p">()</span>
+<span class="n">alphas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="n">clmap</span><span class="o">.</span><span class="n">N</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">clmap</span><span class="o">.</span><span class="n">_lut</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">alphas</span>
+<span class="c"># Draw the Fixation Map Mask over the Background Image using the Color Map:</span>
+<span class="c">#</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">fixation_map</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s">&#39;lower&#39;</span><span class="p">,</span><span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">ihh</span><span class="p">,</span> <span class="n">ihh</span><span class="p">,</span><span class="o">-</span><span class="n">ihw</span><span class="p">,</span> <span class="n">ihw</span><span class="p">),</span><span class="n">cmap</span><span class="o">=</span><span class="n">clmap</span><span class="p">)</span>
+<span class="c"># Display the Heat Map Scale:</span>
+<span class="c">#</span>
+<span class="n">cb</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">use_dwell_time_weighting</span><span class="p">:</span>
+    <span class="n">cb</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s">&quot;Fixation Density (msec scale)&quot;</span><span class="p">)</span> 
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">cb</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s">&quot;Fixation Density (count scale)&quot;</span><span class="p">)</span> 
+    
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="example-plots">
+<h2>Example Plots<a class="headerlink" href="#example-plots" title="Permalink to this headline">¶</a></h2>
+<p>Components used in creating a fixation density based heat map.</p>
+<img alt="Components used in creating a fixation density based heat map." class="align-center" src="../_images/heat_map_components.png" style="width: 700px; height: 500px;" />
+<p>The final heat map result.</p>
+<img alt="The final heat map result" class="align-center" src="../_images/heat_map.png" style="width: 700px; height: 500px;" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">Py4ET 2013</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Jonathan Peirce and Sol Simpson.
+      Last updated on Aug 06, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+  </body>
+</html>

@@ -1,0 +1,67 @@
+.. _onlineResources:
+
+Online Python Resources and Q&A
+======================================================
+
+Going forwards
+----------------------
+
+PsychoPy and ioHub are still improving a great deal all the time. You'll soon see;
+
+    * tighter integration of the two (e.g. less overlap in functionality)
+    * less need for code to perform the eye-tracking (e.g. a Builder Component for it)
+    * functions being built in for data processing to allow for greater offline (and potentially online) processing of the eye tracking data.
+    * within PsychoPy, the major areas of development are better 'sanity checking' of the experiment
+    * get on the user list and see how things develop; and email if you find things that need fixing
+
+Online resources
+---------------------
+
+Below  are some links to web resources that are valuable sources of information
+on Python, useful Python Tools, Python in Neuroscience or Psychology, and 
+Eye Tracking with Python. It is not complete so love google!
+
+Python
+~~~~~~~
+
+NB **stick to Python 2.7.x for now.** Python 3 is a substantial rewrite and many packages don't yet support it.
+
+    * `Python 2.7.5 Documentation <http://docs.python.org/2/index.html>`_
+    * `Python's built-in modules <http://docs.python.org/2/library/>`_
+
+Learning Python
+    * `The official Python tutorial <http://docs.python.org/2/tutorial/index.html>`_
+    * http://www.Codecademy.com/
+    * `Dive into Python <http://www.diveintopython.net/>`_
+
+Python Tools
+~~~~~~~~~~~~~
+
+    * `Numpy <http://www.numpy.org>`_ is for fast numeric computations on arrays
+    * `SciPy <http://www.scipy.org>`_ extends Numpy with mathematical routines (like optimization, filtering etc.)
+    * `Matplotlib <http://www.matplotlib.org>`_ is the main plotting library for Python, using similar syntax to Matlab
+    * `IPython <http://www.ipython.org>`_ provides a nice interactive shell for using Python and also a 'notebook' interface for storing notes and documentation along with your analysis code.
+
+Python and Psychology or Neuroscience
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+`PsychoPy <www.psychopy.org>`_ :
+
+    * `PsychoPy Docs <http://www.psychopy.org/documentation.html>`_
+    * `ioHub Docs <http://www.isolver-solutions.com/iohubdocs/index.html>`_
+    * `PsychoPy downloads (includes ioHub) <http://sourceforge.net/projects/psychpy/files/PsychoPy/>`_
+    * `PsychoPy User Group <https://groups.google.com/forum/#!forum/psychopy-users>`_
+
+Also:
+
+    * `NiPy <http://nipy.org/>`_ for neuroimaging
+    * The Frontiers journal special issue on `Python in Neuroscience tools <http://www.frontiersin.org/Neuroinformatics/researchtopics/python_in_neuroscience/8>`_ (many about modelling packages)
+    
+There's also `Open Sesame` (graphical interface for experiments with some eye-tracking support) and `PyEPL` (scripted, no eye-tracking) but neither is as flexible as PsychoPy!
+
+Python and Eye Tracking
+~~~~~~~~~~~~~~~~~~~~~~~~ 
+
+Some eyetracker manufacturers provide general Python interfaces. Many an difficult to use and incomplete ctypes wrappers of their C library. 
+
+If your eye tracker isn't supported by ioHub (yet) and you would like to help make adding support for it happen, contact us! Why learn a different API for each eye tracker manufacturer you have systems from, when you could only need to be using one, psychopy.iohub!

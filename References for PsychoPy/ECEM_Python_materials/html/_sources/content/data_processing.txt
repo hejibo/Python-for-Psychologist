@@ -1,0 +1,273 @@
+.. _dataProcessing:
+
+2:40-3:30 Processing Recorded Eye Data
+===========================================
+
+This section of the workshop will cover some common areas of eye data 
+processing, including: 
+
+1. :ref:`unitCalcs`
+2. :ref:`velocityCalc`
+3. :ref:`filtering`
+4. :ref:`parsingEvents`
+
+.. _unitCalcs:
+
+**************************************
+Pixel to Visual Angle Conversion
+**************************************
+
+When using PsychoPy and the ioHub the experiment creator can specify that position
+information should be represented in one of several coordinate spaces, including 
+pixels and visual degrees. When visual degrees are specified, stimuli are
+drawn using visual degree coordinates and sizes, and position data returned by
+devices capable of doing so (like the mouse or an Eye Tracker), will also
+report position in visual degrees.
+
+In some cases you may wish to use pixels for the coordinate space in your experiment,
+but convert the eye position data to visual degrees after the data has been collected.
+Examples of this include wanting to use a different pixel to visual degree
+calculation or having incorrect or unknown eye to calibration plane distance during recording.
+A fanother use case for pixel2degree conversion is when using a remote eye tracker
+with the nead free and moving about. Ssome of the remote eye tracking systems available
+now report the current eye to screen distance for each sample collected, and this
+can be used to calculate visual degrees without using a fixed eye distance for a whole trial.
+
+In situations like the above, using the example code provide here will allow the conversion
+of pixel data to angle data; either using a fixed eye to calibration plain distance,
+or a varying distance based on data in an array that is the same length as the 
+pixel position data being processed. The relevent section of the example sript
+is::
+
+    # Load the ioDataStore data file
+    # ....example code in many of the scripts provided ....
+    #
+    
+    # Provide the necessary display geometry information.
+    # Note that in the future this default information could be read from
+    # the loaded data file so it does not need to be manually entered here.
+    #
+    calibration_area_info=dict(display_size_mm=(500,280.0),
+                               display_res_pix=(1280.0,1024.0),
+                               eye_distance_mm=550.0)
+
+    # Use the VisualAngleCalc class defined in the common_workshop_functions to
+    # generate an object that can convert data from pixel coordinates 
+    # to visual angles based on the supplied calibration / display surface geometry
+    # and eye distance.
+    #                            
+    vac=VisualAngleCalc(**calibration_area_info)
+    
+    # Calculate the visual degree position in x and y for the given pixel position arrays.
+    # If an array of head position data is provided to the pix2deg method,
+    # the degrees data will be calculated for each eye sample useing the head
+    # distance reported for that sample.
+    #  
+    degree_x,degree_y=vac.pix2deg(pix_x,pix_y)
+    
+    # Do as you may with the angle data.
+    # .....
+
+A full python script which loads eye data from a iodataStore file, converts it to degrees,
+and plots the pixel and degree eye position sample traces can be found at python_source/data_processing/pixels2angle.py
+
+Example Plot
+^^^^^^^^^^^^^^
+
+Eye Position Traces in Pixel and Visual Degree Coordinates
+
+.. image:: ./pix2deg.png
+    :width: 600px
+    :align: center
+    :height: 400px
+    :alt: Eye Position Traces in Pixel and Visual Degree Coordinates.
+
+.. _velocityCalc:
+
+******************************************
+Velocity and Acceleration Calculation
+******************************************
+
+Velocity and Acceleration are often calculated using eye sample position data
+for use in eye event parsing algorithms (well, parsers based on velocity thresholds at least ;) ).
+Data is converted from pixel to visual degree coordinate space before being
+passed to the velocity and acceleration algorithms.
+
+Velocity Calculation
+^^^^^^^^^^^^^^^^^^^^^^^
+
+The following function can be used to calculate the instantaneous velocity from eye position sample data::
+
+    def calculateVelocity(time,degrees_x,degrees_y=None):
+        """
+        Calculate the instantaneous velocity (degrees / second) for data points in 
+        degrees_x and (optionally) degrees_y, using the time numpy array for 
+        time delta information.
+
+        Numpy arrays time, degrees_x, and degrees_y must all be 1D arrays of the same
+        length.
+        
+        If both degrees_x and degrees_y are provided, then the euclidian distance
+        between each set of points is calculated and used in the velocity calculation.
+
+        time must be in seconds.msec units, while degrees_x and degrees_y are expected
+        to be in visual degrees. If the position traces are in pixel coordinate space,
+        use the VisualAngleCalc class to convert the data into degrees.
+        """
+        if degrees_y is None:
+            data=degrees_x
+        else:
+            data=np.sqrt(degrees_x*degrees_x+degrees_y*degrees_y)
+        
+        velocity_between = (data[1:]-data[:-1])/(time[1:]-time[:-1])
+        velocity = (velocity_between[1:]+velocity_between[:-1])/2.0
+        return velocity
+
+
+A full example python script which loaded eye data from an ioDataStore file, 
+calculates the velocity for one trial of the data, and plots the result can be found in the workshop source materials: python_source/data_processing/velocity_accelleration.py
+
+
+Accelleration Calculation
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Accelleration, or the rate of velocity change over time, can be calculated at follows::
+
+    def calculateAccelleration(time,data_x,data_y=None):
+        """
+        Calculate the accelleration (degrees / second / second) for data points in 
+        degrees_x and (optionally) degrees_y, using the time numpy array for 
+        time delta information.
+        """
+        velocity=calculateVelocity(time,data_x,data_y)
+        accel = calculateVelocity(time[1:-1],velocity)
+        return accel 
+
+A full example python script which loaded eye data from an ioDataStore file, 
+calculates the velocity for one trial of the data, and plots the result can be found in the workshop source materials: python_source/data_processing/velocity_accelleration.py
+
+Example Plots
+~~~~~~~~~~~~~~~
+
+Eye Angle Traces with associated XY Velocity and Accelleration Trace
+
+.. image:: ./velocity_accelleration_plot.png
+    :width: 700px
+    :align: center
+    :height: 400px
+    :alt: Eye Angle Traces with associated XY Velocity and Acceleration Trace
+
+
+Magnified Eye Angle Traces with associated XY Velocity and Acceleration Trace
+
+
+.. image:: ./vel_acc_zoomed.png
+    :width: 700px
+    :align: center
+    :height: 400px
+    :alt: Magnified Eye Angle Traces with associated XY Velocity and Acceleration Trace
+
+.. _filtering:
+
+**************************************
+Filtering Out Noise
+**************************************
+
+With any eye tracking system it is often beneficial to filter the sample data
+data recorded device to:
+
+    #. Reduce high-frequency noise from eye position data, possibly increasing precision measures.
+    #. Decrease velocity and acceleration noise in the eye signal, possibly improving eye event detection (Saccades, Fixations, etc).
+
+When using a filtering algorithm on your eye sample data, it is important to consider:
+
+A. What effect does the filter have on the reported characteristics of the 
+occulomotor behaviour:
+
+    #. Are small saccades being removed?
+    #. Is the duration, amplitude, peak velocity, or other such properties of saccades being significantly effected?
+    #. Are over-shoots to target locations being exagerated?
+    
+B. What is the impact of the filter on the overall delay of on-line access to the eye data being reported?
+
+C. What parameters are adjustable in the filtering algorithm, and what are the *best* settings to use? 
+
+There is often no one right answer to the above questions and considerations. The 
+experimental paradigm being run and the way in which the resulting eye data collected will
+be analyzed can significantly influence what may be considered as *correct*.
+
+With this in mind, it can be fruitful (and fun) to try different filtering algorithms and
+see how each changes the data being reported; both for better or worse.
+
+Some Example Filters
+^^^^^^^^^^^^^^^^^^^^^^
+
+All the example filters demonstrated in the workshop can be used from the same
+python file. Simply uncomment the filter you wish to test and comment out
+the previously active filter.
+
+.. literalinclude:: python_source/data_processing/filters.py
+    :language: python
+
+`Butterworth Filter <http://en.wikipedia.org/wiki/Butterworth_filter>`_
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Unfiltered vs. Butterworth Filtered Eye Position Data
+
+.. image:: ./butter_filter.png
+    :width: 600px
+    :align: center
+    :height: 400px
+    :alt: Unfiltered vs. Butterworth Filtered Eye Position Data 
+    
+`Gaussian Filter <http://en.wikipedia.org/wiki/Gaussian_filter>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Unfiltered vs. Gaussian Filtered Eye Position Data
+
+.. image:: ./gauss_filter.png
+    :width: 600px
+    :align: center
+    :height: 400px
+    :alt: Unfiltered vs. Gaussian Filtered Eye Position Data 
+
+`Median Filter <http://en.wikipedia.org/wiki/Median_filter>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Unfiltered vs. Median Filtered Eye Position Data
+
+.. image:: ./median_filter.png
+    :width: 600px
+    :align: center
+    :height: 400px
+    :alt: Unfiltered vs. Median Filtered Eye Position Data 
+
+`Savitzky Golay Filter <http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_filter_for_smoothing_and_differentiation>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Unfiltered vs. Savitzky Golay Filtered Eye Position Data
+
+.. image:: ./sg_filter.png
+    :width: 600px
+    :align: center
+    :height: 400px
+    :alt: Unfiltered vs. Savitzky Golay Filtered Eye Position Data 
+
+`Weighted Moving Average Filter <https://en.wikipedia.org/wiki/Moving_average#Weighted_moving_average>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Unfiltered vs. Weighted Moving Average Filtered Eye Position Data
+
+.. image:: ./average.png
+    :width: 600px
+    :align: center
+    :height: 400px
+    :alt: Unfiltered vs. Weighted Moving Average Filtered Eye Position Data 
+
+.. _parsingEvents:
+
+********************************************
+Parsing Eye Sample Data into Eye Events
+********************************************
+
+Content to Be Moved from notebook.
